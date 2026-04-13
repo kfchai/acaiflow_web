@@ -1,0 +1,62 @@
+{
+  "_meta": {
+    "note": "Nutrition values are estimates per single serving. To be replaced with AcaiFlow kitchen data.",
+    "servingSizes": {
+      "base": "100g cooked",
+      "protein": "100g cooked",
+      "supplement": "60g",
+      "topping": "10g",
+      "dressing": "15g (1 tbsp)"
+    }
+  },
+  "bases": [
+    { "id": "romaine", "name": "romaine lettuce", "kcal": 17, "protein": 1.2, "carbs": 3.3, "fat": 0.3 },
+    { "id": "pasta", "name": "whole-grain pasta", "kcal": 158, "protein": 5.3, "carbs": 31.0, "fat": 0.8 },
+    { "id": "sweet-potato", "name": "mashed sweet potato", "kcal": 90, "protein": 2.0, "carbs": 21.0, "fat": 0.1 },
+    { "id": "brown-rice", "name": "brown rice", "kcal": 123, "protein": 2.7, "carbs": 26.0, "fat": 0.9 },
+    { "id": "quinoa", "name": "quinoa", "kcal": 120, "protein": 4.4, "carbs": 21.0, "fat": 1.9 },
+    { "id": "kale", "name": "shredded kale", "kcal": 35, "protein": 2.9, "carbs": 4.4, "fat": 1.5 }
+  ],
+  "proteins": [
+    { "id": "chicken-breast", "name": "sous vide chicken breast", "kcal": 165, "protein": 31.0, "carbs": 0.0, "fat": 3.6 },
+    { "id": "chicken-leg", "name": "roasted chicken leg", "kcal": 190, "protein": 24.0, "carbs": 0.0, "fat": 10.0 },
+    { "id": "white-fish", "name": "herb-crusted ocean fish", "kcal": 105, "protein": 22.0, "carbs": 0.5, "fat": 1.5 },
+    { "id": "roast-beef", "name": "roast beef", "kcal": 215, "protein": 28.0, "carbs": 0.0, "fat": 11.0 },
+    { "id": "salmon", "name": "blackened salmon", "kcal": 208, "protein": 22.0, "carbs": 0.0, "fat": 13.0 }
+  ],
+  "supplements": [
+    { "id": "broccoli", "name": "charred broccoli", "kcal": 21, "protein": 1.7, "carbs": 4.0, "fat": 0.2 },
+    { "id": "cauliflower", "name": "turmeric cauliflower", "kcal": 30, "protein": 1.2, "carbs": 4.0, "fat": 1.2 },
+    { "id": "carrots", "name": "miso-glazed carrots", "kcal": 45, "protein": 0.6, "carbs": 9.0, "fat": 0.8 },
+    { "id": "corn", "name": "sweet corn", "kcal": 52, "protein": 2.0, "carbs": 12.0, "fat": 0.7 },
+    { "id": "king-oyster", "name": "king oyster mushroom", "kcal": 22, "protein": 2.0, "carbs": 4.0, "fat": 0.2 },
+    { "id": "potato", "name": "roasted potato", "kcal": 75, "protein": 1.5, "carbs": 14.0, "fat": 1.5 },
+    { "id": "pumpkin", "name": "pumpkin wedges", "kcal": 30, "protein": 0.7, "carbs": 8.0, "fat": 0.1 },
+    { "id": "beetroot", "name": "roasted beetroot", "kcal": 26, "protein": 1.0, "carbs": 6.0, "fat": 0.1 },
+    { "id": "green-egg", "name": "green egg", "kcal": 72, "protein": 6.0, "carbs": 0.4, "fat": 5.0 },
+    { "id": "egg-white", "name": "scrambled egg white", "kcal": 30, "protein": 6.5, "carbs": 0.4, "fat": 0.1 },
+    { "id": "cucumber", "name": "cucumber dill salad", "kcal": 15, "protein": 0.4, "carbs": 2.5, "fat": 0.3 },
+    { "id": "basil-tofu", "name": "thai basil tofu", "kcal": 85, "protein": 9.0, "carbs": 2.0, "fat": 5.0 },
+    { "id": "tempeh", "name": "tempeh chips", "kcal": 110, "protein": 11.0, "carbs": 5.0, "fat": 6.0 },
+    { "id": "beet-hummus", "name": "roasted beet hummus", "kcal": 95, "protein": 3.0, "carbs": 9.0, "fat": 5.0 },
+    { "id": "cherry-tomato", "name": "cherry tomato w/ gula apong", "kcal": 25, "protein": 0.6, "carbs": 5.5, "fat": 0.2 }
+  ],
+  "toppings": [
+    { "id": "furikake", "name": "furikake", "kcal": 35, "protein": 2.0, "carbs": 3.0, "fat": 1.5 },
+    { "id": "power-seed", "name": "power mix seed", "kcal": 55, "protein": 2.0, "carbs": 2.0, "fat": 4.5 },
+    { "id": "parm-crumbs", "name": "parmesan breadcrumbs", "kcal": 40, "protein": 1.5, "carbs": 5.0, "fat": 1.5 },
+    { "id": "pickled-onion", "name": "pickled red onions", "kcal": 4, "protein": 0.1, "carbs": 1.0, "fat": 0.0 },
+    { "id": "seaweed", "name": "seaweed flake", "kcal": 30, "protein": 3.0, "carbs": 4.0, "fat": 0.5 },
+    { "id": "cashew", "name": "salted cashew nuts", "kcal": 55, "protein": 1.8, "carbs": 3.0, "fat": 4.5 },
+    { "id": "pink-radish", "name": "pink pickled radish", "kcal": 2, "protein": 0.1, "carbs": 0.5, "fat": 0.0 }
+  ],
+  "dressings": [
+    { "id": "yuzu-soy", "name": "yuzu soy", "kcal": 20, "protein": 1.0, "carbs": 3.0, "fat": 0.5 },
+    { "id": "pesto", "name": "pesto", "kcal": 80, "protein": 1.5, "carbs": 1.0, "fat": 8.0 },
+    { "id": "salsa-verde", "name": "salsa verde", "kcal": 65, "protein": 0.5, "carbs": 1.0, "fat": 7.0 },
+    { "id": "salsa-rossa", "name": "salsa rossa", "kcal": 25, "protein": 0.5, "carbs": 3.0, "fat": 1.5 },
+    { "id": "honey", "name": "honey", "kcal": 45, "protein": 0.1, "carbs": 12.0, "fat": 0.0 },
+    { "id": "honey-mustard", "name": "golden honey mustard", "kcal": 60, "protein": 0.5, "carbs": 6.0, "fat": 4.0 },
+    { "id": "thyme-oil", "name": "thyme olive oil", "kcal": 120, "protein": 0.0, "carbs": 0.0, "fat": 14.0 }
+  ]
+}

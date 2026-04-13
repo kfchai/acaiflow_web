@@ -1,0 +1,143 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ingredients from '../data/ingredients.json';
+
+const sections = [
+  { key: 'bases', label: 'bases', items: ingredients.bases },
+  { key: 'proteins', label: 'proteins', items: ingredients.proteins },
+  { key: 'supplements', label: 'supplements', items: ingredients.supplements },
+  { key: 'toppings', label: 'toppings', items: ingredients.toppings },
+  { key: 'dressings', label: 'dressings', items: ingredients.dressings },
+] as const;
+
+const servings = ingredients._meta.servingSizes;
+---
+
+<Layout
+  title="Macro Calculator — AcaiFlow"
+  description="Build your bowl ingredient by ingredient and see the calories, protein, carbs and fat add up."
+>
+  <section class="max-w-6xl mx-auto px-5 pt-16 md:pt-20 pb-8 text-center">
+    <h1 class="font-display italic text-berry text-5xl md:text-6xl tracking-[0.08em] lowercase">
+      macro calculator
+    </h1>
+    <p class="mt-5 text-coffee/70 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
+      Build a wholesome bowl the way you'd order it — add a little, add a lot — and watch the numbers update live.
+    </p>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-5 pb-48">
+    <form id="calc-form" class="space-y-14 md:space-y-16">
+      {sections.map((section) => (
+        <div class="grid md:grid-cols-[180px_1fr] gap-6 md:gap-10">
+          <h2 class="font-display italic text-berry text-2xl md:text-3xl lowercase md:pt-1">
+            {section.label}
+          </h2>
+
+          <div class="grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+            {section.items.map((item) => (
+              <div class="flex items-center gap-3" data-ingredient>
+                <div class="inline-flex items-center rounded-full border border-raspberry/50 text-raspberry">
+                  <button
+                    type="button"
+                    data-step="-1"
+                    aria-label={`decrease ${item.name}`}
+                    class="w-9 h-9 flex items-center justify-center hover:text-berry transition-colors"
+                  >−</button>
+                  <span
+                    class="qty w-8 text-center text-sm tabular-nums"
+                    data-kcal={item.kcal}
+                    data-p={item.protein}
+                    data-c={item.carbs}
+                    data-f={item.fat}
+                  >0</span>
+                  <button
+                    type="button"
+                    data-step="1"
+                    aria-label={`increase ${item.name}`}
+                    class="w-9 h-9 flex items-center justify-center hover:text-berry transition-colors"
+                  >+</button>
+                </div>
+                <label class="text-sm text-coffee/90">{item.name}</label>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <p class="text-center text-xs text-coffee/50 max-w-xl mx-auto leading-relaxed pt-4">
+        One serving ≈ {servings.base} base · {servings.protein} protein · {servings.supplement} supplement · {servings.topping} topping · {servings.dressing} dressing. Values are estimates, not medical advice.
+      </p>
+    </form>
+  </section>
+
+  <div class="fixed inset-x-0 bottom-0 z-30 border-t border-berry/15 bg-cream-warm/95 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-5 py-5 grid grid-cols-4 gap-4 text-center">
+      <div>
+        <div id="total-kcal" class="font-display text-berry text-3xl md:text-5xl tabular-nums">0</div>
+        <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-coffee/60 mt-1">Calories</div>
+      </div>
+      <div>
+        <div class="flex items-baseline justify-center gap-1">
+          <span id="total-p" class="font-display text-berry text-3xl md:text-5xl tabular-nums">0</span>
+          <span class="text-xs text-coffee/50">g</span>
+        </div>
+        <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-coffee/60 mt-1">Protein</div>
+      </div>
+      <div>
+        <div class="flex items-baseline justify-center gap-1">
+          <span id="total-c" class="font-display text-berry text-3xl md:text-5xl tabular-nums">0</span>
+          <span class="text-xs text-coffee/50">g</span>
+        </div>
+        <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-coffee/60 mt-1">Carbs</div>
+      </div>
+      <div>
+        <div class="flex items-baseline justify-center gap-1">
+          <span id="total-f" class="font-display text-berry text-3xl md:text-5xl tabular-nums">0</span>
+          <span class="text-xs text-coffee/50">g</span>
+        </div>
+        <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-coffee/60 mt-1">Fat</div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      const form = document.getElementById('calc-form');
+      if (!form) return;
+
+      const totalKcal = document.getElementById('total-kcal');
+      const totalP = document.getElementById('total-p');
+      const totalC = document.getElementById('total-c');
+      const totalF = document.getElementById('total-f');
+
+      function recalc() {
+        let kcal = 0, p = 0, c = 0, f = 0;
+        form.querySelectorAll('.qty').forEach((el) => {
+          const n = parseInt(el.textContent || '0', 10) || 0;
+          if (!n) return;
+          kcal += n * parseFloat(el.dataset.kcal);
+          p += n * parseFloat(el.dataset.p);
+          c += n * parseFloat(el.dataset.c);
+          f += n * parseFloat(el.dataset.f);
+        });
+        totalKcal.textContent = Math.round(kcal).toString();
+        totalP.textContent = Math.round(p).toString();
+        totalC.textContent = Math.round(c).toString();
+        totalF.textContent = Math.round(f).toString();
+      }
+
+      form.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-step]');
+        if (!btn) return;
+        e.preventDefault();
+        const step = parseInt(btn.dataset.step, 10);
+        const qty = btn.parentElement.querySelector('.qty');
+        const current = parseInt(qty.textContent || '0', 10) || 0;
+        const next = Math.max(0, Math.min(9, current + step));
+        qty.textContent = next.toString();
+        recalc();
+      });
+    })();
+  </script>
+</Layout>

@@ -1,0 +1,44 @@
+---
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/menu', label: 'Menu' },
+  { href: '/story', label: 'Our Story' },
+  { href: '/calculator', label: 'Macro Calculator' },
+];
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="sticky top-0 z-40 bg-cream-warm/90 backdrop-blur border-b border-berry/10">
+  <nav class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between gap-6">
+    <a href="/" class="flex items-center gap-2">
+      <img src="/logo.svg" alt="AcaiFlow" class="h-8 w-auto" />
+    </a>
+    <ul class="hidden md:flex items-center gap-7 text-sm font-medium">
+      {links.map((l) => (
+        <li>
+          <a
+            href={l.href}
+            class:list={[
+              'transition-colors',
+              pathname === l.href ? 'text-berry' : 'text-coffee/70 hover:text-berry',
+            ]}
+          >
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <details class="md:hidden relative">
+      <summary class="list-none cursor-pointer text-berry">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </summary>
+      <ul class="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-lg border border-berry/10 p-2">
+        {links.map((l) => (
+          <li>
+            <a href={l.href} class="block px-3 py-2 rounded-lg text-sm text-coffee hover:bg-cream">{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    </details>
+  </nav>
+</header>

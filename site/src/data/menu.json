@@ -1,0 +1,62 @@
+{
+  "acaiBowls": {
+    "title": "Acai Bowls",
+    "tagline": "The tiny purple fruit behind your favourite bowl.",
+    "priceNote": "Regular RM26.90 · Large RM34.50",
+    "addOn": "+RM2 for extra peanut or almond butter drizzle · chia seeds",
+    "items": [
+      { "name": "Triple C", "description": "Acai with granola, coconut strips, almond flakes, fresh fruit.", "image": "/images/PHY_0001.jpg" },
+      { "name": "Island Escape", "description": "Acai with chia pudding, granola, cacao nibs, coconut flakes, fresh fruit.", "image": "/images/PHY_0011.jpg" },
+      { "name": "Let The Mango", "description": "Acai with mango, granola, coconut strips, almond flakes, fresh fruit.", "image": "/images/PHY_0015.jpg" },
+      { "name": "Forget Me Nut", "description": "Acai with nut butter drizzle, peanut, granola, coconut, almond, fresh fruit.", "image": "/images/PHY_0014.jpg" },
+      { "name": "Tropical Trouble", "description": "Acai with banana, granola, chia pudding, tropical fruit and mint.", "image": "/images/PHY_0009.jpg" },
+      { "name": "Berry Dragon", "description": "Acai with dragonfruit, mixed berries, granola, coconut, almond.", "image": "/images/PHY_0005.jpg" },
+      { "name": "Coco Glow", "description": "Acai with coconut flesh, banana, granola, fresh fruit.", "image": "/images/PHY_0017.jpg" },
+      { "name": "Coconut Resist", "description": "Coconut base with cocoa chia pudding, fruit and granola.", "image": "/images/PHY_0022.jpg" },
+      { "name": "Nutty N' Nice", "description": "Acai with chocolate granola, cacao nibs, nut butter and banana.", "image": "/images/PHY_0020.jpg" }
+    ]
+  },
+  "smoothies": {
+    "title": "Longevity Smoothies",
+    "tagline": "Real smoothies your body will love.",
+    "priceNote": "From RM23.90",
+    "addOn": "Super boosters +RM3 — cocoa + monk fruit whey · collagen · creatine · protein powder",
+    "items": [
+      { "name": "Heavenly Kale", "description": "Pineapple, banana, kale, honey, plant-based milk.", "price": "RM23.90", "image": "/images/PHY_0025.jpg" },
+      { "name": "Rechargeable Power Kale", "description": "Banana, soy, greek yogurt, honey, plant-based milk.", "price": "RM23.90", "image": "/images/PHY_0026.jpg" },
+      { "name": "Berry Buff", "description": "Acai, banana, almond butter, tahini, plant-based milk.", "price": "RM26.90", "image": "/images/PHY_0028.jpg" },
+      { "name": "Super Maca", "description": "Banana, honey, almond butter, maca, cacao nibs, plant milk.", "price": "RM25.90", "image": "/images/PHY_0029.jpg" },
+      { "name": "Cloud 9", "description": "Coconut milk, pineapple, blue spirulina, chia pudding, avocado, coconut flakes.", "price": "RM27.90", "image": "/images/PHY_0030.jpg" },
+      { "name": "Berry Glow", "description": "Blueberry, banana, greek yogurt, honey, collagen, chia seeds, plant milk.", "price": "RM25.90", "image": "/images/PHY_0027.jpg" }
+    ]
+  },
+  "wholefoodBowls": {
+    "title": "Signature Wholefood Bowls",
+    "tagline": "Whole foods made for real life.",
+    "priceNote": "Small RM15.50 · Regular RM19.50 · Large RM23.50",
+    "addOn": "Suggested dressings included — changeable on request.",
+    "items": [
+      { "name": "Zen Sleep", "description": "A calming bowl built around soothing ingredients for end-of-day balance.", "image": "/images/PHY_0047.jpg" },
+      { "name": "Beauty Bowl", "description": "Skin-loving whole foods rich in antioxidants and healthy fats.", "image": "/images/PHY_0048.jpg" },
+      { "name": "Plant Protein", "description": "Fully plant-based, built on tofu, tempeh, legumes and grains.", "image": "/images/PHY_0049.jpg" },
+      { "name": "Energy Bowl", "description": "Complex carbs and lean protein to fuel a working day.", "image": "/images/PHY_0050.jpg" },
+      { "name": "Anti-Inflammatory", "description": "Turmeric, leafy greens, omega-rich protein, and gentle grains.", "image": "/images/PHY_0051.jpg" },
+      { "name": "High Protein", "description": "Maxed-out protein pairing for gym days and recovery.", "image": "/images/PHY_0053.jpg" }
+    ]
+  },
+  "buildYourOwn": {
+    "title": "Build Your Own Wholesome Bowl",
+    "tagline": "A better way to eat, every day.",
+    "priceNote": "Small RM15.50 · Medium RM19.50 · Large RM23.50",
+    "sizes": [
+      { "name": "Small", "price": "RM15.50", "includes": "2 bases · 1 protein · 2 supplements · 1 topping · 1 dressing" },
+      { "name": "Medium", "price": "RM19.50", "includes": "2 bases · 1 protein · 3 supplements · 2 toppings · 1 dressing" },
+      { "name": "Large", "price": "RM23.50", "includes": "2 bases · 2 proteins · 3 supplements · 2 toppings · 2 dressings" }
+    ],
+    "bases": ["Romaine lettuce", "Whole-grain pasta", "Mashed sweet potato", "Brown rice", "Quinoa (+RM2)", "Shredded kale (+RM3)"],
+    "proteins": ["Sous vide chicken breast", "Roasted chicken leg", "Herb-crusted ocean fish", "Roast beef (+RM3)", "Blackened salmon (+RM5)"],
+    "supplements": ["Charred broccoli", "Roasted turmeric cauliflower", "Miso-glazed carrots", "Sweet corn", "King oyster mushroom", "Roasted potato", "Pumpkin wedges", "Roasted beetroot", "Green egg", "Scrambled egg white", "Cucumber dill salad", "Thai basil tofu", "Tempeh chips", "Roasted beet hummus", "Apple cider cherry tomato w/ gula apong (+RM2)"],
+    "toppings": ["Furikake", "Power mix seed", "Parmesan breadcrumbs", "Pickled red onions", "Seaweed flake", "Salted cashew nuts", "Pink pickled radish"],
+    "dressings": ["Yuzu soy", "Pesto", "Salsa verde", "Salsa rossa", "Honey", "Golden honey mustard", "Thyme olive oil"]
+  }
+}
