@@ -1,0 +1,48 @@
+AcaiFlow Website Structure 🌿
+
+1. Our Story
+
+Brand philosophy
+Wholefood concept
+Why AcaiFlow started
+Eat well, feel good positioning
+
+2. Menu
+
+Wholefood Bowls
+Wholefood Sandwiches
+Acai Bowls
+Beverages
+
+3. Macro Calculator
+
+Custom bowl builder
+Calories
+Protein / carbs / fats
+Nutrition info
+
+4. Order Online
+
+WhatsApp order
+GrabFood link
+Pickup option
+
+5. Catering
+
+Corporate meals
+Event catering
+Gym / wellness partnerships
+Healthy platters
+
+6. Location
+
+Address
+Google map
+Opening hours
+Parking info
+
+7. Contact Us
+
+WhatsApp
+Instagram
+Enquiry details

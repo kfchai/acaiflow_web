@@ -1,4 +1,34 @@
 {
+  "season": {
+    "heading": "Savor the Season",
+    "tagline": "eat well, feel good with our fresh seasonal menu",
+    "sub": "Our Spring Menu",
+    "body": "Built to feel light, vibrant, and seriously satisfying. Colour your cravings and keep things fresh this season with purple sweet potato mash, herb-crusted proteins, avocado, sweet corn, crunchy greens, edamame, nuts, seeds, and our house-made dressings like pesto, yuzu soy, salsa verde, and honey mustard."
+  },
+  "wholefoodBowls": {
+    "title": "Wholefood Bowls",
+    "tagline": "Whole foods made for real life.",
+    "priceNote": "Small RM15.50 · Regular RM19.50 · Large RM23.50",
+    "items": [
+      { "name": "Zen Sleep", "description": "A calming bowl built around soothing ingredients for end-of-day balance.", "image": "/images/bowls/zen_sleep.png" },
+      { "name": "Beauty Bowl", "description": "Skin-loving whole foods rich in antioxidants and healthy fats.", "image": "/images/bowls/beauty_bowl.png" },
+      { "name": "Plant Protein", "description": "Fully plant-based, built on tofu, tempeh, legumes and grains.", "image": "/images/bowls/plant_protein.png" },
+      { "name": "Energy Bowl", "description": "Complex carbs and lean protein to fuel a working day.", "image": "/images/bowls/energy_bowl.png" },
+      { "name": "Anti-Inflammatory", "description": "Turmeric, leafy greens, omega-rich protein, and gentle grains.", "image": "/images/bowls/anti_inflamattor.png" },
+      { "name": "High Protein", "description": "Maxed-out protein pairing for gym days and recovery.", "image": "/images/bowls/high_protein.png" }
+    ]
+  },
+  "sandwiches": {
+    "title": "Wholefood Sandwiches",
+    "tagline": "Handheld wholefood, built the AcaiFlow way.",
+    "priceNote": "From RM16.90",
+    "items": [
+      { "name": "Herb Chicken Toast", "description": "Sous vide chicken, avocado smash, pickled red onion on sourdough.", "image": "/images/PHY_0054.jpg" },
+      { "name": "Salmon & Green", "description": "Blackened salmon, cucumber dill, yuzu soy dressing, multigrain loaf.", "image": "/images/PHY_0055.jpg" },
+      { "name": "Plant-Power Sub", "description": "Thai basil tofu, tempeh chips, roasted beet hummus, shredded kale.", "image": "/images/PHY_0056.jpg" },
+      { "name": "Classic Egg Salad", "description": "Scrambled egg whites, cherry tomato, thyme olive oil, whole-grain roll.", "image": "/images/PHY_0057.jpg" }
+    ]
+  },
   "acaiBowls": {
     "title": "Acai Bowls",
     "tagline": "The tiny purple fruit behind your favourite bowl.",
@@ -16,8 +46,8 @@
       { "name": "Nutty N' Nice", "description": "Acai with chocolate granola, cacao nibs, nut butter and banana.", "image": "/images/PHY_0020.jpg" }
     ]
   },
-  "smoothies": {
-    "title": "Longevity Smoothies",
+  "beverages": {
+    "title": "Beverages",
     "tagline": "Real smoothies your body will love.",
     "priceNote": "From RM23.90",
     "addOn": "Super boosters +RM3 — cocoa + monk fruit whey · collagen · creatine · protein powder",
@@ -27,36 +57,9 @@
       { "name": "Berry Buff", "description": "Acai, banana, almond butter, tahini, plant-based milk.", "price": "RM26.90", "image": "/images/PHY_0028.jpg" },
       { "name": "Super Maca", "description": "Banana, honey, almond butter, maca, cacao nibs, plant milk.", "price": "RM25.90", "image": "/images/PHY_0029.jpg" },
       { "name": "Cloud 9", "description": "Coconut milk, pineapple, blue spirulina, chia pudding, avocado, coconut flakes.", "price": "RM27.90", "image": "/images/PHY_0030.jpg" },
-      { "name": "Berry Glow", "description": "Blueberry, banana, greek yogurt, honey, collagen, chia seeds, plant milk.", "price": "RM25.90", "image": "/images/PHY_0027.jpg" }
+      { "name": "Berry Glow", "description": "Blueberry, banana, greek yogurt, honey, collagen, chia seeds, plant milk.", "price": "RM25.90", "image": "/images/PHY_0027.jpg" },
+      { "name": "Honey Yuzu Lemon", "description": "Cold-pressed yuzu with honey and a squeeze of lemon.", "price": "RM12.90", "image": "/images/PHY_0041.jpg" },
+      { "name": "Super Berry Tea", "description": "Hibiscus, butterfly pea, mixed berries, lightly sweetened.", "price": "RM12.90", "image": "/images/PHY_0040.jpg" }
     ]
-  },
-  "wholefoodBowls": {
-    "title": "Signature Wholefood Bowls",
-    "tagline": "Whole foods made for real life.",
-    "priceNote": "Small RM15.50 · Regular RM19.50 · Large RM23.50",
-    "addOn": "Suggested dressings included — changeable on request.",
-    "items": [
-      { "name": "Zen Sleep", "description": "A calming bowl built around soothing ingredients for end-of-day balance.", "image": "/images/PHY_0047.jpg" },
-      { "name": "Beauty Bowl", "description": "Skin-loving whole foods rich in antioxidants and healthy fats.", "image": "/images/PHY_0048.jpg" },
-      { "name": "Plant Protein", "description": "Fully plant-based, built on tofu, tempeh, legumes and grains.", "image": "/images/PHY_0049.jpg" },
-      { "name": "Energy Bowl", "description": "Complex carbs and lean protein to fuel a working day.", "image": "/images/PHY_0050.jpg" },
-      { "name": "Anti-Inflammatory", "description": "Turmeric, leafy greens, omega-rich protein, and gentle grains.", "image": "/images/PHY_0051.jpg" },
-      { "name": "High Protein", "description": "Maxed-out protein pairing for gym days and recovery.", "image": "/images/PHY_0053.jpg" }
-    ]
-  },
-  "buildYourOwn": {
-    "title": "Build Your Own Wholesome Bowl",
-    "tagline": "A better way to eat, every day.",
-    "priceNote": "Small RM15.50 · Medium RM19.50 · Large RM23.50",
-    "sizes": [
-      { "name": "Small", "price": "RM15.50", "includes": "2 bases · 1 protein · 2 supplements · 1 topping · 1 dressing" },
-      { "name": "Medium", "price": "RM19.50", "includes": "2 bases · 1 protein · 3 supplements · 2 toppings · 1 dressing" },
-      { "name": "Large", "price": "RM23.50", "includes": "2 bases · 2 proteins · 3 supplements · 2 toppings · 2 dressings" }
-    ],
-    "bases": ["Romaine lettuce", "Whole-grain pasta", "Mashed sweet potato", "Brown rice", "Quinoa (+RM2)", "Shredded kale (+RM3)"],
-    "proteins": ["Sous vide chicken breast", "Roasted chicken leg", "Herb-crusted ocean fish", "Roast beef (+RM3)", "Blackened salmon (+RM5)"],
-    "supplements": ["Charred broccoli", "Roasted turmeric cauliflower", "Miso-glazed carrots", "Sweet corn", "King oyster mushroom", "Roasted potato", "Pumpkin wedges", "Roasted beetroot", "Green egg", "Scrambled egg white", "Cucumber dill salad", "Thai basil tofu", "Tempeh chips", "Roasted beet hummus", "Apple cider cherry tomato w/ gula apong (+RM2)"],
-    "toppings": ["Furikake", "Power mix seed", "Parmesan breadcrumbs", "Pickled red onions", "Seaweed flake", "Salted cashew nuts", "Pink pickled radish"],
-    "dressings": ["Yuzu soy", "Pesto", "Salsa verde", "Salsa rossa", "Honey", "Golden honey mustard", "Thyme olive oil"]
   }
 }

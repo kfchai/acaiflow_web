@@ -6,24 +6,47 @@
   --color-raspberry: #c7154e;
   --color-sand: #c69c70;
   --color-sand-light: #e8d5bc;
-  --color-coffee: #413029;
+  --color-coffee: #2d241f;
+  --color-coffee-mid: #4a3c33;
   --color-brand-indigo: #4b69a5;
-  --color-cream: #f1e9e7;
-  --color-cream-warm: #faf5ee;
+  --color-cream: #ede4d8;
+  --color-cream-warm: #f6efe3;
+  --color-ink: #1a1612;
 
   --font-display: "Fraunces", "Playfair Display", Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
-html {
-  font-family: var(--font-sans);
-  color: var(--color-coffee);
-  background-color: var(--color-cream-warm);
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-coffee);
+    background-color: var(--color-cream-warm);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-feature-settings: "kern", "liga";
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
 }
 
-h1, h2, h3, h4 {
+.font-display {
   font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+}
+
+.italic-display {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+}
+
+a {
+  text-underline-offset: 4px;
 }

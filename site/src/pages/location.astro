@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const locations = [
+  {
+    id: 'mall',
+    name: 'Green Heights Shopping Mall',
+    address: ['Lot LG09, Ground Floor', 'Green Heights Mall', '129, Lorong Lapangan Terbang 2', '93250 Kuching, Sarawak'],
+    phone: '012-885 3836',
+    hours: [{ days: 'Daily', time: '10:00 AM — 7:00 PM' }],
+    map: 'https://www.google.com/maps?q=Green+Heights+Mall+Kuching&output=embed',
+    directions: 'https://maps.google.com/?q=Green+Heights+Mall+Kuching',
+  },
+  {
+    id: 'airport',
+    name: 'Kuching International Airport',
+    address: ['L2A19, Level 2', 'Domestic Departure (Airside)', 'Kuching International Airport', '93250 Kuching, Sarawak'],
+    phone: null,
+    hours: [{ days: 'Daily', time: 'Subject to airport flight schedule ✈️' }],
+    map: 'https://www.google.com/maps?q=Kuching+International+Airport&output=embed',
+    directions: 'https://maps.google.com/?q=Kuching+International+Airport',
+  },
+];
+---
+
+<Layout title="Location — AcaiFlow" description="Visit AcaiFlow at Green Heights Mall and Kuching International Airport.">
+  <PageHero
+    image="/heroes/location.jpg"
+    eyebrow="location"
+    title="come say hi"
+  />
+
+  <section class="bg-cream-warm">
+    <div class="max-w-3xl mx-auto px-6 py-24 md:py-32 text-center">
+      <p class="text-[10px] uppercase tracking-[0.35em] text-coffee mb-5">two outlets in kuching</p>
+      <h2 class="italic-display text-4xl md:text-6xl text-ink lowercase leading-[1.1]">
+        find your nearest<br />acaiflow
+      </h2>
+    </div>
+  </section>
+
+  {locations.map((loc, idx) => (
+    <section
+      id={loc.id}
+      class:list={['scroll-mt-16', idx % 2 === 0 ? 'bg-cream' : 'bg-cream-warm']}
+    >
+      <div class="max-w-6xl mx-auto px-6 py-20 md:py-28">
+        <div class:list={[
+          'grid md:grid-cols-2 gap-12 md:gap-16 items-start',
+          idx % 2 === 1 ? 'md:[&>:first-child]:order-2' : '',
+        ]}>
+          <div>
+            <p class="text-[10px] uppercase tracking-[0.35em] text-coffee/60 mb-4">
+              0{idx + 1}
+            </p>
+            <h3 class="italic-display text-4xl md:text-5xl text-ink lowercase leading-[1.1]">
+              {loc.name.toLowerCase()}
+            </h3>
+
+            <address class="not-italic mt-8 text-coffee/85 leading-[1.9] text-base">
+              {loc.address.map((line) => <span class="block">{line}</span>)}
+            </address>
+
+            {loc.phone && (
+              <div class="mt-8">
+                <p class="text-[10px] uppercase tracking-[0.3em] text-coffee/60 mb-2">phone</p>
+                <a href={`tel:+60${loc.phone.replace(/[^0-9]/g, '').replace(/^0/, '')}`} class="text-coffee hover:text-berry transition-colors">
+                  {loc.phone}
+                </a>
+              </div>
+            )}
+
+            <div class="mt-8">
+              <p class="text-[10px] uppercase tracking-[0.3em] text-coffee/60 mb-2">opening hours</p>
+              <ul class="text-coffee/85 leading-[1.9] text-sm">
+                {loc.hours.map((h) => (
+                  <li class="flex flex-wrap gap-x-4">
+                    <span class="font-medium">{h.days}</span>
+                    <span class="text-coffee/75">{h.time}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="mt-10 flex flex-wrap gap-3">
+              <a
+                href={loc.directions}
+                target="_blank"
+                rel="noopener"
+                class="inline-flex items-center gap-2 rounded-full bg-ink text-cream-warm text-[11px] uppercase tracking-[0.3em] px-7 py-3 hover:bg-berry transition-colors"
+              >
+                Get directions
+              </a>
+              {loc.phone && (
+                <a
+                  href={`https://wa.me/60${loc.phone.replace(/[^0-9]/g, '').replace(/^0/, '')}`}
+                  class="inline-flex items-center gap-2 rounded-full border border-ink text-ink text-[11px] uppercase tracking-[0.3em] px-7 py-3 hover:bg-ink hover:text-cream-warm transition-colors"
+                >
+                  WhatsApp us
+                </a>
+              )}
+            </div>
+          </div>
+
+          <div class="aspect-[4/5] md:aspect-[4/3] rounded-sm overflow-hidden bg-cream-warm">
+            <iframe
+              title={`Map of ${loc.name}`}
+              src={loc.map}
+              class="w-full h-full border-0"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+</Layout>

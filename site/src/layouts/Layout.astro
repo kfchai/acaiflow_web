@@ -6,11 +6,13 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title?: string;
   description?: string;
+  solidNav?: boolean;
 }
 
 const {
   title = 'AcaiFlow — Eat well, feel good.',
   description = 'Superfood acai bowls, longevity smoothies and wholefood bowls. Real food that makes you feel good, every day.',
+  solidNav = false,
 } = Astro.props;
 ---
 
@@ -36,7 +38,7 @@ const {
     />
   </head>
   <body class="min-h-screen flex flex-col">
-    <Nav />
+    <Nav solid={solidNav} />
     <main class="flex-1">
       <slot />
     </main>

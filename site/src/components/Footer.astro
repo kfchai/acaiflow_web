@@ -1,37 +1,91 @@
 ---
 const year = new Date().getFullYear();
+
+const sections = [
+  { href: '/story', label: 'our story' },
+  { href: '/menu', label: 'menu' },
+  { href: '/calculator', label: 'macro calculator' },
+  { href: '/order', label: 'order online' },
+  { href: '/catering', label: 'catering' },
+  { href: '/location', label: 'location' },
+  { href: '/contact', label: 'contact' },
+];
 ---
 
-<footer class="bg-berry text-cream-warm mt-24">
-  <div class="max-w-6xl mx-auto px-5 py-14 grid gap-10 md:grid-cols-4">
-    <div class="md:col-span-2">
-      <img src="/logo.svg" alt="AcaiFlow" class="h-9 w-auto brightness-0 invert opacity-90 mb-4" />
-      <p class="text-sm leading-relaxed opacity-90 max-w-sm">
-        Superfood. Glow. Vibe. Real food that makes you feel good — served fresh, every day.
-      </p>
+<footer class="bg-ink text-cream-warm">
+  <div class="max-w-7xl mx-auto px-6 py-20">
+    <div class="grid gap-12 md:grid-cols-12">
+      <div class="md:col-span-5">
+        <img src="/logo.svg" alt="AcaiFlow" class="h-10 w-auto brightness-0 invert mb-6" />
+        <p class="italic-display text-3xl md:text-4xl text-cream-warm leading-snug lowercase">
+          eat well, feel good.
+        </p>
+        <p class="mt-6 text-sm text-cream-warm/70 max-w-md leading-relaxed">
+          Real food that keeps you in flow — wholesome bowls, sandwiches, açaí, and seasonal beverages built for daily life.
+        </p>
+      </div>
+
+      <div class="md:col-span-3">
+        <h4 class="text-[10px] uppercase tracking-[0.3em] text-cream-warm/50 mb-5">Visit</h4>
+        <address class="not-italic text-sm leading-relaxed text-cream-warm/85 space-y-4">
+          <div>
+            <p class="text-cream-warm font-medium mb-1">Green Heights Mall</p>
+            Lot LG09, Ground Floor<br />
+            129, Lorong Lapangan Terbang 2<br />
+            93250 Kuching, Sarawak<br />
+            <span class="text-cream-warm/65">Daily · 10am–7pm</span>
+          </div>
+          <div>
+            <p class="text-cream-warm font-medium mb-1">Kuching Int'l Airport</p>
+            L2A19, Domestic Departure<br />
+            <span class="text-cream-warm/65">Subject to flight schedule</span>
+          </div>
+        </address>
+      </div>
+
+      <div class="md:col-span-2">
+        <h4 class="text-[10px] uppercase tracking-[0.3em] text-cream-warm/50 mb-5">Sections</h4>
+        <ul class="text-sm space-y-2 text-cream-warm/85">
+          {sections.map((s) => (
+            <li><a href={s.href} class="hover:text-cream-warm transition-colors">{s.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="md:col-span-2">
+        <h4 class="text-[10px] uppercase tracking-[0.3em] text-cream-warm/50 mb-5">Follow</h4>
+        <ul class="text-sm space-y-2 text-cream-warm/85">
+          <li><a href="https://instagram.com/acaiflow.my" class="hover:text-cream-warm">@acaiflow.my</a></li>
+          <li><a href="https://wa.me/60128853836" class="hover:text-cream-warm">WhatsApp</a></li>
+          <li><a href="mailto:hello@acaiflow.my" class="hover:text-cream-warm">hello@acaiflow.my</a></li>
+        </ul>
+      </div>
     </div>
-    <div>
-      <h4 class="text-sm uppercase tracking-wider mb-3 opacity-70">Visit</h4>
-      <address class="not-italic text-sm leading-relaxed opacity-90">
-        Ground Floor, Green Heights Mall<br />
-        88 Jalan Hijau, 50480 Kuala Lumpur<br />
-        <br />
-        Mon–Fri · 9am–9pm<br />
-        Sat–Sun · 8am–10pm
-      </address>
-    </div>
-    <div>
-      <h4 class="text-sm uppercase tracking-wider mb-3 opacity-70">Follow</h4>
-      <ul class="text-sm space-y-2 opacity-90">
-        <li><a href="https://instagram.com/acaiflow.my" class="hover:underline">@acaiflow.my</a></li>
-        <li><a href="mailto:hello@acaiflow.my" class="hover:underline">hello@acaiflow.my</a></li>
-      </ul>
+
+    <div class="mt-16 pt-8 border-t border-cream-warm/15">
+      <form class="flex flex-col sm:flex-row items-stretch gap-3 max-w-xl">
+        <label class="sr-only" for="email">Email address</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="subscribe to our mailing list"
+          class="flex-1 bg-transparent border border-cream-warm/25 rounded-full px-5 py-3 text-sm text-cream-warm placeholder:text-cream-warm/50 focus:outline-none focus:border-cream-warm/60"
+        />
+        <button
+          type="submit"
+          class="rounded-full bg-cream-warm text-ink px-6 py-3 text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-cream"
+        >
+          Subscribe
+        </button>
+      </form>
     </div>
   </div>
-  <div class="border-t border-cream-warm/15">
-    <div class="max-w-6xl mx-auto px-5 py-5 text-xs opacity-70 flex flex-wrap gap-3 justify-between">
-      <span>© {year} AcaiFlow. Let's flow together 🌿</span>
-      <span>Made in Kuala Lumpur</span>
+
+  <div class="border-t border-cream-warm/10">
+    <div class="max-w-7xl mx-auto px-6 py-6 text-[11px] uppercase tracking-[0.2em] text-cream-warm/50 flex flex-wrap gap-3 justify-between">
+      <span>© {year} AcaiFlow</span>
+      <span>let's flow together</span>
     </div>
   </div>
 </footer>

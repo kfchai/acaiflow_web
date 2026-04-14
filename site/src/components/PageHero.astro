@@ -1,0 +1,57 @@
+---
+interface Props {
+  image: string;
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  height?: 'short' | 'tall' | 'full';
+  align?: 'center' | 'left';
+}
+
+const {
+  image,
+  eyebrow,
+  title,
+  subtitle,
+  height = 'full',
+  align = 'center',
+} = Astro.props;
+
+const heightClass = {
+  short: 'min-h-screen',
+  tall: 'min-h-screen',
+  full: 'min-h-screen',
+}[height];
+
+const alignClass = align === 'left'
+  ? 'items-end justify-start text-left pb-20 md:pb-28'
+  : 'items-center justify-center text-center';
+---
+
+<section class:list={['relative overflow-hidden flex', heightClass, alignClass]}>
+  <img
+    src={image}
+    alt=""
+    class="absolute inset-0 w-full h-full object-cover"
+    loading="eager"
+  />
+  <div class="absolute inset-0 bg-ink/60"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-ink/40 via-transparent to-ink/70"></div>
+
+  <div class="relative max-w-4xl mx-auto px-6">
+    {eyebrow && (
+      <p class="text-white/80 uppercase tracking-[0.35em] text-[10px] md:text-xs mb-6">
+        {eyebrow}
+      </p>
+    )}
+    <h1 class="italic-display text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05] lowercase">
+      {title}
+    </h1>
+    {subtitle && (
+      <p class="mt-7 text-white/85 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
+        {subtitle}
+      </p>
+    )}
+    <slot />
+  </div>
+</section>

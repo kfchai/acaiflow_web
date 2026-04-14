@@ -1,99 +1,124 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
 import menu from '../data/menu.json';
 
 const sections = [
-  { id: 'acai', ...menu.acaiBowls },
-  { id: 'smoothies', ...menu.smoothies },
-  { id: 'wholefood', ...menu.wholefoodBowls },
+  { id: 'wholefood-bowls', ...menu.wholefoodBowls },
+  { id: 'sandwiches', ...menu.sandwiches },
+  { id: 'acai-bowls', ...menu.acaiBowls },
+  { id: 'beverages', ...menu.beverages },
 ];
-const byo = menu.buildYourOwn;
 ---
 
-<Layout title="Menu — AcaiFlow" description="Acai bowls, longevity smoothies, wholefood bowls and build-your-own — the full AcaiFlow menu.">
-  <section class="bg-berry text-cream-warm">
-    <div class="max-w-6xl mx-auto px-5 py-20 md:py-28">
-      <p class="uppercase tracking-[0.25em] text-xs opacity-80 mb-5">The Menu</p>
-      <h1 class="font-display text-5xl md:text-7xl leading-[0.95]">
-        Real food.<br />Good vibes.
-      </h1>
-      <nav class="mt-10 flex flex-wrap gap-2 text-sm">
+<Layout title="Menu — AcaiFlow" description="Wholefood bowls, wholefood sandwiches, açaí bowls and seasonal beverages.">
+  <PageHero
+    image="/heroes/menu.jpg"
+    eyebrow="menu"
+    title="savor the season"
+  />
+
+  <section class="bg-cream-warm">
+    <div class="max-w-3xl mx-auto px-6 py-24 md:py-32 text-center">
+      <p class="text-[10px] uppercase tracking-[0.35em] text-coffee mb-5">
+        {menu.season.sub}
+      </p>
+      <h2 class="italic-display text-4xl md:text-6xl text-ink lowercase leading-[1.1]">
+        {menu.season.tagline}
+      </h2>
+      <p class="mt-10 text-coffee/80 leading-[1.8] max-w-2xl mx-auto">
+        {menu.season.body}
+      </p>
+      <nav class="mt-12 flex flex-wrap gap-2 justify-center">
         {sections.map((s) => (
-          <a href={`#${s.id}`} class="px-4 py-2 rounded-full border border-cream-warm/30 hover:bg-cream-warm/10 transition-colors">
+          <a
+            href={`#${s.id}`}
+            class="px-5 py-2 rounded-full border border-ink/20 text-[10px] uppercase tracking-[0.2em] text-coffee hover:bg-ink hover:text-cream-warm transition-colors"
+          >
             {s.title}
           </a>
         ))}
-        <a href="#byo" class="px-4 py-2 rounded-full border border-cream-warm/30 hover:bg-cream-warm/10 transition-colors">
-          Build Your Own
-        </a>
       </nav>
     </div>
   </section>
 
-  {sections.map((section) => (
-    <section id={section.id} class="max-w-6xl mx-auto px-5 py-20 scroll-mt-24">
-      <header class="max-w-2xl mb-10">
-        <h2 class="font-display text-4xl md:text-5xl text-berry">{section.title}</h2>
-        <p class="mt-2 text-coffee/70 italic">{section.tagline}</p>
-        <p class="mt-4 text-coffee font-medium text-sm">{section.priceNote}</p>
-        {section.addOn && <p class="mt-1 text-coffee/60 text-xs">{section.addOn}</p>}
-      </header>
+  {sections.map((section, idx) => (
+    <section
+      id={section.id}
+      class:list={[
+        'scroll-mt-16',
+        idx % 2 === 0 ? 'bg-cream' : 'bg-cream-warm',
+      ]}
+    >
+      <div class="max-w-6xl mx-auto px-6 py-24 md:py-32">
+        <header class="text-center mb-14">
+          <p class="text-[10px] uppercase tracking-[0.35em] text-coffee/60 mb-4">
+            0{idx + 1}
+          </p>
+          <h2 class="italic-display text-4xl md:text-6xl text-ink lowercase">
+            {section.title.toLowerCase()}
+          </h2>
+          <p class="mt-4 italic text-coffee/70">{section.tagline}</p>
+          <p class="mt-5 text-[11px] uppercase tracking-[0.2em] text-coffee/60">{section.priceNote}</p>
+          {section.addOn && (
+            <p class="mt-2 text-xs text-coffee/50 max-w-xl mx-auto">{section.addOn}</p>
+          )}
+        </header>
 
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {section.items.map((item: any) => (
-          <article class="rounded-2xl overflow-hidden bg-white border border-berry/10 hover:border-berry/30 transition-colors">
-            <div class="aspect-[4/3] bg-cream overflow-hidden">
-              <img src={item.image} alt={item.name} class="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div class="p-5">
-              <div class="flex items-start justify-between gap-3">
-                <h3 class="font-display text-xl text-coffee">{item.name}</h3>
-                {item.price && <span class="text-sm font-medium text-berry whitespace-nowrap">{item.price}</span>}
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {section.items.map((item) => {
+            const isCutout = item.image.endsWith('.png');
+            return (
+            <article class="group">
+              <div class:list={[
+                'aspect-[4/5] overflow-hidden rounded-sm',
+                isCutout ? 'bg-gradient-to-br from-cream to-cream-warm flex items-center justify-center p-6' : 'bg-cream-warm',
+              ]}>
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  class:list={[
+                    'group-hover:scale-[1.04] transition-transform duration-700',
+                    isCutout ? 'max-w-full max-h-full w-auto h-auto object-contain drop-shadow-xl' : 'w-full h-full object-cover',
+                  ]}
+                  loading="lazy"
+                />
               </div>
-              <p class="mt-2 text-sm text-coffee/70 leading-relaxed">{item.description}</p>
-            </div>
-          </article>
-        ))}
+              <div class="pt-5 text-center">
+                <h3 class="italic-display text-2xl text-ink lowercase">
+                  {item.name.toLowerCase()}
+                </h3>
+                {item.price && (
+                  <p class="mt-1 text-[11px] uppercase tracking-[0.2em] text-berry">
+                    {item.price}
+                  </p>
+                )}
+                <p class="mt-3 text-sm text-coffee/75 leading-relaxed max-w-xs mx-auto">
+                  {item.description}
+                </p>
+              </div>
+            </article>
+            );
+          })}
+        </div>
       </div>
     </section>
   ))}
 
-  <section id="byo" class="bg-cream border-t border-berry/10 scroll-mt-24">
-    <div class="max-w-6xl mx-auto px-5 py-20">
-      <header class="max-w-2xl mb-10">
-        <h2 class="font-display text-4xl md:text-5xl text-berry">{byo.title}</h2>
-        <p class="mt-2 text-coffee/70 italic">{byo.tagline}</p>
-        <p class="mt-4 text-coffee font-medium text-sm">{byo.priceNote}</p>
-      </header>
-
-      <div class="grid gap-4 md:grid-cols-3 mb-12">
-        {byo.sizes.map((s) => (
-          <div class="rounded-2xl bg-white border border-berry/10 p-5">
-            <div class="flex items-baseline justify-between">
-              <h3 class="font-display text-xl text-berry">{s.name}</h3>
-              <span class="text-berry font-medium">{s.price}</span>
-            </div>
-            <p class="text-xs text-coffee/70 mt-2">{s.includes}</p>
-          </div>
-        ))}
-      </div>
-
-      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {[
-          { title: 'Bases', items: byo.bases },
-          { title: 'Proteins', items: byo.proteins },
-          { title: 'Supplements', items: byo.supplements },
-          { title: 'Toppings', items: byo.toppings },
-          { title: 'Dressings', items: byo.dressings },
-        ].map((group) => (
-          <div class="rounded-2xl bg-white border border-berry/10 p-6">
-            <h4 class="font-display text-lg text-berry mb-3">{group.title}</h4>
-            <ul class="text-sm text-coffee/80 space-y-1.5">
-              {group.items.map((it: string) => <li>· {it}</li>)}
-            </ul>
-          </div>
-        ))}
-      </div>
+  <section class="bg-ink text-cream-warm">
+    <div class="max-w-3xl mx-auto px-6 py-24 md:py-32 text-center">
+      <h2 class="italic-display text-4xl md:text-6xl text-cream-warm lowercase leading-[1.1]">
+        curious about the numbers?
+      </h2>
+      <p class="mt-8 text-cream-warm/75 leading-[1.8] max-w-xl mx-auto">
+        Use our macro calculator to see the calories, protein, carbs and fats in every bowl you build.
+      </p>
+      <a
+        href="/calculator"
+        class="inline-flex mt-10 items-center gap-2 rounded-full border border-cream-warm/50 hover:bg-cream-warm hover:text-ink text-cream-warm text-[11px] uppercase tracking-[0.3em] px-7 py-3 transition-colors"
+      >
+        Open macro calculator
+      </a>
     </div>
   </section>
 </Layout>

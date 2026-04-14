@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<Layout title="Contact — AcaiFlow" description="Get in touch with AcaiFlow.">
+  <PageHero
+    image="/heroes/contact.jpg"
+    eyebrow="contact us"
+    title="say hello"
+    height="short"
+  />
+
+  <section class="bg-cream-warm">
+    <div class="max-w-4xl mx-auto px-6 py-24 md:py-32">
+      <div class="text-center mb-16">
+        <p class="text-[10px] uppercase tracking-[0.35em] text-coffee mb-5">get in touch</p>
+        <h2 class="italic-display text-4xl md:text-6xl text-ink lowercase leading-[1.1]">
+          we'd love to<br />hear from you
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <a
+          href="https://wa.me/60128853836"
+          class="group bg-cream border border-ink/5 rounded-sm p-8 text-center hover:bg-ink hover:text-cream-warm transition-colors"
+        >
+          <p class="text-[10px] uppercase tracking-[0.3em] opacity-60 group-hover:opacity-80">WhatsApp</p>
+          <p class="italic-display text-2xl mt-3 lowercase">+60 12-885 3836</p>
+          <p class="mt-4 text-xs opacity-70">Fastest way to reach us</p>
+        </a>
+        <a
+          href="https://instagram.com/acaiflow.my"
+          class="group bg-cream border border-ink/5 rounded-sm p-8 text-center hover:bg-ink hover:text-cream-warm transition-colors"
+        >
+          <p class="text-[10px] uppercase tracking-[0.3em] opacity-60 group-hover:opacity-80">Instagram</p>
+          <p class="italic-display text-2xl mt-3 lowercase">@acaiflow.my</p>
+          <p class="mt-4 text-xs opacity-70">Menu, events, behind the scenes</p>
+        </a>
+        <a
+          href="mailto:hello@acaiflow.my"
+          class="group bg-cream border border-ink/5 rounded-sm p-8 text-center hover:bg-ink hover:text-cream-warm transition-colors"
+        >
+          <p class="text-[10px] uppercase tracking-[0.3em] opacity-60 group-hover:opacity-80">Email</p>
+          <p class="italic-display text-2xl mt-3 lowercase">hello@acaiflow.my</p>
+          <p class="mt-4 text-xs opacity-70">For catering and partnerships</p>
+        </a>
+      </div>
+
+      <form class="mt-20 max-w-2xl mx-auto space-y-5">
+        <p class="text-center text-[10px] uppercase tracking-[0.3em] text-coffee/60 mb-4">Or send us a note</p>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <input
+            type="text"
+            name="name"
+            placeholder="Your name"
+            class="w-full bg-transparent border border-ink/20 rounded-sm px-5 py-4 text-sm text-ink placeholder:text-coffee/50 focus:outline-none focus:border-ink"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            class="w-full bg-transparent border border-ink/20 rounded-sm px-5 py-4 text-sm text-ink placeholder:text-coffee/50 focus:outline-none focus:border-ink"
+          />
+        </div>
+        <textarea
+          name="message"
+          rows="5"
+          placeholder="What's on your mind?"
+          class="w-full bg-transparent border border-ink/20 rounded-sm px-5 py-4 text-sm text-ink placeholder:text-coffee/50 focus:outline-none focus:border-ink resize-none"
+        ></textarea>
+        <button
+          type="submit"
+          class="inline-flex items-center gap-2 rounded-full bg-ink text-cream-warm text-[11px] uppercase tracking-[0.3em] px-9 py-4 hover:bg-berry transition-colors"
+        >
+          Send message
+        </button>
+      </form>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<Layout title="Catering — AcaiFlow" description="Fresh, balanced catering for every occasion. Our kitchen to your event.">
+  <PageHero
+    image="/heroes/catering.jpg"
+    eyebrow="catering"
+    title="our kitchen to your event"
+  />
+
+  <section class="bg-cream-warm">
+    <div class="max-w-3xl mx-auto px-6 py-24 md:py-32 text-center">
+      <p class="text-[10px] uppercase tracking-[0.35em] text-coffee mb-5">catering</p>
+      <h2 class="italic-display text-4xl md:text-6xl text-ink lowercase leading-[1.1]">
+        fresh, balanced catering<br />for every occasion
+      </h2>
+
+      <div class="mt-12 text-coffee/80 leading-[1.85] max-w-2xl mx-auto space-y-7 text-left md:text-center">
+        <p>
+          Healthy catering doesn't have to be complicated — and we're here to make it easy.
+        </p>
+        <p>
+          Whether it's a team meeting, private gathering, or special event, create a vibrant spread from our wholesome bowls, wholefood sandwiches, açaí bowls, and fresh beverages, all prepared with seasonal ingredients your guests will enjoy.
+        </p>
+        <p>
+          Looking for something more customised? Work with our team to design a menu that fits your event perfectly.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="max-w-5xl mx-auto px-6 py-20 md:py-24">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {[
+          { label: 'corporate meals', body: 'Office lunches and team meetings, served in individual portions or shared platters.' },
+          { label: 'event catering', body: 'Birthdays, baby showers, gallery openings — fresh spreads styled for the occasion.' },
+          { label: 'gym & wellness', body: 'Post-class refuels and recovery menus for studios, gyms and retreats.' },
+          { label: 'healthy platters', body: 'Mix-and-match grazing platters for any group size, from 8 to 80.' },
+        ].map((c) => (
+          <div class="bg-cream-warm rounded-sm p-6 border border-ink/5">
+            <p class="text-[10px] uppercase tracking-[0.3em] text-berry mb-3">{c.label}</p>
+            <p class="text-sm text-coffee/80 leading-relaxed">{c.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ink text-cream-warm">
+    <div class="max-w-3xl mx-auto px-6 py-24 md:py-32 text-center">
+      <h2 class="italic-display text-4xl md:text-5xl text-cream-warm lowercase leading-[1.1]">
+        let's plan your spread
+      </h2>
+      <p class="mt-8 text-cream-warm/75 leading-[1.8] max-w-xl mx-auto">
+        Tell us about your event and we'll send back a tailored proposal within one business day.
+      </p>
+      <a
+        href="https://wa.me/60128853836?text=Hi%20AcaiFlow%2C%20I%27d%20like%20to%20enquire%20about%20catering"
+        class="inline-flex mt-10 items-center gap-3 rounded-full border border-cream-warm/50 hover:bg-cream-warm hover:text-ink text-cream-warm text-[11px] uppercase tracking-[0.3em] px-9 py-4 transition-colors"
+      >
+        Find out more
+      </a>
+    </div>
+  </section>
+</Layout>

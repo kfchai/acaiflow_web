@@ -1,51 +1,57 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
 ---
 
-<Layout title="Our Story — AcaiFlow" description="Superfood. Glow. Vibe. The story behind AcaiFlow — real food that makes you feel good.">
-  <section class="bg-berry text-cream-warm">
-    <div class="max-w-4xl mx-auto px-5 py-24 md:py-32">
-      <p class="uppercase tracking-[0.25em] text-xs opacity-80 mb-5">Our Story</p>
-      <h1 class="font-display text-5xl md:text-7xl leading-[0.95]">
-        superfood.<br />glow. vibe.
-      </h1>
-    </div>
-  </section>
+<Layout title="Our Story — AcaiFlow" description="Eat well, feel good. The story behind AcaiFlow.">
+  <PageHero
+    image="/heroes/story.jpg"
+    eyebrow="our story"
+    title="eat well, feel good"
+  />
 
-  <section class="max-w-3xl mx-auto px-5 py-20 text-lg leading-relaxed text-coffee space-y-8">
-    <p class="text-2xl md:text-3xl font-display text-berry leading-snug">
-      Eating well should be simple — not stressful. That's why we created AcaiFlow.
-    </p>
+  <section class="bg-cream-warm">
+    <div class="max-w-3xl mx-auto px-6 py-24 md:py-32 text-coffee text-lg leading-[1.8]">
+      <p class="italic-display text-3xl md:text-4xl text-ink leading-snug mb-12">
+        Eating healthy isn't always easy, but we believe it should be.
+      </p>
 
-    <p>
-      We believe in real food that makes you feel good — nourishing bowls, wholesome ingredients, and flavours that keep your body and spirit in flow.
-      No complicated diets, no calorie anxiety — just clean, balanced meals that fit your daily lifestyle.
-    </p>
+      <p class="mb-7">That's why we started AcaiFlow.</p>
 
-    <figure class="my-12 -mx-5 md:mx-0 md:rounded-3xl overflow-hidden">
-      <img src="/images/PHY_0038.jpg" alt="An acai bowl styled with natural foliage" class="w-full h-auto" loading="lazy" />
-    </figure>
+      <p class="mb-7">
+        We're here to make wholesome eating easy, so you can focus on feeling your best every day. No strict diets, confusing choices, or boring salads. Just balanced bowls made with wholesome ingredients that support your energy and wellbeing.
+      </p>
 
-    <p>
-      Our menu celebrates natural superfoods — from antioxidant-rich acai and tropical fruits to proteins and grains that fuel your day.
-      Every bowl, smoothie, and toast is designed to keep you glowing, energized, and balanced from the inside out.
-    </p>
+      <p class="mb-7">
+        We believe in honest food made for real life — meals that nourish your body and fit naturally into your routine.
+      </p>
 
-    <p>
-      We're here to make healthy living effortless. Tasty, fresh, and full of good vibes — that's the AcaiFlow promise.
-    </p>
+      <p class="mb-7">
+        And here's how we bring it all together: wholesome grains, fresh vegetables, quality proteins, healthy fats, and house-made dressings. All of this comes together in a seasonal menu that keeps every bowl vibrant, balanced, and made to help you eat well and feel good.
+      </p>
 
-    <p class="text-2xl md:text-3xl font-display text-berry leading-snug pt-4">
-      Because when you eat well, you flow daily.
-    </p>
-  </section>
+      <p class="mb-12">
+        There's never a dull bowl at AcaiFlow, and we're pretty sure any choice you make will be a good one.
+      </p>
 
-  <section class="bg-cream border-t border-berry/10">
-    <div class="max-w-4xl mx-auto px-5 py-16 text-center">
-      <h2 class="font-display text-3xl md:text-4xl text-coffee">Let's flow together 🌿</h2>
-      <a href="/menu" class="inline-flex mt-7 items-center gap-2 bg-raspberry hover:bg-raspberry/90 text-white font-medium px-6 py-3 rounded-full transition-colors">
-        See what's on the menu
-      </a>
+      <p class="italic-display text-3xl md:text-4xl text-ink leading-snug">
+        Let's build your bowl.
+      </p>
+
+      <div class="mt-12 flex flex-wrap gap-4">
+        <a
+          href="/menu"
+          class="inline-flex items-center gap-2 rounded-full bg-ink text-cream-warm text-[11px] uppercase tracking-[0.3em] px-7 py-3 hover:bg-berry transition-colors"
+        >
+          See the menu
+        </a>
+        <a
+          href="/calculator"
+          class="inline-flex items-center gap-2 rounded-full border border-ink text-ink text-[11px] uppercase tracking-[0.3em] px-7 py-3 hover:bg-ink hover:text-cream-warm transition-colors"
+        >
+          Build a bowl
+        </a>
+      </div>
     </div>
   </section>
 </Layout>

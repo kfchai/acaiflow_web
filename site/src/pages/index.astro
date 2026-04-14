@@ -1,104 +1,75 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
 import menu from '../data/menu.json';
 
-const categories = [
-  { key: 'acaiBowls', href: '/menu#acai', ...menu.acaiBowls },
-  { key: 'smoothies', href: '/menu#smoothies', ...menu.smoothies },
-  { key: 'wholefoodBowls', href: '/menu#wholefood', ...menu.wholefoodBowls },
-  { key: 'buildYourOwn', href: '/menu#byo', ...menu.buildYourOwn, items: [] as any[] },
+const sections = [
+  { title: 'our story', href: '/story', image: '/heroes/story.jpg', tagline: 'eat well, feel good' },
+  { title: 'menu', href: '/menu', image: '/heroes/menu.jpg', tagline: menu.season.tagline },
+  { title: 'macro calculator', href: '/calculator', image: '/heroes/calculator.jpg', tagline: 'know what goes into your meals' },
+  { title: 'order online', href: '/order', image: '/heroes/order.jpg', tagline: 'a tap away from your bowl' },
+  { title: 'catering', href: '/catering', image: '/heroes/catering.jpg', tagline: 'our kitchen to your event' },
+  { title: 'location', href: '/location', image: '/heroes/location.jpg', tagline: 'come say hi' },
 ];
-
-const heroImage = '/images/PHY_0038.jpg';
 ---
 
 <Layout>
-  <section class="relative overflow-hidden bg-berry text-cream-warm">
-    <div class="absolute inset-0 opacity-30">
-      <img src={heroImage} alt="" class="w-full h-full object-cover" loading="eager" />
+  <PageHero
+    image="/heroes/home.jpg"
+    eyebrow="superfood · glow · vibe"
+    title="eat well, feel good."
+    height="full"
+  >
+    <div class="mt-10 flex justify-center">
+      <a
+        href="/menu"
+        class="inline-flex items-center gap-3 rounded-full border border-cream-warm/40 hover:bg-cream-warm hover:text-ink text-cream-warm text-[11px] uppercase tracking-[0.3em] px-7 py-3 transition-colors"
+      >
+        Enter
+      </a>
     </div>
-    <div class="relative max-w-6xl mx-auto px-5 py-24 md:py-36">
-      <p class="uppercase tracking-[0.25em] text-xs md:text-sm opacity-80 mb-5">superfood · glow · vibe</p>
-      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] max-w-3xl">
-        Eat well,<br />feel good.
-      </h1>
-      <p class="mt-7 text-base md:text-lg max-w-xl opacity-90 leading-relaxed">
-        Real food that keeps you in flow — nourishing acai bowls, longevity smoothies, and wholefood meals built for daily life.
+  </PageHero>
+
+  <section class="bg-cream-warm">
+    <div class="max-w-4xl mx-auto px-6 py-28 md:py-40 text-center">
+      <p class="text-coffee uppercase tracking-[0.3em] text-[10px] mb-7">welcome to acaiflow</p>
+      <h2 class="italic-display text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-ink lowercase">
+        a better way to eat,<br />every day.
+      </h2>
+      <p class="mt-10 text-coffee/80 max-w-2xl mx-auto leading-relaxed">
+        Eating healthy isn't always easy, but we believe it should be. That's why we started AcaiFlow — to make wholesome eating easy, so you can focus on feeling your best every day.
       </p>
-      <div class="mt-9 flex flex-wrap gap-3">
-        <a href="/menu" class="inline-flex items-center gap-2 bg-raspberry hover:bg-raspberry/90 text-white font-medium px-6 py-3 rounded-full transition-colors">
-          See the menu
-        </a>
-        <a href="/story" class="inline-flex items-center gap-2 border border-cream-warm/40 hover:bg-cream-warm/10 text-cream-warm font-medium px-6 py-3 rounded-full transition-colors">
-          Our story
-        </a>
-      </div>
+      <a
+        href="/story"
+        class="inline-block mt-10 text-[11px] uppercase tracking-[0.3em] text-ink border-b border-ink pb-1 hover:text-berry hover:border-berry transition-colors"
+      >
+        Read our story
+      </a>
     </div>
   </section>
 
-  <section class="max-w-6xl mx-auto px-5 py-20">
-    <div class="max-w-2xl mb-10">
-      <p class="text-berry font-medium uppercase tracking-wider text-xs mb-3">The Menu</p>
-      <h2 class="font-display text-4xl md:text-5xl text-coffee">A better way to eat, every day.</h2>
-    </div>
-    <div class="grid gap-6 md:grid-cols-2">
-      {categories.map((c) => (
-        <a
-          href={c.href}
-          class="group relative rounded-3xl overflow-hidden bg-white border border-berry/10 hover:border-berry/30 transition-all hover:-translate-y-1"
-        >
-          <div class="aspect-[4/3] bg-cream overflow-hidden">
-            {c.items && c.items[0] && c.items[0].image ? (
-              <img
-                src={c.items[0].image}
-                alt={c.title}
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            ) : (
-              <div class="w-full h-full bg-gradient-to-br from-sand-light to-sand"></div>
-            )}
-          </div>
-          <div class="p-6">
-            <h3 class="font-display text-2xl text-berry">{c.title}</h3>
-            <p class="text-coffee/70 text-sm mt-1">{c.tagline}</p>
-            <p class="text-coffee/60 text-xs mt-3">{c.priceNote}</p>
-          </div>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <section class="bg-cream border-y border-berry/10">
-    <div class="max-w-6xl mx-auto px-5 py-20 grid md:grid-cols-2 gap-12 items-center">
-      <div>
-        <p class="text-berry font-medium uppercase tracking-wider text-xs mb-3">Our Story</p>
-        <h2 class="font-display text-4xl md:text-5xl text-coffee leading-tight">
-          Because when you eat well, you flow daily.
-        </h2>
-        <p class="mt-6 text-coffee/80 leading-relaxed">
-          We believe in real food that makes you feel good — nourishing bowls, wholesome ingredients, and flavours that keep your body and spirit in flow. No complicated diets, no calorie anxiety — just clean, balanced meals that fit your daily lifestyle.
-        </p>
-        <a href="/story" class="inline-flex mt-7 items-center gap-2 text-berry font-medium hover:gap-3 transition-all">
-          Read the full story →
-        </a>
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <img src="/images/PHY_0039.jpg" alt="" class="rounded-2xl aspect-square object-cover" loading="lazy" />
-        <img src="/images/PHY_0030.jpg" alt="" class="rounded-2xl aspect-square object-cover mt-8" loading="lazy" />
-        <img src="/images/PHY_0018.jpg" alt="" class="rounded-2xl aspect-square object-cover" loading="lazy" />
-        <img src="/images/PHY_0047.jpg" alt="" class="rounded-2xl aspect-square object-cover mt-8" loading="lazy" />
-      </div>
-    </div>
-  </section>
-
-  <section class="max-w-4xl mx-auto px-5 py-20 text-center">
-    <p class="text-raspberry font-medium uppercase tracking-wider text-xs mb-3">Know Your Numbers</p>
-    <h2 class="font-display text-4xl md:text-5xl text-coffee">How much should you eat?</h2>
-    <p class="mt-5 text-coffee/80 leading-relaxed max-w-2xl mx-auto">
-      Use our free macro calculator to work out your daily calories and protein, carbs and fat targets — the effortless starting point for feeling good.
-    </p>
-    <a href="/calculator" class="inline-flex mt-8 items-center gap-2 bg-berry hover:bg-berry-dark text-cream-warm font-medium px-6 py-3 rounded-full transition-colors">
-      Open the calculator →
+  {sections.map((s, i) => (
+    <a href={s.href} class="group block">
+      <section class="relative overflow-hidden min-h-[60vh] md:min-h-[70vh] flex items-center justify-center text-center">
+        <img
+          src={s.image}
+          alt=""
+          class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
+          loading="lazy"
+        />
+        <div class="absolute inset-0 bg-ink/60 group-hover:bg-ink/50 transition-colors"></div>
+        <div class="relative max-w-3xl px-6">
+          <p class="text-cream-warm/75 uppercase tracking-[0.3em] text-[10px] md:text-xs mb-4">
+            0{i + 1} — {s.tagline}
+          </p>
+          <h3 class="italic-display text-cream-warm text-5xl md:text-7xl lowercase leading-[1.05]">
+            {s.title}
+          </h3>
+          <span class="inline-block mt-7 text-cream-warm/80 text-[11px] uppercase tracking-[0.3em] border-b border-cream-warm/40 pb-1 group-hover:text-cream-warm group-hover:border-cream-warm">
+            Enter →
+          </span>
+        </div>
+      </section>
     </a>
-  </section>
+  ))}
 </Layout>

@@ -1,26 +1,53 @@
 ---
+interface Props {
+  solid?: boolean;
+}
+const { solid = false } = Astro.props;
+
 const links = [
-  { href: '/', label: 'Home' },
-  { href: '/menu', label: 'Menu' },
-  { href: '/story', label: 'Our Story' },
-  { href: '/calculator', label: 'Macro Calculator' },
+  { href: '/', label: 'home' },
+  { href: '/story', label: 'our story' },
+  { href: '/menu', label: 'menu' },
+  { href: '/calculator', label: 'macro calculator' },
+  { href: '/order', label: 'order online' },
+  { href: '/catering', label: 'catering' },
+  { href: '/location', label: 'location' },
+  { href: '/contact', label: 'contact' },
 ];
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const wrapperClass = solid
+  ? 'sticky top-0 inset-x-0 z-40 bg-cream-warm/95 backdrop-blur border-b border-ink/10'
+  : 'absolute top-0 inset-x-0 z-40';
+
+const logoClass = solid
+  ? 'h-14 md:h-16 w-auto'
+  : 'h-14 md:h-16 w-auto brightness-0 invert';
+
+const linkBase = solid ? 'text-ink' : 'text-cream-warm';
+const summaryColor = solid ? 'text-ink' : 'text-cream-warm';
+const mobileMenuClass = solid
+  ? 'absolute right-0 mt-3 w-56 bg-cream-warm/98 backdrop-blur rounded-xl shadow-xl p-2 border border-ink/10'
+  : 'absolute right-0 mt-3 w-56 bg-ink/95 backdrop-blur rounded-xl shadow-xl p-2';
+const mobileItemClass = solid
+  ? 'block px-4 py-2.5 rounded-lg text-[11px] uppercase tracking-[0.2em] text-ink hover:bg-ink/5'
+  : 'block px-4 py-2.5 rounded-lg text-[11px] uppercase tracking-[0.2em] text-cream-warm/90 hover:bg-cream-warm/10';
 ---
 
-<header class="sticky top-0 z-40 bg-cream-warm/90 backdrop-blur border-b border-berry/10">
-  <nav class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between gap-6">
+<header class={wrapperClass}>
+  <nav class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between gap-6">
     <a href="/" class="flex items-center gap-2">
-      <img src="/logo.svg" alt="AcaiFlow" class="h-8 w-auto" />
+      <img src="/logo.svg" alt="AcaiFlow" class={logoClass} />
     </a>
-    <ul class="hidden md:flex items-center gap-7 text-sm font-medium">
-      {links.map((l) => (
+    <ul class="hidden lg:flex items-center gap-7 text-[11px] uppercase tracking-[0.2em]">
+      {links.slice(1).map((l) => (
         <li>
           <a
             href={l.href}
             class:list={[
-              'transition-colors',
-              pathname === l.href ? 'text-berry' : 'text-coffee/70 hover:text-berry',
+              'transition-opacity',
+              linkBase,
+              pathname === l.href ? 'opacity-100' : 'opacity-75 hover:opacity-100',
             ]}
           >
             {l.label}
@@ -28,14 +55,16 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
         </li>
       ))}
     </ul>
-    <details class="md:hidden relative">
-      <summary class="list-none cursor-pointer text-berry">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <details class="lg:hidden relative">
+      <summary class:list={['list-none cursor-pointer', summaryColor]}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </summary>
-      <ul class="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-lg border border-berry/10 p-2">
+      <ul class={mobileMenuClass}>
         {links.map((l) => (
           <li>
-            <a href={l.href} class="block px-3 py-2 rounded-lg text-sm text-coffee hover:bg-cream">{l.label}</a>
+            <a href={l.href} class={mobileItemClass}>
+              {l.label}
+            </a>
           </li>
         ))}
       </ul>
