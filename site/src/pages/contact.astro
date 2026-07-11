@@ -1,81 +1,99 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PageHero from '../components/PageHero.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="Contact — AcaiFlow" description="Get in touch with AcaiFlow.">
-  <PageHero
-    image="/heroes/contact.jpg"
-    eyebrow="contact us"
-    title="say hello"
-    height="short"
-  />
+<Layout title="Contact — AcaiFlow">
+  <div style="min-height:100vh;background:#FCF6E8;">
 
-  <section class="bg-cream-warm">
-    <div class="max-w-4xl mx-auto px-6 py-24 md:py-32">
-      <div class="text-center mb-16">
-        <p class="text-[10px] uppercase tracking-[0.35em] text-coffee mb-5">get in touch</p>
-        <h2 class="italic-display text-4xl md:text-6xl text-ink lowercase leading-[1.1]">
-          we'd love to<br />hear from you
-        </h2>
-      </div>
+    <Nav active="contact" />
 
-      <div class="grid md:grid-cols-3 gap-6">
-        <a
-          href="https://wa.me/60128853836"
-          class="group bg-cream border border-ink/5 rounded-sm p-8 text-center hover:bg-ink hover:text-cream-warm transition-colors"
-        >
-          <p class="text-[10px] uppercase tracking-[0.3em] opacity-60 group-hover:opacity-80">WhatsApp</p>
-          <p class="italic-display text-2xl mt-3 lowercase">+60 12-885 3836</p>
-          <p class="mt-4 text-xs opacity-70">Fastest way to reach us</p>
-        </a>
-        <a
-          href="https://instagram.com/acaiflow.my"
-          class="group bg-cream border border-ink/5 rounded-sm p-8 text-center hover:bg-ink hover:text-cream-warm transition-colors"
-        >
-          <p class="text-[10px] uppercase tracking-[0.3em] opacity-60 group-hover:opacity-80">Instagram</p>
-          <p class="italic-display text-2xl mt-3 lowercase">@acaiflow.my</p>
-          <p class="mt-4 text-xs opacity-70">Menu, events, behind the scenes</p>
-        </a>
-        <a
-          href="mailto:hello@acaiflow.my"
-          class="group bg-cream border border-ink/5 rounded-sm p-8 text-center hover:bg-ink hover:text-cream-warm transition-colors"
-        >
-          <p class="text-[10px] uppercase tracking-[0.3em] opacity-60 group-hover:opacity-80">Email</p>
-          <p class="italic-display text-2xl mt-3 lowercase">hello@acaiflow.my</p>
-          <p class="mt-4 text-xs opacity-70">For catering and partnerships</p>
-        </a>
-      </div>
+    <section class="gsplit" style="max-width:1080px;margin:0 auto;padding:56px 32px 88px;display:grid;grid-template-columns:0.85fr 1.15fr;gap:56px;align-items:start;">
 
-      <form class="mt-20 max-w-2xl mx-auto space-y-5">
-        <p class="text-center text-[10px] uppercase tracking-[0.3em] text-coffee/60 mb-4">Or send us a note</p>
-        <div class="grid sm:grid-cols-2 gap-5">
-          <input
-            type="text"
-            name="name"
-            placeholder="Your name"
-            class="w-full bg-transparent border border-ink/20 rounded-sm px-5 py-4 text-sm text-ink placeholder:text-coffee/50 focus:outline-none focus:border-ink"
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email address"
-            class="w-full bg-transparent border border-ink/20 rounded-sm px-5 py-4 text-sm text-ink placeholder:text-coffee/50 focus:outline-none focus:border-ink"
-          />
+      <!-- LEFT: info -->
+      <div>
+        <div style="display:inline-flex;background:#FBE7B8;color:#8C1D5A;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;padding:8px 16px;border-radius:100px;margin-bottom:16px;">Contact Us</div>
+        <h1 style="font-size:48px;line-height:1;font-weight:900;letter-spacing:-0.02em;margin:0 0 16px;">Let's talk bowls.</h1>
+        <p style="font-size:17px;line-height:1.6;color:#786A80;margin:0 0 32px;">Questions, catering, partnerships or feedback — we'd love to hear from you.</p>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <a href="https://wa.me/60128853836" target="_blank" style="display:flex;align-items:center;gap:14px;background:#fff;border:2px solid #EFE3CB;border-radius:18px;padding:16px 18px;color:#2A2230;">
+            <span style="width:42px;height:42px;border-radius:12px;background:#FBE7B8;display:inline-flex;align-items:center;justify-content:center;font-size:20px;">💬</span>
+            <span><span style="display:block;font-size:12px;font-weight:700;color:#786A80;text-transform:uppercase;letter-spacing:0.05em;">WhatsApp</span><span style="font-weight:700;font-size:15px;">+60 12-885 3836</span></span>
+          </a>
+          <a href="https://instagram.com/acaiflow.my" target="_blank" style="display:flex;align-items:center;gap:14px;background:#fff;border:2px solid #EFE3CB;border-radius:18px;padding:16px 18px;color:#2A2230;">
+            <span style="width:42px;height:42px;border-radius:12px;background:#FBE7B8;display:inline-flex;align-items:center;justify-content:center;font-size:20px;">📷</span>
+            <span><span style="display:block;font-size:12px;font-weight:700;color:#786A80;text-transform:uppercase;letter-spacing:0.05em;">Instagram</span><span style="font-weight:700;font-size:15px;">@acaiflow.my</span></span>
+          </a>
+          <a href="/location" style="display:flex;align-items:center;gap:14px;background:#fff;border:2px solid #EFE3CB;border-radius:18px;padding:16px 18px;color:#2A2230;">
+            <span style="width:42px;height:42px;border-radius:12px;background:#FBE7B8;display:inline-flex;align-items:center;justify-content:center;font-size:20px;">📍</span>
+            <span><span style="display:block;font-size:12px;font-weight:700;color:#786A80;text-transform:uppercase;letter-spacing:0.05em;">Visit</span><span style="font-weight:700;font-size:15px;">Green Heights Mall · KCH Airport</span></span>
+          </a>
         </div>
-        <textarea
-          name="message"
-          rows="5"
-          placeholder="What's on your mind?"
-          class="w-full bg-transparent border border-ink/20 rounded-sm px-5 py-4 text-sm text-ink placeholder:text-coffee/50 focus:outline-none focus:border-ink resize-none"
-        ></textarea>
-        <button
-          type="submit"
-          class="inline-flex items-center gap-2 rounded-full bg-ink text-cream-warm text-[11px] uppercase tracking-[0.3em] px-9 py-4 hover:bg-berry transition-colors"
-        >
-          Send message
-        </button>
-      </form>
-    </div>
-  </section>
+      </div>
+
+      <!-- RIGHT: form -->
+      <div style="background:#fff;border-radius:28px;padding:36px;box-shadow:0 14px 36px rgba(42,34,48,0.08);">
+        <div id="form-sent" style="display:none;text-align:center;padding:40px 12px;">
+          <div style="width:64px;height:64px;border-radius:50%;background:#FBE7B8;display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 18px;">✅</div>
+          <h2 style="font-size:26px;font-weight:900;margin:0 0 10px;">Message ready!</h2>
+          <p style="font-size:15px;color:#786A80;line-height:1.6;margin:0 0 24px;">We've opened WhatsApp with your enquiry pre-filled — just hit send and we'll get right back to you.</p>
+          <button id="form-reset" style="background:#8C1D5A;color:#fff;border:none;padding:13px 26px;border-radius:100px;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer;">Send another</button>
+        </div>
+        <div id="form-main">
+          <h2 style="font-size:24px;font-weight:900;margin:0 0 6px;">Send us a message</h2>
+          <p style="font-size:14.5px;color:#786A80;margin:0 0 24px;">We'll open WhatsApp with your details ready to send.</p>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <label style="display:block;"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">Name</span><input id="f-name" placeholder="Your name" style="width:100%;padding:13px 15px;border:2px solid #EFE3CB;border-radius:14px;font-size:15px;" /></label>
+              <label style="display:block;"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">Phone</span><input id="f-phone" placeholder="Contact number" style="width:100%;padding:13px 15px;border:2px solid #EFE3CB;border-radius:14px;font-size:15px;" /></label>
+            </div>
+            <label style="display:block;"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">What's this about?</span>
+              <select id="f-topic" style="width:100%;padding:13px 15px;border:2px solid #EFE3CB;border-radius:14px;font-size:15px;background:#fff;cursor:pointer;">
+                <option>General enquiry</option>
+                <option>Catering &amp; events</option>
+                <option>Gym / wellness partnership</option>
+                <option>Feedback</option>
+              </select>
+            </label>
+            <label style="display:block;"><span style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">Message</span><textarea id="f-message" rows="4" placeholder="Tell us more…" style="width:100%;padding:13px 15px;border:2px solid #EFE3CB;border-radius:14px;font-size:15px;resize:vertical;"></textarea></label>
+            <button id="f-submit" style="background:#8C1D5A;color:#fff;border:none;padding:16px;border-radius:100px;font-family:inherit;font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 10px 26px rgba(140,29,90,0.28);">Send via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <Footer />
+
+  </div>
 </Layout>
+
+<script>
+  const $ = (id: string) => document.getElementById(id)!;
+
+  $('f-submit').addEventListener('click', () => {
+    const name = ($('f-name') as HTMLInputElement).value;
+    const phone = ($('f-phone') as HTMLInputElement).value;
+    const topic = ($('f-topic') as HTMLSelectElement).value;
+    const message = ($('f-message') as HTMLTextAreaElement).value;
+    const text =
+      'Hi AcaiFlow!\n' +
+      'Name: ' + (name || '—') + '\n' +
+      'Phone: ' + (phone || '—') + '\n' +
+      'Topic: ' + topic + '\n' +
+      'Message: ' + (message || '—');
+    window.open('https://wa.me/60128853836?text=' + encodeURIComponent(text), '_blank');
+    $('form-main').style.display = 'none';
+    $('form-sent').style.display = 'block';
+  });
+
+  $('form-reset').addEventListener('click', () => {
+    ($('f-name') as HTMLInputElement).value = '';
+    ($('f-phone') as HTMLInputElement).value = '';
+    ($('f-topic') as HTMLSelectElement).selectedIndex = 0;
+    ($('f-message') as HTMLTextAreaElement).value = '';
+    $('form-sent').style.display = 'none';
+    $('form-main').style.display = 'block';
+  });
+</script>

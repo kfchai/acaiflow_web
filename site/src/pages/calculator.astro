@@ -1,150 +1,222 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ingredients from '../data/ingredients.json';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 
-const sections = [
-  { key: 'bases', label: 'bases', items: ingredients.bases },
-  { key: 'proteins', label: 'proteins', items: ingredients.proteins },
-  { key: 'supplements', label: 'supplements', items: ingredients.supplements },
-  { key: 'toppings', label: 'toppings', items: ingredients.toppings },
-  { key: 'dressings', label: 'dressings', items: ingredients.dressings },
-] as const;
+const SIZES = {
+  small: { label: 'Small', price: 15.5, includes: '2 bases · ½ protein · 2 supplements · 1 topping · 1 dressing' },
+  medium: { label: 'Medium', price: 19.5, includes: '2 bases · 1 protein · 3 supplements · 1 topping · 1 dressing' },
+  large: { label: 'Large', price: 23.5, includes: '2 bases · 2 proteins · 3 supplements · 1 topping · 1 dressing' },
+};
 
-const servings = ingredients._meta.servingSizes;
+// [id, name, kcal, protein, carbs, fat, upcharge]
+const DATA: Record<string, [string, string, number, number, number, number, number][]> = {
+  bases: [
+    ['romaine', 'Romaine Lettuce', 15, 1, 3, 0, 0], ['pasta', 'Whole-Grain Pasta', 180, 7, 35, 2, 0],
+    ['sweetpotato', 'Mashed Sweet Potato', 115, 2, 27, 0, 0], ['brownrice', 'Brown Rice', 150, 3, 32, 1, 0],
+    ['quinoa', 'Quinoa', 160, 6, 29, 3, 2], ['kale', 'Shredded Kale', 35, 3, 6, 1, 3],
+  ],
+  proteins: [
+    ['chicken', 'Sous Vide Chicken Breast', 165, 31, 0, 4, 0], ['chickenleg', 'Roasted Chicken Leg', 210, 26, 0, 12, 0],
+    ['fish', 'Herb-Crusted Ocean Fish', 180, 25, 1, 8, 0], ['beef', 'Roast Beef', 215, 26, 0, 12, 6],
+    ['salmon', 'Blackened Salmon', 230, 25, 0, 15, 8],
+  ],
+  supplements: [
+    ['broccoli', 'Charred Broccoli', 45, 3, 7, 1, 0], ['cauliflower', 'Turmeric Cauliflower', 50, 2, 8, 2, 0],
+    ['carrots', 'Miso-Glazed Carrots', 60, 1, 13, 1, 0], ['corn', 'Sweet Corn', 85, 3, 19, 1, 0],
+    ['mushroom', 'King Oyster Mushroom', 40, 3, 6, 1, 0], ['potato', 'Roasted Potato', 110, 2, 25, 1, 0],
+    ['pumpkin', 'Pumpkin Wedges', 70, 2, 16, 1, 0], ['edamame', 'Edamame', 120, 11, 9, 5, 0],
+    ['onsen', 'Onsen Egg', 75, 6, 1, 5, 0], ['eggwhite', 'Scrambled Egg White', 40, 8, 1, 0, 0],
+    ['tofu', 'Thai Basil Tofu', 95, 9, 3, 6, 0], ['tempeh', 'Tempeh Chips', 120, 11, 6, 7, 0],
+    ['hummus', 'Roasted Beet Hummus', 110, 4, 12, 5, 0], ['avocado', 'Half Avocado', 160, 2, 9, 15, 5],
+  ],
+  toppings: [
+    ['furikake', 'Furikake', 20, 1, 2, 1, 0], ['seeds', 'Power Mix Seed', 90, 4, 4, 7, 0],
+    ['parmesan', 'Parmesan Breadcrumbs', 80, 4, 8, 4, 0], ['pickledonion', 'Pickled Red Onions', 15, 0, 4, 0, 0],
+    ['seaweed', 'Seaweed Flake', 10, 1, 1, 0, 0], ['cashew', 'Salted Cashew Nuts', 100, 3, 5, 8, 0],
+    ['radish', 'Pink Pickled Radish', 12, 0, 3, 0, 0],
+  ],
+  dressings: [
+    ['yuzu', 'Yuzu Soy', 35, 1, 4, 1, 0], ['pesto', 'Pesto', 120, 1, 2, 12, 0],
+    ['salsa', 'Salsa Verde', 60, 1, 3, 5, 0], ['harissa', 'Harissa', 70, 1, 4, 6, 0],
+    ['honeymustard', 'Golden Honey Mustard', 80, 0, 9, 4, 0], ['thyme', 'Thyme Olive Oil', 110, 0, 0, 12, 0],
+  ],
+};
+
+const GROUP_META: Record<string, { label: string; note: string }> = {
+  bases: { label: 'Bases', note: 'Choose 2 · +RM2 extra' },
+  proteins: { label: 'Proteins', note: 'By size · +RM5 extra' },
+  supplements: { label: 'Supplements', note: 'By size · +RM2 extra' },
+  toppings: { label: 'Toppings', note: 'Choose 1 · +RM0.50 extra' },
+  dressings: { label: 'Dressings', note: 'Choose 1 · +RM2 extra' },
+};
 ---
 
-<Layout
-  title="Macro Calculator — AcaiFlow"
-  description="Build your bowl ingredient by ingredient and see the calories, protein, carbs and fat add up."
-  solidNav={true}
->
-  <section class="bg-cream-warm pt-32 md:pt-40">
-    <div class="max-w-3xl mx-auto px-6 pb-16 md:pb-20 text-center">
-      <p class="text-[10px] uppercase tracking-[0.35em] text-coffee mb-5">nutritional info</p>
-      <h1 class="italic-display text-4xl md:text-6xl text-ink lowercase leading-[1.1]">
-        know what goes<br />into your meal.
-      </h1>
-      <p class="mt-10 text-coffee/80 leading-[1.8] max-w-2xl mx-auto">
-        If you like knowing what goes into your meals, this is for you. Our macro guide provides clear nutritional information across our menu, so you can better understand how each bowl supports your energy and lifestyle needs.
-      </p>
-      <p class="mt-7 italic-display text-2xl text-ink">
-        After all, when you eat well, you feel good.
-      </p>
-    </div>
-  </section>
+<Layout title="Macro Calculator — AcaiFlow">
+  <div style="min-height:100vh;background:#FCF6E8;">
 
-  <section class="max-w-6xl mx-auto px-5 pb-48">
-    <form id="calc-form" class="space-y-14 md:space-y-16">
-      {sections.map((section) => (
-        <div class="grid md:grid-cols-[180px_1fr] gap-6 md:gap-10">
-          <h2 class="font-display italic text-berry text-2xl md:text-3xl lowercase md:pt-1">
-            {section.label}
-          </h2>
+    <Nav active="calculator" />
 
-          <div class="grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-            {section.items.map((item) => (
-              <div class="flex items-center gap-3" data-ingredient>
-                <div class="inline-flex items-center rounded-full border border-raspberry/50 text-raspberry">
-                  <button
-                    type="button"
-                    data-step="-1"
-                    aria-label={`decrease ${item.name}`}
-                    class="w-9 h-9 flex items-center justify-center hover:text-berry transition-colors"
-                  >−</button>
-                  <span
-                    class="qty w-8 text-center text-sm tabular-nums"
-                    data-kcal={item.kcal}
-                    data-p={item.protein}
-                    data-c={item.carbs}
-                    data-f={item.fat}
-                  >0</span>
-                  <button
-                    type="button"
-                    data-step="1"
-                    aria-label={`increase ${item.name}`}
-                    class="w-9 h-9 flex items-center justify-center hover:text-berry transition-colors"
-                  >+</button>
-                </div>
-                <label class="text-sm text-coffee/90">{item.name}</label>
-              </div>
+    <!-- HEADER -->
+    <section style="max-width:1240px;margin:0 auto;padding:56px 32px 20px;">
+      <div style="display:inline-flex;background:#FBE7B8;color:#8C1D5A;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;padding:8px 16px;border-radius:100px;margin-bottom:16px;">Macro Calculator · Nutrition Info</div>
+      <h1 style="font-size:54px;line-height:1;font-weight:900;letter-spacing:-0.02em;margin:0 0 14px;">Build Your Own Wholesome Bowl</h1>
+      <p style="font-size:18px;line-height:1.55;color:#786A80;max-width:620px;margin:0;">Pick your size and ingredients — calories and macros update live so you know exactly how your bowl fuels your day. When you eat well, you feel good.</p>
+    </section>
+
+    <!-- BUILDER -->
+    <section class="gsplit" style="max-width:1240px;margin:0 auto;padding:24px 32px 96px;display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:start;">
+
+      <!-- LEFT: choices -->
+      <div>
+        <!-- SIZE -->
+        <div style="background:#fff;border-radius:24px;padding:26px;box-shadow:0 10px 26px rgba(42,34,48,0.06);margin-bottom:20px;">
+          <h2 style="font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#8C1D5A;margin:0 0 16px;">Choose your size</h2>
+          <div class="g3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+            {Object.entries(SIZES).map(([key, s]) => (
+              <button class={`size-card${key === 'medium' ? ' on' : ''}`} data-size={key} data-label={s.label} data-price={s.price}>
+                <div style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:17px;">{s.label}</div>
+                <div style="font-size:20px;font-weight:900;color:#8C1D5A;margin:2px 0 8px;">RM{s.price.toFixed(2)}</div>
+                <div style="font-size:12px;line-height:1.5;color:#786A80;font-weight:500;">{s.includes}</div>
+              </button>
             ))}
           </div>
         </div>
-      ))}
 
-      <p class="text-center text-xs text-coffee/50 max-w-xl mx-auto leading-relaxed pt-4">
-        One serving ≈ {servings.base} base · {servings.protein} protein · {servings.supplement} supplement · {servings.topping} topping · {servings.dressing} dressing. Values are estimates, not medical advice.
-      </p>
-    </form>
-  </section>
+        <!-- INGREDIENT GROUPS -->
+        {Object.entries(DATA).map(([cat, items]) => (
+          <div style="background:#fff;border-radius:24px;padding:26px;box-shadow:0 10px 26px rgba(42,34,48,0.06);margin-bottom:20px;">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:16px;">
+              <h2 style="font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#8C1D5A;margin:0;">{GROUP_META[cat].label}</h2>
+              <span style="font-size:12.5px;font-weight:600;color:#786A80;">{GROUP_META[cat].note}</span>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;">
+              {items.map(([id, name, kcal, p, c, f, up]) => (
+                <button class="chip" data-id={id} data-name={name} data-kcal={kcal} data-p={p} data-c={c} data-f={f} data-up={up}>
+                  <span class="dot"></span>
+                  <span>{name}</span>
+                  {up > 0 && <span class="up">+RM{up}</span>}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
 
-  <div class="fixed inset-x-0 bottom-0 z-30 border-t border-berry/15 bg-cream-warm/95 backdrop-blur">
-    <div class="max-w-6xl mx-auto px-5 py-5 grid grid-cols-4 gap-4 text-center">
-      <div>
-        <div id="total-kcal" class="font-display text-berry text-3xl md:text-5xl tabular-nums">0</div>
-        <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-coffee/60 mt-1">Calories</div>
-      </div>
-      <div>
-        <div class="flex items-baseline justify-center gap-1">
-          <span id="total-p" class="font-display text-berry text-3xl md:text-5xl tabular-nums">0</span>
-          <span class="text-xs text-coffee/50">g</span>
+      <!-- RIGHT: live nutrition panel -->
+      <div class="calc-panel" style="position:sticky;top:96px;">
+        <div style="background:#8C1D5A;border-radius:26px;padding:28px;color:#fff;box-shadow:0 20px 50px rgba(140,29,90,0.28);">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;">
+            <h2 style="font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#F6C445;margin:0;">Your Bowl</h2>
+            <span id="size-label" style="font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;color:rgba(255,255,255,0.7);">Medium</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:8px;margin:14px 0 4px;">
+            <span id="kcal" style="font-size:56px;font-weight:900;line-height:0.9;">0</span>
+            <span style="font-size:16px;font-weight:700;color:rgba(255,255,255,0.7);padding-bottom:8px;">kcal</span>
+          </div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:22px;"><span id="item-count">0</span> ingredients selected</div>
+
+          <!-- macro bars -->
+          <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:6px;"><span>Protein</span><span><span id="protein">0</span>g</span></div>
+              <div style="height:9px;background:rgba(255,255,255,0.15);border-radius:100px;overflow:hidden;"><div id="bar-p" class="bar-fill" style="height:100%;background:#F6C445;border-radius:100px;width:0%;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:6px;"><span>Carbs</span><span><span id="carbs">0</span>g</span></div>
+              <div style="height:9px;background:rgba(255,255,255,0.15);border-radius:100px;overflow:hidden;"><div id="bar-c" class="bar-fill" style="height:100%;background:#E85C9A;border-radius:100px;width:0%;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:6px;"><span>Fat</span><span><span id="fat">0</span>g</span></div>
+              <div style="height:9px;background:rgba(255,255,255,0.15);border-radius:100px;overflow:hidden;"><div id="bar-f" class="bar-fill" style="height:100%;background:#F19A6B;border-radius:100px;width:0%;"></div></div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-top:1px solid rgba(255,255,255,0.16);border-bottom:1px solid rgba(255,255,255,0.16);margin-bottom:20px;">
+            <span style="font-size:15px;font-weight:700;">Estimated price</span>
+            <span id="price" style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:26px;color:#F6C445;">RM19.50</span>
+          </div>
+
+          <a id="wa-link" href="https://wa.me/60128853836" target="_blank" style="display:block;text-align:center;background:#fff;color:#8C1D5A;padding:15px;border-radius:100px;font-weight:800;font-size:16px;margin-bottom:10px;">Order on WhatsApp</a>
+          <button id="reset" style="width:100%;background:transparent;border:1.5px solid rgba(255,255,255,0.3);color:#fff;padding:12px;border-radius:100px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;">Reset bowl</button>
         </div>
-        <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-coffee/60 mt-1">Protein</div>
+        <p style="font-size:12px;line-height:1.5;color:#9A8FA2;margin:14px 4px 0;">Nutrition values are estimates for guidance. Extra-item fees may apply beyond your size's allowance. Prices exclusive of 6% SST.</p>
       </div>
-      <div>
-        <div class="flex items-baseline justify-center gap-1">
-          <span id="total-c" class="font-display text-berry text-3xl md:text-5xl tabular-nums">0</span>
-          <span class="text-xs text-coffee/50">g</span>
-        </div>
-        <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-coffee/60 mt-1">Carbs</div>
-      </div>
-      <div>
-        <div class="flex items-baseline justify-center gap-1">
-          <span id="total-f" class="font-display text-berry text-3xl md:text-5xl tabular-nums">0</span>
-          <span class="text-xs text-coffee/50">g</span>
-        </div>
-        <div class="text-[10px] md:text-xs uppercase tracking-[0.2em] text-coffee/60 mt-1">Fat</div>
-      </div>
-    </div>
+
+    </section>
+
+    <Footer />
+
   </div>
-
-  <script is:inline>
-    (function () {
-      const form = document.getElementById('calc-form');
-      if (!form) return;
-
-      const totalKcal = document.getElementById('total-kcal');
-      const totalP = document.getElementById('total-p');
-      const totalC = document.getElementById('total-c');
-      const totalF = document.getElementById('total-f');
-
-      function recalc() {
-        let kcal = 0, p = 0, c = 0, f = 0;
-        form.querySelectorAll('.qty').forEach((el) => {
-          const n = parseInt(el.textContent || '0', 10) || 0;
-          if (!n) return;
-          kcal += n * parseFloat(el.dataset.kcal);
-          p += n * parseFloat(el.dataset.p);
-          c += n * parseFloat(el.dataset.c);
-          f += n * parseFloat(el.dataset.f);
-        });
-        totalKcal.textContent = Math.round(kcal).toString();
-        totalP.textContent = Math.round(p).toString();
-        totalC.textContent = Math.round(c).toString();
-        totalF.textContent = Math.round(f).toString();
-      }
-
-      form.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-step]');
-        if (!btn) return;
-        e.preventDefault();
-        const step = parseInt(btn.dataset.step, 10);
-        const qty = btn.parentElement.querySelector('.qty');
-        const current = parseInt(qty.textContent || '0', 10) || 0;
-        const next = Math.max(0, Math.min(9, current + step));
-        qty.textContent = next.toString();
-        recalc();
-      });
-    })();
-  </script>
 </Layout>
+
+<script>
+  const sizePrices: Record<string, { label: string; price: number }> = {
+    small: { label: 'Small', price: 15.5 },
+    medium: { label: 'Medium', price: 19.5 },
+    large: { label: 'Large', price: 23.5 },
+  };
+
+  let size = 'medium';
+
+  const el = (id: string) => document.getElementById(id)!;
+
+  function recompute() {
+    const chosen = Array.from(document.querySelectorAll<HTMLButtonElement>('.chip.on'));
+    let kcal = 0, p = 0, c = 0, f = 0, up = 0;
+    const names: string[] = [];
+    for (const chip of chosen) {
+      kcal += Number(chip.dataset.kcal);
+      p += Number(chip.dataset.p);
+      c += Number(chip.dataset.c);
+      f += Number(chip.dataset.f);
+      up += Number(chip.dataset.up);
+      names.push(chip.dataset.name!);
+    }
+    const price = sizePrices[size].price + up;
+
+    el('kcal').textContent = String(kcal);
+    el('protein').textContent = String(p);
+    el('carbs').textContent = String(c);
+    el('fat').textContent = String(f);
+    el('bar-p').style.width = Math.min(100, Math.round((p / 60) * 100)) + '%';
+    el('bar-c').style.width = Math.min(100, Math.round((c / 120) * 100)) + '%';
+    el('bar-f').style.width = Math.min(100, Math.round((f / 60) * 100)) + '%';
+    el('item-count').textContent = String(chosen.length);
+    el('price').textContent = 'RM' + price.toFixed(2);
+    el('size-label').textContent = sizePrices[size].label;
+
+    const msg =
+      'Hi AcaiFlow! I’d like to order a custom bowl:\n' +
+      'Size: ' + sizePrices[size].label + '\n' +
+      (names.length ? names.map((n) => '• ' + n).join('\n') : '(no ingredients yet)') + '\n' +
+      'Approx: ' + kcal + ' kcal · RM' + price.toFixed(2);
+    (el('wa-link') as HTMLAnchorElement).href = 'https://wa.me/60128853836?text=' + encodeURIComponent(msg);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.size-card').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.size-card').forEach((b) => b.classList.remove('on'));
+      btn.classList.add('on');
+      size = btn.dataset.size!;
+      recompute();
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('on');
+      recompute();
+    });
+  });
+
+  el('reset').addEventListener('click', () => {
+    document.querySelectorAll('.chip.on').forEach((c) => c.classList.remove('on'));
+    document.querySelectorAll('.size-card').forEach((b) => b.classList.remove('on'));
+    document.querySelector('.size-card[data-size="medium"]')!.classList.add('on');
+    size = 'medium';
+    recompute();
+  });
+
+  recompute();
+</script>

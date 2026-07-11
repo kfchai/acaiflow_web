@@ -1,75 +1,161 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PageHero from '../components/PageHero.astro';
-import menu from '../data/menu.json';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 
-const sections = [
-  { title: 'our story', href: '/story', image: '/heroes/story.jpg', tagline: 'eat well, feel good' },
-  { title: 'menu', href: '/menu', image: '/heroes/menu.jpg', tagline: menu.season.tagline },
-  { title: 'macro calculator', href: '/calculator', image: '/heroes/calculator.jpg', tagline: 'know what goes into your meals' },
-  { title: 'order online', href: '/order', image: '/heroes/order.jpg', tagline: 'a tap away from your bowl' },
-  { title: 'catering', href: '/catering', image: '/heroes/catering.jpg', tagline: 'our kitchen to your event' },
-  { title: 'location', href: '/location', image: '/heroes/location.jpg', tagline: 'come say hi' },
+const categories = [
+  { name: 'Wholefood Bowls', desc: 'Grains, greens, quality proteins & house dressings.', priceLabel: 'From RM19.50', href: '/menu#wholefood', image: '/images/design/home-cat-1.webp', alt: 'Wholefood bowl' },
+  { name: 'Wholefood Sandwiches', desc: 'Fresh, hearty, made with wholesome ingredients.', priceLabel: 'From RM16.50', href: '/menu#sandwiches', image: '/images/design/home-cat-2.webp', alt: 'Sandwich' },
+  { name: 'Açaí Bowls', desc: 'Thick açaí, granola, coconut & fresh fruits.', priceLabel: 'From RM20.90', href: '/menu#acai', image: '/images/acai/island_escape.jpg', alt: 'Açaí bowl' },
+  { name: 'Longevity Smoothies', desc: 'Kale, berries, protein & super boosters.', priceLabel: 'From RM16.50', href: '/menu#beverages', image: '/images/PHY_0030.jpg', alt: 'Smoothie' },
 ];
 ---
 
 <Layout>
-  <PageHero
-    image="/heroes/home.jpg"
-    eyebrow="superfood · glow · vibe"
-    title="eat well, feel good."
-    height="full"
-  >
-    <div class="mt-10 flex justify-center">
-      <a
-        href="/menu"
-        class="inline-flex items-center gap-3 rounded-full border border-cream-warm/40 hover:bg-cream-warm hover:text-ink text-cream-warm text-[11px] uppercase tracking-[0.3em] px-7 py-3 transition-colors"
-      >
-        Enter
-      </a>
-    </div>
-  </PageHero>
+  <div style="min-height:100vh;background:#FCF6E8;overflow-x:hidden;">
 
-  <section class="bg-cream-warm">
-    <div class="max-w-4xl mx-auto px-6 py-28 md:py-40 text-center">
-      <p class="text-coffee uppercase tracking-[0.3em] text-[10px] mb-7">welcome to acaiflow</p>
-      <h2 class="italic-display text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-ink lowercase">
-        a better way to eat,<br />every day.
-      </h2>
-      <p class="mt-10 text-coffee/80 max-w-2xl mx-auto leading-relaxed">
-        Eating healthy isn't always easy, but we believe it should be. That's why we started AcaiFlow — to make wholesome eating easy, so you can focus on feeling your best every day.
-      </p>
-      <a
-        href="/story"
-        class="inline-block mt-10 text-[11px] uppercase tracking-[0.3em] text-ink border-b border-ink pb-1 hover:text-berry hover:border-berry transition-colors"
-      >
-        Read our story
-      </a>
-    </div>
-  </section>
+    <!-- HERO + NAV MERGED -->
+    <div style="width:100%;background:#FBE7B8;">
 
-  {sections.map((s, i) => (
-    <a href={s.href} class="group block">
-      <section class="relative overflow-hidden min-h-[60vh] md:min-h-[70vh] flex items-center justify-center text-center">
-        <img
-          src={s.image}
-          alt=""
-          class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
-          loading="lazy"
-        />
-        <div class="absolute inset-0 bg-ink/60 group-hover:bg-ink/50 transition-colors"></div>
-        <div class="relative max-w-3xl px-6">
-          <p class="text-cream-warm/75 uppercase tracking-[0.3em] text-[10px] md:text-xs mb-4">
-            0{i + 1} — {s.tagline}
-          </p>
-          <h3 class="italic-display text-cream-warm text-5xl md:text-7xl lowercase leading-[1.05]">
-            {s.title}
-          </h3>
-          <span class="inline-block mt-7 text-cream-warm/80 text-[11px] uppercase tracking-[0.3em] border-b border-cream-warm/40 pb-1 group-hover:text-cream-warm group-hover:border-cream-warm">
-            Enter →
-          </span>
+      <Nav variant="hero" />
+
+      <!-- HERO -->
+      <section style="width:100%;padding:24px 0 76px;">
+        <div class="ghero" style="max-width:1440px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1.05fr 0.95fr;gap:64px;align-items:center;position:relative;">
+          <div style="position:relative;z-index:2;">
+            <div style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#8C1D5A;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;padding:8px 16px;border-radius:100px;margin-bottom:22px;">🌿 eat well, feel good</div>
+            <h1 class="hero-h1" style="font-size:64px;line-height:0.98;font-weight:900;letter-spacing:-0.02em;margin:0 0 20px;color:#2A2230;">Wholesome bowls,<br />made <span style="color:#8C1D5A;">seriously</span> good.</h1>
+            <p style="font-size:19px;line-height:1.55;color:#786A80;max-width:440px;margin:0 0 32px;">No strict diets, no boring salads. Just balanced bowls of wholesome grains, fresh veg, quality proteins and homemade dressings — built to help you feel your best.</p>
+            <div style="display:flex;gap:14px;flex-wrap:wrap;">
+              <a href="/calculator" style="background:#8C1D5A;color:#fff;padding:16px 30px;border-radius:100px;font-weight:800;font-size:16px;box-shadow:0 10px 26px rgba(140,29,90,0.3);">Build your bowl</a>
+              <a href="/menu" style="background:#fff;color:#8C1D5A;padding:16px 30px;border-radius:100px;font-weight:800;font-size:16px;border:2px solid #EAD59B;">View the menu</a>
+            </div>
+            <div style="display:flex;gap:28px;margin-top:36px;">
+              <div><div style="font-size:26px;font-weight:900;color:#8C1D5A;">30+</div><div style="font-size:13px;font-weight:600;color:#786A80;">signature bowls</div></div>
+              <div style="width:1px;background:#E7D2A2;"></div>
+              <div><div style="font-size:26px;font-weight:900;color:#8C1D5A;">100%</div><div style="font-size:13px;font-weight:600;color:#786A80;">wholefood based</div></div>
+              <div style="width:1px;background:#E7D2A2;"></div>
+              <div><div style="font-size:26px;font-weight:900;color:#8C1D5A;">8</div><div style="font-size:13px;font-weight:600;color:#786A80;">homemade dressings</div></div>
+            </div>
+          </div>
+          <div style="position:relative;height:460px;">
+            <div style="position:absolute;inset:0;border-radius:28px;overflow:hidden;box-shadow:0 24px 60px rgba(140,29,90,0.22);">
+              <img class="slot" src="/images/design/home-hero-a.webp" alt="AcaiFlow wholesome bowls" />
+            </div>
+          </div>
         </div>
       </section>
-    </a>
-  ))}
+
+    </div>
+
+    <!-- MARQUEE RIBBON -->
+    <div style="background:#8C1D5A;overflow:hidden;padding:16px 0;">
+      <div style="display:flex;width:max-content;animation:marquee 26s linear infinite;">
+        <div style="display:flex;align-items:center;gap:0;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;color:#fff;text-transform:uppercase;letter-spacing:0.02em;">
+          <span style="padding:0 28px;">Wholefood Bowls</span><span style="color:#F6C445;">✦</span><span style="padding:0 28px;">Wholefood Sandwiches</span><span style="color:#F6C445;">✦</span><span style="padding:0 28px;">Açaí Bowls</span><span style="color:#F6C445;">✦</span><span style="padding:0 28px;">Longevity Smoothies</span><span style="color:#F6C445;">✦</span>
+          <span style="padding:0 28px;">Wholefood Bowls</span><span style="color:#F6C445;">✦</span><span style="padding:0 28px;">Wholefood Sandwiches</span><span style="color:#F6C445;">✦</span><span style="padding:0 28px;">Açaí Bowls</span><span style="color:#F6C445;">✦</span><span style="padding:0 28px;">Longevity Smoothies</span><span style="color:#F6C445;">✦</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUR STORY -->
+    <section id="story" class="gsplit" style="max-width:1240px;margin:0 auto;padding:96px 32px;display:grid;grid-template-columns:0.9fr 1.1fr;gap:64px;align-items:center;">
+      <div style="position:relative;height:480px;">
+        <div style="position:absolute;inset:0;border-radius:28px;overflow:hidden;box-shadow:0 20px 50px rgba(42,34,48,0.14);">
+          <img class="slot" src="/images/design/home-story.webp" alt="AcaiFlow açaí bowl" />
+        </div>
+        <div style="position:absolute;bottom:24px;left:24px;right:24px;background:rgba(251,248,245,0.94);backdrop-filter:blur(6px);padding:18px 22px;border-radius:18px;font-family:'Baloo 2',sans-serif;font-weight:700;color:#8C1D5A;font-size:17px;">There's never a dull bowl at AcaiFlow.</div>
+      </div>
+      <div>
+        <div style="font-family:'Baloo 2',sans-serif;font-weight:700;color:#E85C9A;font-size:15px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Our Story</div>
+        <h2 style="font-size:46px;line-height:1.04;font-weight:900;letter-spacing:-0.02em;margin:0 0 24px;">Eating healthy should be easy.</h2>
+        <p style="font-size:18px;line-height:1.65;color:#5C5064;margin:0 0 18px;">Eating well isn't always easy — but we believe it should be. That's why we started AcaiFlow: to make wholesome eating simple, so you can focus on feeling your best every day.</p>
+        <p style="font-size:18px;line-height:1.65;color:#5C5064;margin:0 0 32px;">We bring it together with wholesome grains, fresh vegetables, quality proteins, healthy fats, and homemade dressings — in a seasonal menu that keeps every bowl vibrant and balanced.</p>
+        <a href="/calculator" style="display:inline-flex;align-items:center;gap:8px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:17px;color:#8C1D5A;">Let's build your bowl →</a>
+      </div>
+    </section>
+
+    <!-- SEASONAL MENU HIGHLIGHTS -->
+    <section style="background:#FBE7B8;padding:96px 0;">
+      <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+        <div style="text-align:center;max-width:640px;margin:0 auto 56px;">
+          <div style="font-family:'Baloo 2',sans-serif;font-weight:700;color:#E85C9A;font-size:15px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Savor the Season</div>
+          <h2 style="font-size:46px;line-height:1.04;font-weight:900;letter-spacing:-0.02em;margin:0 0 18px;">Our Spring Menu</h2>
+          <p style="font-size:18px;line-height:1.6;color:#5C5064;margin:0;">Built to feel light, vibrant, and seriously satisfying — purple sweet potato mash, herb-crusted proteins, avocado, greens, nuts, seeds and homemade dressings.</p>
+        </div>
+        <div class="g4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;">
+          {categories.map((cat) => (
+            <a href={cat.href} style="background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 12px 30px rgba(42,34,48,0.07);display:block;color:#2A2230;">
+              <div style="height:200px;position:relative;">
+                <img class="slot" src={cat.image} alt={cat.alt} />
+              </div>
+              <div style="padding:22px 22px 26px;">
+                <h3 style="font-size:21px;font-weight:800;margin:0 0 8px;">{cat.name}</h3>
+                <p style="font-size:14px;line-height:1.5;color:#786A80;margin:0 0 14px;">{cat.desc}</p>
+                <span style="font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;color:#8C1D5A;">{cat.priceLabel}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div style="text-align:center;margin-top:48px;">
+          <a href="/menu" style="background:#8C1D5A;color:#fff;padding:16px 34px;border-radius:100px;font-weight:800;font-size:16px;box-shadow:0 10px 26px rgba(140,29,90,0.28);">See the full menu</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUILD YOUR OWN BOWL BANNER -->
+    <section style="max-width:1240px;margin:0 auto;padding:96px 32px;">
+      <div class="gsplit" style="background:#8C1D5A;border-radius:36px;padding:64px 56px;display:grid;grid-template-columns:1fr 0.8fr;gap:48px;align-items:center;position:relative;overflow:hidden;">
+        <div style="position:relative;z-index:2;">
+          <div style="display:inline-flex;background:#F6C445;color:#2A2230;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:14px;padding:8px 16px;border-radius:100px;margin-bottom:22px;">Your Bowl, Your Way!</div>
+          <h2 style="font-size:52px;line-height:0.98;font-weight:900;letter-spacing:-0.02em;color:#fff;margin:0 0 18px;">Build your own wholesome bowl.</h2>
+          <p style="font-size:18px;line-height:1.6;color:rgba(255,255,255,0.82);max-width:460px;margin:0 0 30px;">Pick your bases, proteins, supplements, toppings and dressings — then see the calories and macros update live. Know exactly what fuels your day.</p>
+          <a href="/calculator" style="background:#fff;color:#8C1D5A;padding:16px 32px;border-radius:100px;font-weight:800;font-size:16px;">Open the calculator →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;position:relative;z-index:2;">
+          <div style="display:flex;justify-content:space-between;background:rgba(255,255,255,0.1);border-radius:16px;padding:16px 20px;color:#fff;font-weight:700;"><span>Small</span><span style="color:#F6C445;">RM15.50</span></div>
+          <div style="display:flex;justify-content:space-between;background:rgba(255,255,255,0.1);border-radius:16px;padding:16px 20px;color:#fff;font-weight:700;"><span>Regular</span><span style="color:#F6C445;">RM19.50</span></div>
+          <div style="display:flex;justify-content:space-between;background:rgba(255,255,255,0.1);border-radius:16px;padding:16px 20px;color:#fff;font-weight:700;"><span>Large</span><span style="color:#F6C445;">RM23.50</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATERING TEASER -->
+    <section style="background:#FBE7B8;padding:96px 0;">
+      <div class="gsplit" style="max-width:1240px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1.1fr 0.9fr;gap:64px;align-items:center;">
+        <div>
+          <div style="font-family:'Baloo 2',sans-serif;font-weight:700;color:#E85C9A;font-size:15px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Catering</div>
+          <h2 style="font-size:46px;line-height:1.04;font-weight:900;letter-spacing:-0.02em;margin:0 0 22px;">From our kitchen to your event.</h2>
+          <p style="font-size:18px;line-height:1.65;color:#5C5064;margin:0 0 30px;">Fresh, balanced catering for every occasion. Team meetings, private gatherings or special events — a vibrant spread of wholesome bowls, sandwiches, açaí bowls and fresh beverages.</p>
+          <a href="/catering" style="background:#8C1D5A;color:#fff;padding:16px 32px;border-radius:100px;font-weight:800;font-size:16px;box-shadow:0 10px 26px rgba(140,29,90,0.28);">Find out more 🥗</a>
+        </div>
+        <div style="height:360px;border-radius:28px;overflow:hidden;box-shadow:0 20px 50px rgba(42,34,48,0.14);">
+          <img class="slot" src="/images/PHY_0052.jpg" alt="Catering spread of wholefood bowls" />
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCATIONS STRIP -->
+    <section style="max-width:1240px;margin:0 auto;padding:96px 32px;">
+      <div style="text-align:center;margin-bottom:48px;">
+        <div style="font-family:'Baloo 2',sans-serif;font-weight:700;color:#E85C9A;font-size:15px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Find Us</div>
+        <h2 style="font-size:46px;line-height:1.04;font-weight:900;letter-spacing:-0.02em;margin:0;">Two spots in Kuching</h2>
+      </div>
+      <div class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
+        <div style="border:2px solid #EFE3CB;border-radius:26px;padding:32px;">
+          <h3 style="font-size:24px;font-weight:800;margin:0 0 6px;">Green Heights Mall</h3>
+          <p style="font-size:15px;color:#786A80;line-height:1.55;margin:0 0 16px;">Lot LG09, Ground Floor, Green Heights Mall<br />129, Lorong Lapangan Terbang 2, 93250 Kuching, Sarawak</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;"><span style="background:#FBE7B8;color:#8C1D5A;font-weight:700;font-size:13px;padding:7px 13px;border-radius:100px;">Daily 10AM – 7PM</span><span style="background:#FBE7B8;color:#8C1D5A;font-weight:700;font-size:13px;padding:7px 13px;border-radius:100px;">012-885 3836</span></div>
+        </div>
+        <div style="border:2px solid #EFE3CB;border-radius:26px;padding:32px;">
+          <h3 style="font-size:24px;font-weight:800;margin:0 0 6px;">Kuching Int'l Airport</h3>
+          <p style="font-size:15px;color:#786A80;line-height:1.55;margin:0 0 16px;">L2A19, Level 2, Domestic Departure (Airside)<br />Kuching International Airport, 93250 Kuching, Sarawak</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;"><span style="background:#FBE7B8;color:#8C1D5A;font-weight:700;font-size:13px;padding:7px 13px;border-radius:100px;">Per flight schedule ✈️</span></div>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+
+  </div>
 </Layout>

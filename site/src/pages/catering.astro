@@ -1,68 +1,72 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PageHero from '../components/PageHero.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const occasions = [
+  { icon: '💼', title: 'Corporate meals', desc: 'Team meetings and office lunches that keep everyone energised and focused.' },
+  { icon: '🎉', title: 'Event catering', desc: 'Private gatherings and special events with vibrant, wholesome spreads.' },
+  { icon: '🏋️', title: 'Gym & wellness', desc: 'Partnerships and healthy fuel for studios, gyms and wellness communities.' },
+  { icon: '🥗', title: 'Healthy platters', desc: 'Bowls, sandwiches, açaí and beverages — beautifully arranged to share.' },
+];
 ---
 
-<Layout title="Catering — AcaiFlow" description="Fresh, balanced catering for every occasion. Our kitchen to your event.">
-  <PageHero
-    image="/heroes/catering.jpg"
-    eyebrow="catering"
-    title="our kitchen to your event"
-  />
+<Layout title="Catering — AcaiFlow">
+  <div style="min-height:100vh;background:#FCF6E8;">
 
-  <section class="bg-cream-warm">
-    <div class="max-w-3xl mx-auto px-6 py-24 md:py-32 text-center">
-      <p class="text-[10px] uppercase tracking-[0.35em] text-coffee mb-5">catering</p>
-      <h2 class="italic-display text-4xl md:text-6xl text-ink lowercase leading-[1.1]">
-        fresh, balanced catering<br />for every occasion
-      </h2>
+    <Nav active="catering" />
 
-      <div class="mt-12 text-coffee/80 leading-[1.85] max-w-2xl mx-auto space-y-7 text-left md:text-center">
-        <p>
-          Healthy catering doesn't have to be complicated — and we're here to make it easy.
-        </p>
-        <p>
-          Whether it's a team meeting, private gathering, or special event, create a vibrant spread from our wholesome bowls, wholefood sandwiches, açaí bowls, and fresh beverages, all prepared with seasonal ingredients your guests will enjoy.
-        </p>
-        <p>
-          Looking for something more customised? Work with our team to design a menu that fits your event perfectly.
-        </p>
+    <!-- HERO -->
+    <section style="width:100%;background:#8C1D5A;">
+      <div class="gsplit" style="display:grid;grid-template-columns:1.05fr 0.95fr;overflow:hidden;min-height:480px;">
+        <div style="max-width:720px;margin-left:auto;width:100%;padding:64px 56px;display:flex;flex-direction:column;justify-content:center;">
+          <div style="display:inline-flex;align-self:flex-start;background:rgba(255,255,255,0.14);color:#fff;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;padding:8px 16px;border-radius:100px;margin-bottom:22px;">Catering</div>
+          <h1 class="hero-h1" style="font-size:56px;line-height:0.98;font-weight:900;letter-spacing:-0.02em;color:#fff;margin:0 0 18px;">From our kitchen to your event.</h1>
+          <p style="font-size:19px;line-height:1.55;color:rgba(255,255,255,0.82);max-width:440px;margin:0 0 30px;">Fresh, balanced catering for every occasion. Healthy catering doesn't have to be complicated — and we're here to make it easy.</p>
+          <a href="https://wa.me/60128853836?text=Hi%20AcaiFlow!%20I%27d%20like%20a%20catering%20quote." target="_blank" style="align-self:flex-start;background:#F6C445;color:#2A2230;padding:16px 30px;border-radius:100px;font-weight:800;font-size:16px;">Get a catering quote 🥗</a>
+        </div>
+        <div style="position:relative;">
+          <img class="slot" src="/images/catering-kitchen.webp" alt="AcaiFlow kitchen team preparing catering orders" style="position:absolute;inset:0;" />
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="bg-cream">
-    <div class="max-w-5xl mx-auto px-6 py-20 md:py-24">
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {[
-          { label: 'corporate meals', body: 'Office lunches and team meetings, served in individual portions or shared platters.' },
-          { label: 'event catering', body: 'Birthdays, baby showers, gallery openings — fresh spreads styled for the occasion.' },
-          { label: 'gym & wellness', body: 'Post-class refuels and recovery menus for studios, gyms and retreats.' },
-          { label: 'healthy platters', body: 'Mix-and-match grazing platters for any group size, from 8 to 80.' },
-        ].map((c) => (
-          <div class="bg-cream-warm rounded-sm p-6 border border-ink/5">
-            <p class="text-[10px] uppercase tracking-[0.3em] text-berry mb-3">{c.label}</p>
-            <p class="text-sm text-coffee/80 leading-relaxed">{c.body}</p>
+    <!-- OCCASIONS -->
+    <section style="max-width:1240px;margin:0 auto;padding:72px 32px;">
+      <div style="text-align:center;max-width:600px;margin:0 auto 48px;">
+        <h2 style="font-size:44px;font-weight:900;letter-spacing:-0.02em;margin:0 0 14px;">Fresh, balanced spreads for every occasion</h2>
+        <p style="font-size:18px;line-height:1.6;color:#786A80;margin:0;">Create a vibrant spread from our wholesome bowls, wholefood sandwiches, açaí bowls, and fresh beverages — all prepared with seasonal ingredients your guests will enjoy.</p>
+      </div>
+      <div class="g4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+        {occasions.map((o) => (
+          <div style="background:#fff;border-radius:24px;padding:28px;box-shadow:0 10px 26px rgba(42,34,48,0.06);">
+            <div style="width:52px;height:52px;border-radius:14px;background:#FBE7B8;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px;">{o.icon}</div>
+            <h3 style="font-size:20px;font-weight:800;margin:0 0 8px;">{o.title}</h3>
+            <p style="font-size:14.5px;line-height:1.55;color:#786A80;margin:0;">{o.desc}</p>
           </div>
         ))}
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="bg-ink text-cream-warm">
-    <div class="max-w-3xl mx-auto px-6 py-24 md:py-32 text-center">
-      <h2 class="italic-display text-4xl md:text-5xl text-cream-warm lowercase leading-[1.1]">
-        let's plan your spread
-      </h2>
-      <p class="mt-8 text-cream-warm/75 leading-[1.8] max-w-xl mx-auto">
-        Tell us about your event and we'll send back a tailored proposal within one business day.
-      </p>
-      <a
-        href="https://wa.me/60128853836?text=Hi%20AcaiFlow%2C%20I%27d%20like%20to%20enquire%20about%20catering"
-        class="inline-flex mt-10 items-center gap-3 rounded-full border border-cream-warm/50 hover:bg-cream-warm hover:text-ink text-cream-warm text-[11px] uppercase tracking-[0.3em] px-9 py-4 transition-colors"
-      >
-        Find out more
-      </a>
-    </div>
-  </section>
+    <!-- CUSTOM -->
+    <section style="background:#FBE7B8;padding:72px 0;">
+      <div class="gsplit" style="max-width:1240px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:0.9fr 1.1fr;gap:56px;align-items:center;">
+        <div style="height:360px;border-radius:28px;overflow:hidden;box-shadow:0 20px 50px rgba(42,34,48,0.14);">
+          <img class="slot" src="/images/PHY_0044.jpg" alt="Enjoying an AcaiFlow bowl" />
+        </div>
+        <div>
+          <div style="font-family:'Baloo 2',sans-serif;font-weight:700;color:#E85C9A;font-size:15px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Made to fit</div>
+          <h2 style="font-size:42px;line-height:1.05;font-weight:900;letter-spacing:-0.02em;margin:0 0 20px;">Looking for something more customised?</h2>
+          <p style="font-size:18px;line-height:1.65;color:#5C5064;margin:0 0 28px;">Work with our team to design a menu that fits your event perfectly — from portion sizes and dietary needs to presentation and delivery.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="https://wa.me/60128853836?text=Hi%20AcaiFlow!%20I%27d%20like%20a%20custom%20catering%20menu." target="_blank" style="background:#8C1D5A;color:#fff;padding:15px 28px;border-radius:100px;font-weight:800;font-size:16px;">Find out more</a>
+            <a href="/contact" style="background:#fff;color:#8C1D5A;padding:15px 28px;border-radius:100px;font-weight:800;font-size:16px;border:2px solid #EAD59B;">Contact us</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+
+  </div>
 </Layout>

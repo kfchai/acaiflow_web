@@ -1,65 +1,166 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PageHero from '../components/PageHero.astro';
-import menu from '../data/menu.json';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 
-const boards = [
-  { src: '/menu/bowls.jpeg', alt: 'Wholefood Bowls menu', label: 'Wholefood Bowls' },
-  { src: '/menu/acai_bowls.jpeg', alt: 'Acai Bowls menu', label: 'Acai Bowls' },
-  { src: '/menu/smoothies.jpeg', alt: 'Beverages menu', label: 'Beverages' },
-  { src: '/menu/byo_bowl.jpeg', alt: 'Build Your Own Wholesome Bowl menu', label: 'Build Your Own' },
+const wholefood = [
+  { name: 'Zen Sleep', price: 'RM19.50', dressing: 'Ginger Ponzu', desc: 'Lemon herb ocean fish, onsen egg, Thai basil tofu, romaine, baked sweet potatoes, roasted apple-cider tomato salad, furikake.', tags: ['Light & calming', 'Supports rest'], image: '/images/bowls/zen_sleep.png' },
+  { name: 'Beauty Bowl', price: 'RM19.50', dressing: 'Virgin Coconut Oil Sambal (Light)', desc: 'Sous-vide chicken breast, Thai basil tofu, scrambled egg white, romaine, baked sweet potatoes, sweet corn, roasted beet hummus, seaweed flakes.', tags: ['Nourishing fats', 'Glow-supporting'], image: '/images/bowls/beauty_bowl.png' },
+  { name: 'Plant Protein', price: 'RM21.50', dressing: 'Salsa Verde', desc: 'Falafel, fermented tempeh bacon, romaine, whole-grain pasta, miso-glazed carrots, pumpkin wedges, broccoli, seaweed flakes.', tags: ['Balanced plant protein', 'Naturally nourishing'], image: '/images/bowls/plant_protein.png' },
+  { name: 'Energy Bowl', price: 'RM24.50', dressing: 'Peri-Peri', desc: 'Roasted chicken leg, scrambled egg white, romaine, whole-grain pasta, sweet corn, half avocado, parmesan cheese.', tags: ['Sustained energy', 'Power for active days'], image: '/images/bowls/energy_bowl.png' },
+  { name: 'Anti-Inflammatory', price: 'RM23.50', dressing: 'Ginger Ponzu', desc: 'Blackened salmon, scrambled egg white, romaine, brown rice, miso-glazed carrots, king oyster mushroom, seaweed flakes.', tags: ['Omega-rich', 'Calms inflammation'], image: '/images/bowls/anti_inflamattor.png' },
+  { name: 'High Protein', price: 'RM21.50', dressing: 'Pesto', desc: 'Quinoa, roasted chicken leg, onsen egg, edamame, baked sweet potatoes, charred broccoli, furikake.', tags: ['Protein-dense', 'Muscle-supporting fuel'], image: '/images/bowls/high_protein.png' },
+];
+
+const sandwiches = [
+  { name: 'Herb Chicken Club', price: 'RM16.50', desc: 'Sous-vide chicken breast, romaine, roasted tomato, avocado spread on wholegrain.', image: '/images/PHY_0054.jpg' },
+  { name: 'Tempeh & Greens', price: 'RM15.50', desc: 'Fermented tempeh bacon, hummus, cucumber, pickled onion, seeded wholemeal.', image: '/images/PHY_0056.jpg' },
+  { name: 'Smoked Salmon Bagel', price: 'RM18.50', desc: 'Blackened salmon, scrambled egg white, dill, capers, seaweed flakes.', image: '/images/PHY_0055.jpg' },
+];
+
+const acai = [
+  { name: 'Triple G', desc: 'Açaí with granola, coconut chips, almond flakes & fresh fruits.', image: '/images/acai/triple_g.jpg', bestseller: false },
+  { name: 'Island Escape', desc: 'Açaí with chia pudding, granola, cacao nibs, coconut chips, almond flakes & fresh fruits.', image: '/images/acai/island_escape.jpg', bestseller: true },
+  { name: 'Let the Mango', desc: 'Açaí with mango base, granola, coconut chips, almond flakes & fresh fruits.', image: '/images/acai/004.jpg', bestseller: false },
+  { name: 'Forget Me Nut', desc: 'Açaí with mulberry, mixed nuts, granola, coconut chips, almond flakes & fresh fruits.', image: '/images/acai/005.jpg', bestseller: false },
+  { name: 'Tropical Trouble', desc: 'Mango & coconut base with chia pudding, granola, coconut chips, almond flakes & fresh fruits.', image: '/images/acai/007.jpg', bestseller: false },
+  { name: 'Berry Dragon', desc: 'Dragon fruit base with chia pudding, granola, coconut chips, almond flakes & fresh fruits.', image: '/images/PHY_0005.jpg', bestseller: false },
+  { name: 'Coco Glow', desc: 'Açaí with coconut base, granola, coconut chips, almond flakes & fresh fruits.', image: '/images/acai/006.jpg', bestseller: true },
+  { name: 'Coconut Resist', desc: 'Coconut base with cocoa chia pudding, chocolate granola, cacao nibs, coconut chips & fresh fruits.', image: '/images/acai/coconut_resist.jpg', bestseller: false },
+  { name: 'Nutty N’ Nice', desc: 'Açaí with chocolate granola, cacao nibs, coconut chips, almond flakes & fresh fruits.', image: '/images/acai/003.jpg', bestseller: false },
+];
+
+const smoothies = [
+  { name: 'Heavenly Kale', price: 'RM23.90', desc: 'Pineapple, banana, kale, honey, plant-based milk. Detoxifies & strengthens immunity.', image: '/images/PHY_0027.jpg' },
+  { name: 'Rechargeable Power Kale', price: 'RM23.90', desc: 'Banana, kale, greek yogurt, honey, plant-based milk. Supports muscle recovery.', image: '/images/PHY_0026.jpg' },
+  { name: 'Berry Buff', price: 'RM26.90', desc: 'Açaí, banana, almond butter, tahini, protein powder, plant-based milk. Builds lean muscle.', image: '/images/PHY_0028.jpg' },
+  { name: 'Super Maca', price: 'RM25.90', desc: 'Banana, honey, almond butter, maca, cacao nibs, plant-based milk. Improves stamina & focus.', image: '/images/PHY_0029.jpg' },
+  { name: 'Cloud 9', price: 'RM27.90', desc: 'Coconut milk, pineapple, blue spirulina, chia pudding, granola, coconut. Supports gut health.', image: '/images/PHY_0030.jpg' },
+  { name: 'Berry Glow', price: 'RM25.90', desc: 'Blueberry, banana, greek yogurt, honey, collagen, chia seeds, plant-based milk. Skin radiance.', image: '/images/PHY_0025.jpg' },
 ];
 ---
 
-<Layout title="Menu — AcaiFlow" description="Wholefood bowls, açaí bowls, beverages and build-your-own — the AcaiFlow menu.">
-  <PageHero
-    image="/heroes/menu.jpg"
-    eyebrow="menu"
-    title="savor the season"
-  />
+<Layout title="Menu — AcaiFlow">
+  <div style="min-height:100vh;background:#FCF6E8;">
 
-  <section class="bg-cream-warm">
-    <div class="max-w-3xl mx-auto px-6 py-24 md:py-32 text-center">
-      <p class="text-[10px] uppercase tracking-[0.35em] text-coffee mb-5">{menu.season.sub}</p>
-      <h2 class="italic-display text-4xl md:text-6xl text-ink lowercase leading-[1.1]">
-        {menu.season.tagline}
-      </h2>
-      <p class="mt-10 text-coffee/80 leading-[1.8] max-w-2xl mx-auto">
-        {menu.season.body}
-      </p>
-    </div>
-  </section>
+    <Nav active="menu" />
 
-  <section class="bg-cream">
-    <div class="max-w-5xl mx-auto px-6 py-20 md:py-28 space-y-12 md:space-y-16">
-      {boards.map((b) => (
-        <figure class="group">
-          <img
-            src={b.src}
-            alt={b.alt}
-            class="w-full h-auto rounded-sm shadow-xl shadow-ink/10 border border-ink/5"
-            loading="lazy"
-          />
-          <figcaption class="sr-only">{b.label}</figcaption>
-        </figure>
-      ))}
-    </div>
-  </section>
+    <!-- HEADER -->
+    <section style="max-width:1240px;margin:0 auto;padding:64px 32px 32px;text-align:center;">
+      <div style="display:inline-flex;background:#FBE7B8;color:#8C1D5A;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;padding:8px 16px;border-radius:100px;margin-bottom:18px;">Savor the Season · Spring Menu</div>
+      <h1 style="font-size:60px;line-height:1;font-weight:900;letter-spacing:-0.02em;margin:0 0 16px;">The Menu</h1>
+      <p style="font-size:19px;line-height:1.55;color:#786A80;max-width:560px;margin:0 auto 28px;">Eat well, feel good with our fresh seasonal menu — light, vibrant, and seriously satisfying.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <a href="#wholefood" style="background:#8C1D5A;color:#fff;font-weight:700;font-size:14px;padding:10px 18px;border-radius:100px;">Wholefood Bowls</a>
+        <a href="#sandwiches" style="background:#fff;color:#8C1D5A;font-weight:700;font-size:14px;padding:10px 18px;border-radius:100px;border:2px solid #EAD59B;">Sandwiches</a>
+        <a href="#acai" style="background:#fff;color:#8C1D5A;font-weight:700;font-size:14px;padding:10px 18px;border-radius:100px;border:2px solid #EAD59B;">Açaí Bowls</a>
+        <a href="#beverages" style="background:#fff;color:#8C1D5A;font-weight:700;font-size:14px;padding:10px 18px;border-radius:100px;border:2px solid #EAD59B;">Beverages</a>
+      </div>
+    </section>
 
-  <section class="bg-ink text-cream-warm">
-    <div class="max-w-3xl mx-auto px-6 py-24 md:py-32 text-center">
-      <h2 class="italic-display text-4xl md:text-6xl text-cream-warm lowercase leading-[1.1]">
-        curious about the numbers?
-      </h2>
-      <p class="mt-8 text-cream-warm/75 leading-[1.8] max-w-xl mx-auto">
-        Use our macro calculator to see the calories, protein, carbs and fats in every bowl you build.
-      </p>
-      <a
-        href="/calculator"
-        class="inline-flex mt-10 items-center gap-2 rounded-full border border-cream-warm/50 hover:bg-cream-warm hover:text-ink text-cream-warm text-[11px] uppercase tracking-[0.3em] px-7 py-3 transition-colors"
-      >
-        Open macro calculator
+    <!-- WHOLEFOOD BOWLS -->
+    <section id="wholefood" style="max-width:1240px;margin:0 auto;padding:56px 32px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px;">
+        <h2 style="font-size:40px;font-weight:900;letter-spacing:-0.02em;margin:0;">Signature Wholefood Bowls</h2>
+        <span style="font-size:14px;font-weight:600;color:#8C1D5A;">*Suggested dressing included. Changeable on request.</span>
+      </div>
+      <p style="font-size:16px;color:#786A80;margin:0 0 32px;">Whole foods made for real life.</p>
+      <div class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        {wholefood.map((b) => (
+          <div style="background:#fff;border-radius:24px;padding:22px;display:flex;gap:20px;box-shadow:0 10px 26px rgba(42,34,48,0.06);">
+            <div style="width:120px;height:120px;flex-shrink:0;border-radius:18px;overflow:hidden;"><img class="slot" src={b.image} alt={b.name} /></div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><h3 style="font-size:19px;font-weight:800;margin:0;">{b.name}</h3><span style="font-family:'Baloo 2',sans-serif;font-weight:700;color:#8C1D5A;font-size:15px;white-space:nowrap;">{b.price}</span></div>
+              <p style="font-size:13.5px;line-height:1.5;color:#786A80;margin:8px 0 10px;">{b.desc}</p>
+              <div style="font-size:12.5px;font-weight:600;color:#5C5064;margin-bottom:10px;">Dressing: {b.dressing}</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                {b.tags.map((t) => (
+                  <span style="background:#FBE7B8;color:#8C1D5A;font-weight:700;font-size:11.5px;padding:5px 11px;border-radius:100px;">{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <!-- BYO banner -->
+      <a href="/calculator" class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;background:#8C1D5A;border-radius:28px;padding:36px 40px;margin-top:24px;color:#fff;">
+        <div>
+          <div style="display:inline-flex;background:#F6C445;color:#2A2230;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:13px;padding:6px 13px;border-radius:100px;margin-bottom:14px;">Your Bowl, Your Way!</div>
+          <h3 style="font-size:32px;font-weight:900;margin:0 0 8px;color:#fff;">Build Your Own Bowls</h3>
+          <p style="font-size:15px;color:rgba(255,255,255,0.82);margin:0;">Select your bases, proteins, supplements, toppings and dressings.</p>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;">
+          <span style="background:rgba(255,255,255,0.12);border-radius:14px;padding:12px 16px;font-weight:700;">Small <b style="color:#F6C445;">RM15.50</b></span>
+          <span style="background:rgba(255,255,255,0.12);border-radius:14px;padding:12px 16px;font-weight:700;">Regular <b style="color:#F6C445;">RM19.50</b></span>
+          <span style="background:rgba(255,255,255,0.12);border-radius:14px;padding:12px 16px;font-weight:700;">Large <b style="color:#F6C445;">RM23.50</b></span>
+        </div>
       </a>
-    </div>
-  </section>
+    </section>
+
+    <!-- SANDWICHES -->
+    <section id="sandwiches" style="background:#FBE7B8;padding:64px 0;">
+      <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+        <h2 style="font-size:40px;font-weight:900;letter-spacing:-0.02em;margin:0 0 6px;">Wholefood Sandwiches</h2>
+        <p style="font-size:16px;color:#786A80;margin:0 0 32px;">Fresh, hearty sandwiches on wholesome bread — made for real life.</p>
+        <div class="g3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+          {sandwiches.map((s) => (
+            <div style="background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 10px 26px rgba(42,34,48,0.06);">
+              <div style="height:170px;"><img class="slot" src={s.image} alt={s.name} /></div>
+              <div style="padding:22px;">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><h3 style="font-size:19px;font-weight:800;margin:0;">{s.name}</h3><span style="font-family:'Baloo 2',sans-serif;font-weight:700;color:#8C1D5A;font-size:15px;">{s.price}</span></div>
+                <p style="font-size:14px;line-height:1.5;color:#786A80;margin:8px 0 0;">{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ACAI BOWLS -->
+    <section id="acai" style="max-width:1240px;margin:0 auto;padding:64px 32px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px;">
+        <h2 style="font-size:40px;font-weight:900;letter-spacing:-0.02em;margin:0;">Açaí Bowls</h2>
+        <span style="font-size:14px;font-weight:700;color:#8C1D5A;">Regular RM20.90 · Large RM24.50</span>
+      </div>
+      <p style="font-size:16px;color:#786A80;margin:0 0 32px;">All açaí bowls come with your choice of peanut or almond butter drizzle. Add-on RM2 for extra drizzle + chia seeds.</p>
+      <div class="g3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+        {acai.map((a) => (
+          <div style="background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 10px 26px rgba(42,34,48,0.06);position:relative;">
+            {a.bestseller && <span style="position:absolute;top:14px;left:14px;z-index:2;background:#E85C9A;color:#fff;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:11px;padding:6px 11px;border-radius:100px;">BEST SELLER</span>}
+            <div style="height:180px;"><img class="slot" src={a.image} alt={a.name} /></div>
+            <div style="padding:22px;">
+              <h3 style="font-size:18px;font-weight:800;margin:0 0 8px;">{a.name}</h3>
+              <p style="font-size:13.5px;line-height:1.5;color:#786A80;margin:0;">{a.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- BEVERAGES -->
+    <section id="beverages" style="background:#4A1039;padding:72px 0;">
+      <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
+        <div style="text-align:center;margin-bottom:44px;">
+          <div style="display:inline-flex;background:rgba(255,255,255,0.12);color:#fff;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;padding:8px 16px;border-radius:100px;margin-bottom:14px;">Tea, smoothie or me?</div>
+          <h2 style="font-size:44px;font-weight:900;letter-spacing:-0.02em;margin:0;color:#fff;">Longevity Smoothies</h2>
+        </div>
+        <div class="g3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+          {smoothies.map((d) => (
+            <div style="border:2px solid rgba(255,255,255,0.22);border-radius:24px;padding:22px;display:flex;gap:18px;align-items:center;">
+              <div style="width:74px;height:96px;flex-shrink:0;border-radius:14px;overflow:hidden;"><img class="slot" src={d.image} alt={d.name} /></div>
+              <div style="flex:1;min-width:0;">
+                <h3 style="font-size:17px;font-weight:800;margin:0 0 6px;color:#fff;">{d.name}</h3>
+                <p style="font-size:12.5px;line-height:1.45;color:rgba(255,255,255,0.62);margin:0 0 8px;">{d.desc}</p>
+                <span style="font-family:'Baloo 2',sans-serif;font-weight:800;color:#F6C445;font-size:16px;">{d.price}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p style="text-align:center;color:rgba(255,255,255,0.6);font-size:14px;margin:32px 0 0;">Add-on super boosters — Cocoa + Monk Fruit Whey, Creatine, Collagen or Protein Powder (+RM3 each).</p>
+      </div>
+    </section>
+
+    <Footer />
+
+  </div>
 </Layout>
