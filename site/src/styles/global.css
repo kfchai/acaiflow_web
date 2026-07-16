@@ -62,6 +62,7 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #8C1D5A
 .chip.on .dot { background: #F6C445; border-color: #F6C445; }
 .chip .up { font-weight: 800; color: #8C1D5A; font-size: 12px; }
 .chip.on .up { color: #F6C445; }
+.chip.max { opacity: 0.4; cursor: not-allowed; }
 
 /* Responsive collapse — the design is desktop-first */
 @media (max-width: 960px) {

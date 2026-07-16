@@ -87,12 +87,12 @@ const GROUP_META: Record<string, { label: string; note: string }> = {
         {Object.entries(DATA).map(([cat, items]) => (
           <div style="background:#fff;border-radius:24px;padding:26px;box-shadow:0 10px 26px rgba(42,34,48,0.06);margin-bottom:20px;">
             <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:16px;">
-              <h2 style="font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#8C1D5A;margin:0;">{GROUP_META[cat].label}</h2>
+              <h2 style="font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#8C1D5A;margin:0;">{GROUP_META[cat].label} <span class="cat-count" data-cat={cat} style="color:#C9BACB;font-size:13px;margin-left:4px;"></span></h2>
               <span style="font-size:12.5px;font-weight:600;color:#786A80;">{GROUP_META[cat].note}</span>
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:10px;">
               {items.map(([id, name, kcal, p, c, f, up]) => (
-                <button class="chip" data-id={id} data-name={name} data-kcal={kcal} data-p={p} data-c={c} data-f={f} data-up={up}>
+                <button class="chip" data-cat={cat} data-id={id} data-name={name} data-kcal={kcal} data-p={p} data-c={c} data-f={f} data-up={up}>
                   <span class="dot"></span>
                   <span>{name}</span>
                   {up > 0 && <span class="up">+RM{up}</span>}
@@ -157,9 +157,43 @@ const GROUP_META: Record<string, { label: string; note: string }> = {
     large: { label: 'Large', price: 23.5 },
   };
 
+  // per-size allowance per category (from the BYO menu)
+  const LIMITS: Record<string, Record<string, number>> = {
+    small: { bases: 2, proteins: 1, supplements: 2, toppings: 1, dressings: 1 },
+    medium: { bases: 2, proteins: 1, supplements: 3, toppings: 1, dressings: 1 },
+    large: { bases: 2, proteins: 2, supplements: 3, toppings: 1, dressings: 1 },
+  };
+
   let size = 'medium';
+  let seq = 0; // selection order, used to trim newest-first on downsize
 
   const el = (id: string) => document.getElementById(id)!;
+
+  const selectedIn = (cat: string) =>
+    Array.from(document.querySelectorAll<HTMLButtonElement>(`.chip.on[data-cat="${cat}"]`));
+
+  function applyLimits() {
+    const limits = LIMITS[size];
+    for (const cat of Object.keys(limits)) {
+      const sel = selectedIn(cat);
+      const full = sel.length >= limits[cat];
+      // limit-1 categories swap instead of locking, so never dim them
+      const lock = full && limits[cat] > 1;
+      document.querySelectorAll<HTMLButtonElement>(`.chip[data-cat="${cat}"]:not(.on)`).forEach((c) => {
+        c.classList.toggle('max', lock);
+      });
+      const counter = document.querySelector(`.cat-count[data-cat="${cat}"]`);
+      if (counter) counter.textContent = sel.length + '/' + limits[cat];
+    }
+  }
+
+  function trimToLimits() {
+    const limits = LIMITS[size];
+    for (const cat of Object.keys(limits)) {
+      const sel = selectedIn(cat).sort((a, b) => Number(b.dataset.seq) - Number(a.dataset.seq));
+      while (sel.length > limits[cat]) sel.shift()!.classList.remove('on');
+    }
+  }
 
   function recompute() {
     const chosen = Array.from(document.querySelectorAll<HTMLButtonElement>('.chip.on'));
@@ -199,13 +233,31 @@ const GROUP_META: Record<string, { label: string; note: string }> = {
       document.querySelectorAll('.size-card').forEach((b) => b.classList.remove('on'));
       btn.classList.add('on');
       size = btn.dataset.size!;
+      trimToLimits();
+      applyLimits();
       recompute();
     });
   });
 
   document.querySelectorAll<HTMLButtonElement>('.chip').forEach((chip) => {
     chip.addEventListener('click', () => {
-      chip.classList.toggle('on');
+      const cat = chip.dataset.cat!;
+      const limit = LIMITS[size][cat];
+      if (!chip.classList.contains('on')) {
+        const sel = selectedIn(cat);
+        if (sel.length >= limit) {
+          if (limit === 1) {
+            sel.forEach((c) => c.classList.remove('on')); // swap for single-choice categories
+          } else {
+            return; // category full
+          }
+        }
+        chip.dataset.seq = String(++seq);
+        chip.classList.add('on');
+      } else {
+        chip.classList.remove('on');
+      }
+      applyLimits();
       recompute();
     });
   });
@@ -215,8 +267,10 @@ const GROUP_META: Record<string, { label: string; note: string }> = {
     document.querySelectorAll('.size-card').forEach((b) => b.classList.remove('on'));
     document.querySelector('.size-card[data-size="medium"]')!.classList.add('on');
     size = 'medium';
+    applyLimits();
     recompute();
   });
 
+  applyLimits();
   recompute();
 </script>
