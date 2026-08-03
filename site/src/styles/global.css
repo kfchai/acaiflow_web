@@ -79,7 +79,10 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #8C1D5A
 @media (max-width: 960px) {
   .g2, .g3, .g4, .gsplit, .ghero { grid-template-columns: 1fr !important; }
   .nav-links { display: none !important; }
-  .nav-burger { display: inline-flex; align-items: center; justify-content: center; }
+  .nav-burger { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .site-nav { padding: 14px 18px !important; gap: 12px !important; }
+  .site-logo { height: 38px !important; }
+  .order-btn { padding: 10px 16px !important; font-size: 13px !important; white-space: nowrap; }
   .mobile-menu.open {
     display: flex;
     flex-direction: column;
