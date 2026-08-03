@@ -107,4 +107,5 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #8C1D5A
   .calc-panel { position: static !important; }
   .byo-banner { padding: 44px 28px !important; }
   .byo-h2 { font-size: 36px !important; }
+  .story-bg { object-position: 80% center; }
 }
