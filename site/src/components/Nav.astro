@@ -1,7 +1,7 @@
 ---
 interface Props {
   active?: 'menu' | 'calculator' | 'catering' | 'location' | 'contact';
-  variant?: 'hero' | 'sticky';
+  variant?: 'hero' | 'sticky' | 'video';
 }
 
 const { active, variant = 'sticky' } = Astro.props;
@@ -16,32 +16,35 @@ const links = [
 ];
 
 const headerStyle =
-  variant === 'hero'
-    ? 'position:relative;z-index:50;'
-    : 'position:sticky;top:0;z-index:50;background:rgba(251,248,245,0.88);backdrop-filter:blur(12px);border-bottom:1px solid #EFE3CB;';
+  variant === 'sticky'
+    ? 'position:sticky;top:0;z-index:50;background:rgba(251,248,245,0.88);backdrop-filter:blur(12px);border-bottom:1px solid #EFE3CB;'
+    : 'position:relative;z-index:50;';
 
 const navStyle =
-  variant === 'hero'
-    ? 'max-width:1440px;margin:0 auto;padding:22px 48px;display:flex;align-items:center;gap:32px;color:#2A2230;'
-    : 'max-width:1240px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;gap:32px;';
+  variant === 'sticky'
+    ? 'max-width:1240px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;gap:32px;'
+    : `max-width:1440px;margin:0 auto;padding:22px 48px;display:flex;align-items:center;gap:32px;color:${variant === 'video' ? '#fff' : '#2A2230'};`;
+
+const linkColor = variant === 'video' ? '#fff' : '#2A2230';
+const logoSrc = variant === 'video' ? '/logos/logo-cream.svg' : '/logos/logo-magenta.svg';
 
 const orderBtnStyle =
-  variant === 'hero'
-    ? 'flex-shrink:0;border-radius:100px;padding:11px 22px;font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,0.16);background:#8C1D5A;color:#fff;'
-    : 'flex-shrink:0;background:#8C1D5A;color:#fff;padding:11px 22px;border-radius:100px;font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(140,29,90,0.28);';
+  variant === 'sticky'
+    ? 'flex-shrink:0;background:#8C1D5A;color:#fff;padding:11px 22px;border-radius:100px;font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(140,29,90,0.28);'
+    : 'flex-shrink:0;border-radius:100px;padding:11px 22px;font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,0.16);background:#8C1D5A;color:#fff;';
 ---
 
 <header style={headerStyle}>
   <nav style={navStyle}>
     <a href="/" style="display:flex;align-items:center;flex-shrink:0;margin-right:auto;">
-      <img src="/logos/logo-magenta.svg" alt="AcaiFlow" style="height:52px;width:auto;display:block;" />
+      <img src={logoSrc} alt="AcaiFlow" style="height:52px;width:auto;display:block;" />
     </a>
     <div class="nav-links" style="display:flex;align-items:center;gap:28px;margin-left:auto;font-weight:600;font-size:15px;">
       {links.map((l) =>
         active === l.key ? (
           <a href={l.href} style="color:#8C1D5A;border-bottom:2px solid #8C1D5A;padding-bottom:2px;">{l.label}</a>
         ) : (
-          <a href={l.href} style="color:#2A2230;">{l.label}</a>
+          <a href={l.href} style={`color:${linkColor};`}>{l.label}</a>
         )
       )}
     </div>

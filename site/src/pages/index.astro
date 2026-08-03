@@ -14,38 +14,38 @@ const categories = [
 <Layout>
   <div style="min-height:100vh;background:#FCF6E8;overflow-x:hidden;">
 
-    <!-- HERO + NAV MERGED -->
-    <div style="width:100%;background:#FBE7B8;">
+    <!-- FULL-SCREEN VIDEO HERO + NAV -->
+    <div style="position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden;">
+      <video autoplay muted loop playsinline preload="auto" poster="/video/hero-poster.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        <source src="/video/hero.mp4" type="video/mp4" />
+      </video>
+      <div style="position:absolute;inset:0;background:linear-gradient(rgba(42,34,48,0.55) 0%,rgba(42,34,48,0.35) 50%,rgba(42,34,48,0.62) 100%);"></div>
 
-      <Nav variant="hero" />
+      <div style="position:relative;z-index:2;">
+        <Nav variant="video" />
+      </div>
 
       <!-- HERO -->
-      <section style="width:100%;padding:24px 0 76px;">
-        <div class="ghero" style="max-width:1440px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1.05fr 0.95fr;gap:64px;align-items:center;position:relative;">
-          <div style="position:relative;z-index:2;">
+      <section style="position:relative;z-index:2;flex:1;display:flex;align-items:center;width:100%;">
+        <div style="max-width:1440px;margin:0 auto;padding:24px 48px 76px;width:100%;">
+          <div style="max-width:640px;">
             <div style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#8C1D5A;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;padding:8px 16px;border-radius:100px;margin-bottom:22px;">🌿 eat well, feel good</div>
-            <h1 class="hero-h1" style="font-size:64px;line-height:0.98;font-weight:900;letter-spacing:-0.02em;margin:0 0 20px;color:#2A2230;">Wholesome bowls,<br />made <span style="color:#8C1D5A;">seriously</span> good.</h1>
-            <p style="font-size:19px;line-height:1.55;color:#786A80;max-width:440px;margin:0 0 32px;">No strict diets, no boring salads. Just balanced bowls of wholesome grains, fresh veg, quality proteins and homemade dressings — built to help you feel your best.</p>
+            <h1 class="hero-h1" style="font-size:64px;line-height:0.98;font-weight:900;letter-spacing:-0.02em;margin:0 0 20px;color:#fff;">Wholesome bowls,<br />made <span style="color:#F6C445;">seriously</span> good.</h1>
+            <p style="font-size:19px;line-height:1.55;color:rgba(255,255,255,0.85);max-width:440px;margin:0 0 32px;">No strict diets, no boring salads. Just balanced bowls of wholesome grains, fresh veg, quality proteins and homemade dressings — built to help you feel your best.</p>
             <div style="display:flex;gap:14px;flex-wrap:wrap;">
               <a href="/calculator" style="background:#8C1D5A;color:#fff;padding:16px 30px;border-radius:100px;font-weight:800;font-size:16px;box-shadow:0 10px 26px rgba(140,29,90,0.3);">Build your bowl</a>
-              <a href="/menu" style="background:#fff;color:#8C1D5A;padding:16px 30px;border-radius:100px;font-weight:800;font-size:16px;border:2px solid #EAD59B;">View the menu</a>
+              <a href="/menu" style="background:#fff;color:#8C1D5A;padding:16px 30px;border-radius:100px;font-weight:800;font-size:16px;">View the menu</a>
             </div>
             <div style="display:flex;gap:28px;margin-top:36px;">
-              <div><div style="font-size:26px;font-weight:900;color:#8C1D5A;">30+</div><div style="font-size:13px;font-weight:600;color:#786A80;">signature bowls</div></div>
-              <div style="width:1px;background:#E7D2A2;"></div>
-              <div><div style="font-size:26px;font-weight:900;color:#8C1D5A;">100%</div><div style="font-size:13px;font-weight:600;color:#786A80;">wholefood based</div></div>
-              <div style="width:1px;background:#E7D2A2;"></div>
-              <div><div style="font-size:26px;font-weight:900;color:#8C1D5A;">8</div><div style="font-size:13px;font-weight:600;color:#786A80;">homemade dressings</div></div>
-            </div>
-          </div>
-          <div style="position:relative;height:460px;">
-            <div style="position:absolute;inset:0;border-radius:28px;overflow:hidden;box-shadow:0 24px 60px rgba(140,29,90,0.22);">
-              <img class="slot" src="/images/design/home-hero-a.webp" alt="AcaiFlow wholesome bowls" />
+              <div><div style="font-size:26px;font-weight:900;color:#F6C445;">30+</div><div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);">signature bowls</div></div>
+              <div style="width:1px;background:rgba(255,255,255,0.25);"></div>
+              <div><div style="font-size:26px;font-weight:900;color:#F6C445;">100%</div><div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);">wholefood based</div></div>
+              <div style="width:1px;background:rgba(255,255,255,0.25);"></div>
+              <div><div style="font-size:26px;font-weight:900;color:#F6C445;">8</div><div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.75);">homemade dressings</div></div>
             </div>
           </div>
         </div>
       </section>
-
     </div>
 
     <!-- MARQUEE RIBBON -->
