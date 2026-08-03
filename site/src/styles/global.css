@@ -64,10 +64,47 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #8C1D5A
 .chip.on .up { color: #F6C445; }
 .chip.max { opacity: 0.4; cursor: not-allowed; }
 
+/* Mobile nav burger */
+.nav-burger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: inherit;
+}
+.mobile-menu { display: none; }
+
 /* Responsive collapse — the design is desktop-first */
 @media (max-width: 960px) {
   .g2, .g3, .g4, .gsplit, .ghero { grid-template-columns: 1fr !important; }
   .nav-links { display: none !important; }
+  .nav-burger { display: inline-flex; align-items: center; justify-content: center; }
+  .mobile-menu.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(251, 248, 245, 0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #EFE3CB;
+    padding: 10px 28px 18px;
+    z-index: 60;
+    box-shadow: 0 18px 30px rgba(42, 34, 48, 0.12);
+  }
+  .mobile-menu a {
+    padding: 13px 4px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #2A2230;
+    border-bottom: 1px solid #F1E8D8;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a.active { color: #8C1D5A; }
   .hero-h1 { font-size: 44px !important; }
   .calc-panel { position: static !important; }
+  .byo-banner { padding: 44px 28px !important; }
+  .byo-h2 { font-size: 36px !important; }
 }
