@@ -13,9 +13,10 @@ const wholefood = [
 ];
 
 const sandwiches = [
-  { name: 'Herb Chicken Club', price: 'RM16.50', desc: 'Sous-vide chicken breast, romaine, roasted tomato, avocado spread on wholegrain.', image: '/images/PHY_0054.jpg' },
-  { name: 'Tempeh & Greens', price: 'RM15.50', desc: 'Fermented tempeh bacon, hummus, cucumber, pickled onion, seeded wholemeal.', image: '/images/PHY_0056.jpg' },
-  { name: 'Smoked Salmon Bagel', price: 'RM18.50', desc: 'Blackened salmon, scrambled egg white, dill, capers, seaweed flakes.', image: '/images/PHY_0055.jpg' },
+  { name: 'Carprese Chicken', price: 'RM25.90', desc: 'Juicy chicken breast, seasonal greens, tomato, pesto, mozzarella, and balsamic glaze.', image: '/images/sandwiches/carprese_chicken.webp' },
+  { name: 'Roasted Fuel Chicken', price: 'RM26.90', desc: 'Roasted chicken leg, seasonal greens, roasted pumpkin, pickled radish, and harissa.', image: '/images/sandwiches/roasted_fuel_chicken.webp' },
+  { name: 'Classic Beef', price: 'RM28.90', desc: 'Old school classic roast beef, seasonal greens, tomato, pickled cucumbers, cheddar, and yellow mustard.', image: '/images/sandwiches/classic_beef.webp' },
+  { name: 'Omega Boost Tuna', price: 'RM25.90', desc: 'Teriyaki tuna, seasonal greens, egg white, pickled cucumbers, cheddar, & honey mustard sauce.', image: '/images/sandwiches/omega_boost_tuna.webp' },
 ];
 
 const acai = [
@@ -101,11 +102,11 @@ const smoothies = [
     <section id="sandwiches" style="background:#FBE7B8;padding:64px 0;">
       <div style="max-width:1240px;margin:0 auto;padding:0 32px;">
         <h2 style="font-size:40px;font-weight:900;letter-spacing:-0.02em;margin:0 0 6px;">Wholefood Sandwiches</h2>
-        <p style="font-size:16px;color:#786A80;margin:0 0 32px;">Fresh, hearty sandwiches on wholesome bread — made for real life.</p>
-        <div class="g3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+        <p style="font-size:16px;color:#786A80;margin:0 0 32px;">Sourdough focaccia — fresh, hearty, made for real life.</p>
+        <div class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
           {sandwiches.map((s) => (
             <div style="background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 10px 26px rgba(42,34,48,0.06);">
-              <div style="height:170px;"><img class="slot" src={s.image} alt={s.name} /></div>
+              <div style="height:260px;"><img class="slot" src={s.image} alt={s.name} /></div>
               <div style="padding:22px;">
                 <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><h3 style="font-size:19px;font-weight:800;margin:0;">{s.name}</h3><span style="font-family:'Baloo 2',sans-serif;font-weight:700;color:#8C1D5A;font-size:15px;">{s.price}</span></div>
                 <p style="font-size:14px;line-height:1.5;color:#786A80;margin:8px 0 0;">{s.desc}</p>
