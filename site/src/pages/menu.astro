@@ -106,7 +106,7 @@ const smoothies = [
         <div class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
           {sandwiches.map((s) => (
             <div style="background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 10px 26px rgba(42,34,48,0.06);">
-              <div style="height:260px;"><img class="slot" src={s.image} alt={s.name} /></div>
+              <div style="height:280px;background:#fff;"><img class="slot" style="object-fit:contain;padding:22px 28px;" src={s.image} alt={s.name} /></div>
               <div style="padding:22px;">
                 <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><h3 style="font-size:19px;font-weight:800;margin:0;">{s.name}</h3><span style="font-family:'Baloo 2',sans-serif;font-weight:700;color:#8C1D5A;font-size:15px;">{s.price}</span></div>
                 <p style="font-size:14px;line-height:1.5;color:#786A80;margin:8px 0 0;">{s.desc}</p>
