@@ -54,12 +54,12 @@ const DATA: Record<string, [string, string, number, number, number, number, numb
 };
 
 const GROUP_META: Record<string, { label: string; note: string }> = {
-  bases: { label: 'Bases', note: 'Choose 2 · +RM2 extra' },
-  proteins: { label: 'Proteins', note: 'By size · +RM5 extra' },
-  supplements: { label: 'Supplements', note: 'By size · +RM2 extra' },
-  toppings: { label: 'Toppings', note: 'Choose 1 · +RM0.50 extra' },
-  dressings: { label: 'Dressings', note: 'Choose 1 · +RM2 extra' },
-  drinks: { label: 'Add-On Drinks', note: 'Optional · priced per drink' },
+  bases: { label: 'Bases', note: 'Choose 2' },
+  proteins: { label: 'Proteins', note: 'By size' },
+  supplements: { label: 'Supplements', note: 'By size' },
+  toppings: { label: 'Toppings', note: 'Choose 1' },
+  dressings: { label: 'Dressings', note: 'Choose 1' },
+  drinks: { label: 'Add-On Drinks', note: 'Optional' },
 };
 ---
 
@@ -85,9 +85,8 @@ const GROUP_META: Record<string, { label: string; note: string }> = {
           <h2 style="font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#8C1D5A;margin:0 0 16px;">Choose your size</h2>
           <div class="g3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
             {Object.entries(SIZES).map(([key, s]) => (
-              <button class={`size-card${key === 'medium' ? ' on' : ''}`} data-size={key} data-label={s.label} data-price={s.price}>
-                <div style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:17px;">{s.label}</div>
-                <div style="font-size:20px;font-weight:900;color:#8C1D5A;margin:2px 0 8px;">RM{s.price.toFixed(2)}</div>
+              <button class={`size-card${key === 'medium' ? ' on' : ''}`} data-size={key} data-label={s.label}>
+                <div style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:17px;margin-bottom:8px;">{s.label}</div>
                 <div style="font-size:12px;line-height:1.5;color:#786A80;font-weight:500;">{s.includes}</div>
               </button>
             ))}
@@ -103,10 +102,9 @@ const GROUP_META: Record<string, { label: string; note: string }> = {
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:10px;">
               {items.map(([id, name, kcal, p, c, f, up]) => (
-                <button class="chip" data-cat={cat} data-id={id} data-name={name} data-kcal={kcal} data-p={p} data-c={c} data-f={f} data-up={up}>
+                <button class="chip" data-cat={cat} data-id={id} data-name={name} data-kcal={kcal} data-p={p} data-c={c} data-f={f}>
                   <span class="dot"></span>
                   <span>{name}</span>
-                  {up > 0 && <span class="up">+RM{Number.isInteger(up) ? up : up.toFixed(2)}</span>}
                 </button>
               ))}
             </div>
@@ -143,15 +141,12 @@ const GROUP_META: Record<string, { label: string; note: string }> = {
             </div>
           </div>
 
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-top:1px solid rgba(255,255,255,0.16);border-bottom:1px solid rgba(255,255,255,0.16);margin-bottom:20px;">
-            <span style="font-size:15px;font-weight:700;">Estimated price</span>
-            <span id="price" style="font-family:'Baloo 2',sans-serif;font-weight:800;font-size:26px;color:#F6C445;">RM19.50</span>
-          </div>
+          <div style="border-top:1px solid rgba(255,255,255,0.16);margin-bottom:20px;"></div>
 
           <a id="wa-link" href="https://wa.me/60128853836" target="_blank" style="display:block;text-align:center;background:#fff;color:#8C1D5A;padding:15px;border-radius:100px;font-weight:800;font-size:16px;margin-bottom:10px;">Order on WhatsApp</a>
           <button id="reset" style="width:100%;background:transparent;border:1.5px solid rgba(255,255,255,0.3);color:#fff;padding:12px;border-radius:100px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;">Reset bowl</button>
         </div>
-        <p style="font-size:12px;line-height:1.5;color:#9A8FA2;margin:14px 4px 0;">Nutrition values are estimates for guidance. Extra-item fees may apply beyond your size's allowance. Prices exclusive of 6% SST.</p>
+        <p style="font-size:12px;line-height:1.5;color:#9A8FA2;margin:14px 4px 0;">Nutrition values are estimates for guidance.</p>
       </div>
 
     </section>
@@ -162,11 +157,7 @@ const GROUP_META: Record<string, { label: string; note: string }> = {
 </Layout>
 
 <script>
-  const sizePrices: Record<string, { label: string; price: number }> = {
-    small: { label: 'Small', price: 15.5 },
-    medium: { label: 'Medium', price: 19.5 },
-    large: { label: 'Large', price: 23.5 },
-  };
+  const sizeLabels: Record<string, string> = { small: 'Small', medium: 'Medium', large: 'Large' };
 
   // per-size allowance per category (from the BYO menu)
   const LIMITS: Record<string, Record<string, number>> = {
@@ -208,17 +199,15 @@ const GROUP_META: Record<string, { label: string; note: string }> = {
 
   function recompute() {
     const chosen = Array.from(document.querySelectorAll<HTMLButtonElement>('.chip.on'));
-    let kcal = 0, p = 0, c = 0, f = 0, up = 0;
+    let kcal = 0, p = 0, c = 0, f = 0;
     const names: string[] = [];
     for (const chip of chosen) {
       kcal += Number(chip.dataset.kcal);
       p += Number(chip.dataset.p);
       c += Number(chip.dataset.c);
       f += Number(chip.dataset.f);
-      up += Number(chip.dataset.up);
       names.push(chip.dataset.name!);
     }
-    const price = sizePrices[size].price + up;
 
     el('kcal').textContent = String(kcal);
     el('protein').textContent = String(p);
@@ -228,14 +217,13 @@ const GROUP_META: Record<string, { label: string; note: string }> = {
     el('bar-c').style.width = Math.min(100, Math.round((c / 120) * 100)) + '%';
     el('bar-f').style.width = Math.min(100, Math.round((f / 60) * 100)) + '%';
     el('item-count').textContent = String(chosen.length);
-    el('price').textContent = 'RM' + price.toFixed(2);
-    el('size-label').textContent = sizePrices[size].label;
+    el('size-label').textContent = sizeLabels[size];
 
     const msg =
       'Hi AcaiFlow! I’d like to order a custom bowl:\n' +
-      'Size: ' + sizePrices[size].label + '\n' +
+      'Size: ' + sizeLabels[size] + '\n' +
       (names.length ? names.map((n) => '• ' + n).join('\n') : '(no ingredients yet)') + '\n' +
-      'Approx: ' + kcal + ' kcal · RM' + price.toFixed(2);
+      'Approx: ' + kcal + ' kcal';
     (el('wa-link') as HTMLAnchorElement).href = 'https://wa.me/60128853836?text=' + encodeURIComponent(msg);
   }
 
