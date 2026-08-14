@@ -10,43 +10,46 @@ const SIZES = {
 };
 
 // [id, name, kcal, protein, carbs, fat, upcharge]
+// Macros derived from USDA FoodData Central per-100g values scaled to the
+// serving sizes documented in menu/calculator-nutrition.md — adjust there
+// first if kitchen portions differ, then mirror the numbers here.
 const DATA: Record<string, [string, string, number, number, number, number, number][]> = {
   bases: [
-    ['romaine', 'Romaine Lettuce', 15, 1, 3, 0, 0], ['pasta', 'Whole-Grain Pasta', 180, 7, 35, 2, 0],
-    ['sweetpotato', 'Mashed Sweet Potato', 115, 2, 27, 0, 0], ['brownrice', 'Brown Rice', 150, 3, 32, 1, 0],
-    ['quinoa', 'Quinoa', 160, 6, 29, 3, 2], ['kale', 'Shredded Kale', 35, 3, 6, 1, 3],
+    ['romaine', 'Romaine Lettuce', 10, 1, 2, 0, 0], ['pasta', 'Whole-Grain Pasta', 125, 5, 27, 1, 0],
+    ['sweetpotato', 'Mashed Sweet Potato', 75, 2, 18, 0, 0], ['brownrice', 'Brown Rice', 125, 3, 26, 1, 0],
+    ['quinoa', 'Quinoa', 120, 4, 21, 2, 2], ['kale', 'Shredded Kale', 15, 1, 2, 0, 3],
   ],
   proteins: [
-    ['chicken', 'Sous Vide Chicken Breast', 165, 31, 0, 4, 0], ['chickenleg', 'Roasted Chicken Leg', 210, 26, 0, 12, 0],
-    ['fish', 'Herb-Crusted Ocean Fish', 180, 25, 1, 8, 0], ['beef', 'Roast Beef', 215, 26, 0, 12, 6],
-    ['salmon', 'Blackened Salmon', 230, 25, 0, 15, 8],
+    ['chicken', 'Sous Vide Chicken Breast', 150, 28, 0, 3, 0], ['chickenleg', 'Roasted Chicken Leg', 210, 23, 0, 12, 0],
+    ['fish', 'Herb-Crusted Ocean Fish', 150, 22, 3, 5, 0], ['beef', 'Roast Beef', 150, 22, 0, 6, 6],
+    ['salmon', 'Blackened Salmon', 200, 20, 1, 12, 8],
   ],
   supplements: [
-    ['broccoli', 'Charred Broccoli', 45, 3, 7, 1, 0], ['cauliflower', 'Roasted Turmeric Cauliflower', 50, 2, 8, 2, 0],
-    ['carrots', 'Miso-Glazed Carrots', 60, 1, 13, 1, 0], ['corn', 'Sweet Corn', 85, 3, 19, 1, 0],
-    ['mushroom', 'King Oyster Mushroom', 40, 3, 6, 1, 0], ['potato', 'Roasted Potato', 110, 2, 25, 1, 0],
-    ['pumpkin', 'Pumpkin Wedges', 70, 2, 16, 1, 0], ['edamame', 'Edamame', 120, 11, 9, 5, 0],
-    ['onsen', 'Onsen Egg', 75, 6, 1, 5, 0], ['eggwhite', 'Scrambled Egg White', 40, 8, 1, 0, 0],
-    ['cucumberdill', 'Cucumber Dill Salad', 25, 1, 4, 1, 0], ['tofu', 'Thai Basil Tofu', 95, 9, 3, 6, 0],
-    ['tempeh', 'Tempeh Chips', 120, 11, 6, 7, 0], ['hummus', 'Roasted Beet Hummus', 110, 4, 12, 5, 0],
-    ['cherrytomato', 'Apple Cider Cherry Tomato w/ Gula Apong', 45, 1, 10, 0, 0], ['avocado', 'Half Avocado', 160, 2, 9, 15, 5],
+    ['broccoli', 'Charred Broccoli', 35, 2, 4, 1, 0], ['cauliflower', 'Roasted Turmeric Cauliflower', 35, 1, 3, 2, 0],
+    ['carrots', 'Miso-Glazed Carrots', 40, 1, 8, 1, 0], ['corn', 'Sweet Corn', 60, 2, 13, 1, 0],
+    ['mushroom', 'King Oyster Mushroom', 35, 2, 4, 1, 0], ['potato', 'Roasted Potato', 85, 2, 14, 2, 0],
+    ['pumpkin', 'Pumpkin Wedges', 40, 1, 5, 2, 0], ['edamame', 'Edamame', 60, 5, 4, 3, 0],
+    ['onsen', 'Onsen Egg', 70, 6, 0, 5, 0], ['eggwhite', 'Scrambled Egg White', 35, 7, 0, 0, 0],
+    ['cucumberdill', 'Cucumber Dill Salad', 20, 1, 3, 1, 0], ['tofu', 'Thai Basil Tofu', 80, 7, 3, 5, 0],
+    ['tempeh', 'Tempeh Chips', 100, 6, 7, 6, 0], ['hummus', 'Roasted Beet Hummus', 65, 2, 6, 3, 0],
+    ['cherrytomato', 'Apple Cider Cherry Tomato w/ Gula Apong', 40, 1, 9, 0, 0], ['avocado', 'Half Avocado', 110, 1, 6, 10, 5],
   ],
   toppings: [
-    ['furikake', 'Furikake', 20, 1, 2, 1, 0], ['seeds', 'Power Mix Seed', 90, 4, 4, 7, 0],
-    ['parmesan', 'Parmesan Breadcrumbs', 80, 4, 8, 4, 0], ['pickledonion', 'Pickled Red Onions', 15, 0, 4, 0, 0],
-    ['seaweed', 'Seaweed Flake', 10, 1, 1, 0, 0], ['cashew', 'Salted Cashew Nuts', 100, 3, 5, 8, 0],
-    ['radish', 'Pink Pickled Radish', 12, 0, 3, 0, 0],
+    ['furikake', 'Furikake', 15, 1, 1, 1, 0], ['seeds', 'Power Mix Seed', 85, 3, 3, 7, 0],
+    ['parmesan', 'Parmesan Breadcrumbs', 50, 3, 4, 2, 0], ['pickledonion', 'Pickled Red Onions', 10, 0, 3, 0, 0],
+    ['seaweed', 'Seaweed Flake', 10, 1, 1, 0, 0], ['cashew', 'Salted Cashew Nuts', 85, 3, 5, 7, 0],
+    ['radish', 'Pink Pickled Radish', 10, 0, 2, 0, 0],
   ],
   dressings: [
-    ['yuzu', 'Yuzu Soy', 35, 1, 4, 1, 0], ['pesto', 'Pesto', 120, 1, 2, 12, 0],
-    ['salsa', 'Salsa Verde', 60, 1, 3, 5, 0], ['harissa', 'Harissa', 70, 1, 4, 6, 0],
-    ['honeymustard', 'Golden Honey Mustard', 80, 0, 9, 4, 0], ['thyme', 'Thyme Olive Oil', 110, 0, 0, 12, 0],
+    ['yuzu', 'Yuzu Soy', 35, 1, 4, 1, 0], ['pesto', 'Pesto', 115, 2, 2, 11, 0],
+    ['salsa', 'Salsa Verde', 75, 1, 1, 7, 0], ['harissa', 'Harissa', 40, 1, 3, 3, 0],
+    ['honeymustard', 'Golden Honey Mustard', 65, 1, 8, 3, 0], ['thyme', 'Thyme Olive Oil', 105, 0, 0, 12, 0],
   ],
   drinks: [
-    ['heavenlykale', 'Heavenly Kale', 220, 5, 42, 4, 23.9], ['powerkale', 'Rechargeable Power Kale', 250, 12, 40, 5, 23.9],
-    ['berrybooster', 'Berry Booster', 240, 6, 45, 4, 25.9], ['supermaca', 'Super Maca', 320, 9, 45, 12, 25.9],
-    ['berrybuff', 'Berry Buff', 340, 18, 40, 13, 26.9], ['cloud9', 'Cloud 9', 350, 6, 45, 16, 26.9],
-    ['yuzulemon', 'Honey Yuzu Lemon', 90, 0, 24, 0, 16.5], ['berrytea', 'Super Berry Tea', 70, 0, 18, 0, 17.5],
+    ['heavenlykale', 'Heavenly Kale', 260, 6, 52, 5, 23.9], ['powerkale', 'Rechargeable Power Kale', 280, 14, 48, 6, 23.9],
+    ['berrybooster', 'Berry Booster', 265, 7, 51, 5, 25.9], ['supermaca', 'Super Maca', 405, 10, 52, 17, 25.9],
+    ['berrybuff', 'Berry Buff', 475, 32, 44, 20, 26.9], ['cloud9', 'Cloud 9', 370, 7, 42, 20, 26.9],
+    ['yuzulemon', 'Honey Yuzu Lemon', 95, 0, 25, 0, 16.5], ['berrytea', 'Super Berry Tea', 70, 0, 18, 0, 17.5],
   ],
 };
 
