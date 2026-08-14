@@ -4,12 +4,12 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 
 const wholefood = [
-  { name: 'Zen Sleep', price: 'RM19.50', dressing: 'Ginger Ponzu', desc: 'Lemon herb ocean fish, onsen egg, Thai basil tofu, romaine, baked sweet potatoes, roasted apple-cider tomato salad, furikake.', tags: ['Light & calming', 'Supports rest'], image: '/images/bowls/zen_sleep.png' },
-  { name: 'Beauty Bowl', price: 'RM19.50', dressing: 'Virgin Coconut Oil Sambal (Light)', desc: 'Sous-vide chicken breast, Thai basil tofu, scrambled egg white, romaine, baked sweet potatoes, sweet corn, roasted beet hummus, seaweed flakes.', tags: ['Nourishing fats', 'Glow-supporting'], image: '/images/bowls/beauty_bowl.png' },
-  { name: 'Plant Protein', price: 'RM21.50', dressing: 'Salsa Verde', desc: 'Falafel, fermented tempeh bacon, romaine, whole-grain pasta, miso-glazed carrots, pumpkin wedges, broccoli, seaweed flakes.', tags: ['Balanced plant protein', 'Naturally nourishing'], image: '/images/bowls/plant_protein.png' },
-  { name: 'Energy Bowl', price: 'RM24.50', dressing: 'Peri-Peri', desc: 'Roasted chicken leg, scrambled egg white, romaine, whole-grain pasta, sweet corn, half avocado, parmesan cheese.', tags: ['Sustained energy', 'Power for active days'], image: '/images/bowls/energy_bowl.png' },
-  { name: 'Anti-Inflammatory', price: 'RM23.50', dressing: 'Ginger Ponzu', desc: 'Blackened salmon, scrambled egg white, romaine, brown rice, miso-glazed carrots, king oyster mushroom, seaweed flakes.', tags: ['Omega-rich', 'Calms inflammation'], image: '/images/bowls/anti_inflamattor.png' },
-  { name: 'High Protein', price: 'RM21.50', dressing: 'Pesto', desc: 'Quinoa, roasted chicken leg, onsen egg, edamame, baked sweet potatoes, charred broccoli, furikake.', tags: ['Protein-dense', 'Muscle-supporting fuel'], image: '/images/bowls/high_protein.png' },
+  { name: 'Zen Sleep', price: 'RM19.50', dressing: 'Yuzu Soy*', desc: 'Herb-crusted sea bass, onsen egg, Thai basil tofu, romaine lettuce, mashed sweet potatoes, roasted apple-cider tomato salad, furikake.', tags: ['Light & calming', 'Supports rest'], image: '/images/bowls/zen_sleep.png', macros: { kcal: 312, carbs: 27, protein: 22, fats: 13 } },
+  { name: 'Beauty Bowl', price: 'RM19.50', dressing: 'Pesto*', desc: 'Sous-vide chicken breast, Thai basil tofu, scrambled egg white, romaine lettuce, mashed sweet potatoes, sweet corn, roasted beet hummus, seaweed flakes.', tags: ['Nourishing fats', 'Glow-supporting'], image: '/images/bowls/beauty_bowl.png', macros: { kcal: 498, carbs: 41, protein: 28, fats: 25 } },
+  { name: 'Plant Protein', price: 'RM21.50', dressing: 'Salsa Verde*', desc: 'Beet root hummus, tempeh chips, romaine lettuce, whole-grain pasta, miso-glazed carrots, edamame, pumpkin wedges, broccoli, seaweed flakes.', tags: ['Balanced plant protein', 'Naturally nourishing'], image: '/images/bowls/plant_protein.png', macros: { kcal: 438, carbs: 59, protein: 21, fats: 13 } },
+  { name: 'Energy Bowl', price: 'RM24.50', dressing: 'Harissa*', desc: 'Roasted chicken leg, scrambled egg white, romaine lettuce, whole-grain pasta, sweet corn, half avocado, parmesan cheese.', tags: ['Sustained energy', 'Power for active days'], image: '/images/bowls/energy_bowl.png', macros: { kcal: 489, carbs: 21, protein: 29, fats: 31 } },
+  { name: 'Anti-Inflammatory', price: 'RM22.50', dressing: 'Thyme Olive Oil*', desc: 'Herb-crusted sea bass, scrambled egg white, romaine lettuce, brown rice, miso-glazed carrots, king oyster mushroom, power mixed seed.', tags: ['Omega-rich', 'Calms inflammation'], image: '/images/bowls/anti_inflamattor.png', macros: { kcal: 393, carbs: 44, protein: 20, fats: 16 } },
+  { name: 'High Protein', price: 'RM21.50', dressing: 'Pesto*', desc: 'Quinoa, sous-vide chicken breast, onsen egg, edamame, mashed sweet potatoes, charred broccoli, furikake.', tags: ['Protein-dense', 'Muscle-supporting fuel'], image: '/images/bowls/high_protein.png', macros: { kcal: 500, carbs: 33, protein: 29, fats: 28 } },
 ];
 
 const sandwiches = [
@@ -69,11 +69,22 @@ const smoothies = [
       <div class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
         {wholefood.map((b) => (
           <div style="background:#fff;border-radius:24px;padding:22px;display:flex;gap:20px;box-shadow:0 10px 26px rgba(42,34,48,0.06);">
-            <div style="width:120px;height:120px;flex-shrink:0;border-radius:18px;overflow:hidden;"><img class="slot" src={b.image} alt={b.name} /></div>
+            <div style="width:120px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:12px;">
+              <div style="width:120px;height:120px;border-radius:18px;overflow:hidden;"><img class="slot" src={b.image} alt={b.name} /></div>
+              <img src="/images/hcl-badge.png" alt="Healthier Choice — Kementerian Kesihatan Malaysia" title="Healthier Choice certified" style="width:56px;height:56px;display:block;" />
+            </div>
             <div style="flex:1;min-width:0;">
               <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><h3 style="font-size:19px;font-weight:800;margin:0;">{b.name}</h3><span style="font-family:'Baloo 2',sans-serif;font-weight:700;color:#8C1D5A;font-size:15px;white-space:nowrap;">{b.price}</span></div>
               <p style="font-size:13.5px;line-height:1.5;color:#786A80;margin:8px 0 10px;">{b.desc}</p>
               <div style="font-size:12.5px;font-weight:600;color:#5C5064;margin-bottom:10px;">Dressing: {b.dressing}</div>
+              <div style="display:flex;gap:8px;margin-bottom:10px;">
+                {[[b.macros.kcal, 'kcal', 'Energy'], [b.macros.carbs + 'g', 'Carbs', ''], [b.macros.protein + 'g', 'Protein', ''], [b.macros.fats + 'g', 'Fats', '']].map(([value, label]) => (
+                  <span style="width:52px;height:52px;border-radius:50%;background:#F6C445;color:#2A2230;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;">
+                    <b style="font-size:13px;line-height:1;">{value}</b>
+                    <span style="font-size:8.5px;font-weight:700;margin-top:2px;">{label}</span>
+                  </span>
+                ))}
+              </div>
               <div style="display:flex;gap:6px;flex-wrap:wrap;">
                 {b.tags.map((t) => (
                   <span style="background:#FBE7B8;color:#8C1D5A;font-weight:700;font-size:11.5px;padding:5px 11px;border-radius:100px;">{t}</span>
