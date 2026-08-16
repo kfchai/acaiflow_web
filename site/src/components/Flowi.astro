@@ -126,6 +126,23 @@
   const ENDPOINT = (window as any).FLOWI_ENDPOINT || 'https://flowi-api.vercel.app/api/chat';
   const HOME_CHIPS = ['Build my bowl 🥗', 'Menu', 'Locations & hours', 'Catering', 'How to order'];
 
+  // ---------- session persistence (survives page navigation) ----------
+  const STORE_KEY = 'flowi-session';
+  let currentChips: string[] = [];
+  let greeted = false;
+
+  function saveSession() {
+    try {
+      sessionStorage.setItem(STORE_KEY, JSON.stringify({
+        html: msgs.innerHTML,
+        chips: currentChips,
+        history,
+        open: !panel.hidden,
+        greeted,
+      }));
+    } catch { /* storage full/unavailable — chat still works, just not persisted */ }
+  }
+
   // ---------- chat plumbing ----------
   function escapeHtml(s: string): string {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -140,6 +157,7 @@
     m.appendChild(b);
     msgs.appendChild(m);
     msgs.scrollTop = msgs.scrollHeight;
+    saveSession();
   }
 
   function addBot(html: string, chips: string[] = []) {
@@ -152,6 +170,7 @@
     msgs.appendChild(m);
     setChips(chips);
     msgs.scrollTop = msgs.scrollHeight;
+    saveSession();
   }
 
   let typingEl: HTMLElement | null = null;
@@ -168,6 +187,7 @@
   }
 
   function setChips(chips: string[]) {
+    currentChips = chips;
     chipsBox.innerHTML = '';
     for (const c of chips) {
       const btn = document.createElement('button');
@@ -286,7 +306,6 @@
   }
 
   // ---------- wiring ----------
-  let greeted = false;
   function openPanel() {
     panel.hidden = false;
     fab.setAttribute('aria-expanded', 'true');
@@ -297,19 +316,32 @@
         HOME_CHIPS
       );
     }
+    saveSession();
     input.focus();
   }
-  fab.addEventListener('click', () => {
-    if (panel.hidden) openPanel();
-    else {
-      panel.hidden = true;
-      fab.setAttribute('aria-expanded', 'false');
-    }
-  });
-  closeBtn.addEventListener('click', () => {
+  function closePanel() {
     panel.hidden = true;
     fab.setAttribute('aria-expanded', 'false');
-  });
+    saveSession();
+  }
+  fab.addEventListener('click', () => (panel.hidden ? openPanel() : closePanel()));
+  closeBtn.addEventListener('click', closePanel);
+
+  // restore a previous session from this tab
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(STORE_KEY) || 'null');
+    if (saved && typeof saved.html === 'string') {
+      msgs.innerHTML = saved.html; // our own previously-rendered markup
+      if (Array.isArray(saved.history)) history.push(...saved.history);
+      greeted = !!saved.greeted;
+      setChips(Array.isArray(saved.chips) ? saved.chips : HOME_CHIPS);
+      if (saved.open) {
+        panel.hidden = false;
+        fab.setAttribute('aria-expanded', 'true');
+      }
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+  } catch { /* corrupt state — start fresh */ }
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const v = input.value;
