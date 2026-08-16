@@ -235,9 +235,25 @@
       (intro ? escapeHtml(intro) + '<br><br>' : '') +
       `<b>${SIZES[size].label} bowl</b><br>` + lines +
       `<br><br>≈ <b>${t.kcal} kcal</b> · ${t.p}g protein · ${t.c}g carbs · ${t.f}g fat` +
-      `<div class="fw-actions"><a href="${calcLink}">Open in calculator</a><a class="alt" href="${WHATSAPP}?text=${waText}" target="_blank">Order on WhatsApp</a></div>`,
+      `<div class="fw-actions"><a class="alt" href="${WHATSAPP}?text=${waText}" target="_blank">Order on WhatsApp</a></div>`,
       ['Another combo 🔄', 'Make it bigger', 'Start over']
     );
+    // hand the bowl to the calculator so the user can see and tweak it live
+    if (document.querySelector('.size-card')) {
+      applyToCalculator(size, all.map((r) => r[0]));
+      addBot(`Done — I've selected everything in the calculator for you ✨ Your bowl is sitting at <b>${t.kcal} kcal</b> (${t.p}g protein · ${t.c}g carbs · ${t.f}g fat). Tap any ingredient to tweak it and watch the macros update live!`, ['Another combo 🔄', 'Make it bigger', 'Start over']);
+    } else {
+      addBot('Taking you to the calculator so you can see it selected and tweak it live… 🧮', ['Another combo 🔄', 'Make it bigger', 'Start over']);
+      setTimeout(() => { location.href = calcLink; }, 900);
+    }
+  }
+
+  function applyToCalculator(size: string, ids: string[]) {
+    (document.getElementById('reset') as HTMLButtonElement | null)?.click();
+    (document.querySelector(`.size-card[data-size="${size}"]`) as HTMLButtonElement | null)?.click();
+    for (const id of ids) {
+      (document.querySelector(`.chip[data-id="${id}"]:not(.on)`) as HTMLButtonElement | null)?.click();
+    }
   }
 
   // ---------- Gemini brain (via proxy) ----------
