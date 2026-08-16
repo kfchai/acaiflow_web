@@ -128,7 +128,7 @@
 
   // ---------- session persistence (survives page navigation) ----------
   const STORE_KEY = 'flowi-session';
-  const HISTORY_MAX = 12;   // conversation turns kept as LLM context
+  const HISTORY_MAX = 6;   // conversation turns kept as LLM context
   const TRANSCRIPT_MAX = 40; // rendered bubbles kept in the transcript
   let currentChips: string[] = [];
   let greeted = false;
