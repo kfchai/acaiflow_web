@@ -128,20 +128,25 @@
 
   // ---------- session persistence (survives page navigation) ----------
   const STORE_KEY = 'flowi-session';
-  const SESSION_MAX = 20; // LLM messages per tab session, to bound cost
+  const HISTORY_MAX = 12;   // conversation turns kept as LLM context
+  const TRANSCRIPT_MAX = 40; // rendered bubbles kept in the transcript
   let currentChips: string[] = [];
   let greeted = false;
-  let msgCount = 0;
+
+  function trim() {
+    while (history.length > HISTORY_MAX) history.shift();
+    while (msgs.children.length > TRANSCRIPT_MAX) msgs.firstElementChild!.remove();
+  }
 
   function saveSession() {
     try {
+      trim();
       sessionStorage.setItem(STORE_KEY, JSON.stringify({
         html: msgs.innerHTML,
         chips: currentChips,
         history,
         open: !panel.hidden,
         greeted,
-        msgCount,
       }));
     } catch { /* storage full/unavailable — chat still works, just not persisted */ }
   }
@@ -263,21 +268,14 @@
   const history: { role: string; parts: { text: string }[] }[] = [];
 
   async function llmAnswer(text: string) {
-    if (msgCount >= SESSION_MAX) {
-      addBot(
-        `We've had quite the chat! 💜 I need to save my energy for other bowls — for anything more, our team on <a href="${WHATSAPP}" target="_blank">WhatsApp</a> would love to help. Or head straight to the <a href="/calculator">calculator</a> to keep building.`,
-        []
-      );
-      return;
-    }
-    msgCount++;
     showTyping();
     history.push({ role: 'user', parts: [{ text }] });
+    trim();
     try {
       const res = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: history.slice(-16) }),
+        body: JSON.stringify({ contents: history.slice(-HISTORY_MAX) }),
       });
       if (res.status === 429) {
         hideTyping();
@@ -361,7 +359,6 @@
       msgs.innerHTML = saved.html; // our own previously-rendered markup
       if (Array.isArray(saved.history)) history.push(...saved.history);
       greeted = !!saved.greeted;
-      msgCount = Number(saved.msgCount) || 0;
       setChips(Array.isArray(saved.chips) ? saved.chips : HOME_CHIPS);
       if (saved.open) {
         panel.hidden = false;
