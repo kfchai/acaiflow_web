@@ -10,8 +10,13 @@ const MODEL = 'gemini-2.5-flash';
 const ALLOWED_ORIGINS = [
   'https://acaiflow.my',
   'https://www.acaiflow.my',
-  'http://localhost:4321',
 ];
+// any localhost port, for local development
+const LOCAL_RE = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+
+function originAllowed(origin) {
+  return ALLOWED_ORIGINS.includes(origin) || LOCAL_RE.test(origin);
+}
 
 const DATA = {
   bases: [
@@ -80,7 +85,7 @@ RULES
 
 function cors(req, res) {
   const origin = req.headers.origin || '';
-  if (ALLOWED_ORIGINS.includes(origin)) {
+  if (originAllowed(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
   }
