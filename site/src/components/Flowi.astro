@@ -1,0 +1,304 @@
+<button id="flowi-fab" aria-label="Chat with Flowi" aria-expanded="false">
+  <img src="/images/flowi.webp" alt="Flowi" />
+</button>
+
+<div id="flowi-panel" hidden>
+  <div class="fw-head">
+    <img src="/images/flowi.webp" alt="" />
+    <div>
+      <div class="fw-name">Flowi</div>
+      <div class="fw-sub">AcaiFlow assistant</div>
+    </div>
+    <button id="flowi-close" aria-label="Close chat">✕</button>
+  </div>
+  <div id="flowi-msgs"></div>
+  <div id="flowi-chips"></div>
+  <form id="flowi-form" autocomplete="off">
+    <input id="flowi-input" type="text" placeholder="Ask me anything…" maxlength="300" />
+    <button type="submit" aria-label="Send">➤</button>
+  </form>
+</div>
+
+<style is:global>
+  #flowi-fab {
+    position: fixed; right: 20px; bottom: 20px; z-index: 90;
+    width: 64px; height: 64px; border-radius: 50%; border: none; cursor: pointer;
+    background: #8C1D5A; box-shadow: 0 12px 30px rgba(140, 29, 90, 0.45);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.15s;
+  }
+  #flowi-fab:hover { transform: scale(1.06); }
+  #flowi-fab img { width: 46px; height: auto; display: block; }
+
+  #flowi-panel {
+    position: fixed; right: 20px; bottom: 96px; z-index: 95;
+    width: 370px; max-width: calc(100vw - 24px); height: 560px; max-height: calc(100vh - 120px);
+    background: #FCF6E8; border-radius: 22px; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(42, 34, 48, 0.35);
+    display: flex; flex-direction: column;
+    font-family: 'Archivo', sans-serif;
+  }
+  .fw-head {
+    background: #8C1D5A; color: #fff; padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+  }
+  .fw-head img { width: 40px; height: auto; }
+  .fw-name { font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 17px; line-height: 1.1; }
+  .fw-sub { font-size: 12px; color: rgba(255, 255, 255, 0.75); }
+  #flowi-close {
+    margin-left: auto; background: rgba(255, 255, 255, 0.15); border: none; color: #fff;
+    width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 13px;
+  }
+  #flowi-msgs { flex: 1; overflow-y: auto; padding: 16px 14px 6px; }
+  .fw-msg { margin-bottom: 10px; display: flex; }
+  .fw-msg.bot { justify-content: flex-start; }
+  .fw-msg.user { justify-content: flex-end; }
+  .fw-bubble {
+    max-width: 86%; padding: 10px 14px; border-radius: 16px;
+    font-size: 13.5px; line-height: 1.5; color: #2A2230;
+    overflow-wrap: break-word;
+  }
+  .fw-msg.bot .fw-bubble { background: #fff; border-bottom-left-radius: 6px; box-shadow: 0 4px 12px rgba(42, 34, 48, 0.06); }
+  .fw-msg.user .fw-bubble { background: #8C1D5A; color: #fff; border-bottom-right-radius: 6px; }
+  .fw-bubble b { color: #8C1D5A; }
+  .fw-msg.user .fw-bubble b { color: #F6C445; }
+  .fw-bubble a { color: #8C1D5A; font-weight: 700; }
+  .fw-bubble .fw-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .fw-bubble .fw-actions a {
+    display: inline-block; background: #8C1D5A; color: #fff; font-weight: 700; font-size: 12.5px;
+    padding: 8px 14px; border-radius: 100px;
+  }
+  .fw-bubble .fw-actions a.alt { background: #F6C445; color: #2A2230; }
+  .fw-typing span {
+    display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #C9BACB;
+    margin-right: 4px; animation: fw-blink 1.2s infinite;
+  }
+  .fw-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .fw-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes fw-blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+  #flowi-chips { padding: 4px 14px 10px; display: flex; gap: 8px; flex-wrap: wrap; flex-shrink: 0; }
+  #flowi-chips button {
+    background: #fff; color: #8C1D5A; border: 2px solid #EAD59B; border-radius: 100px;
+    font-family: inherit; font-weight: 700; font-size: 12.5px; padding: 7px 13px; cursor: pointer;
+  }
+  #flowi-chips button:hover { border-color: #8C1D5A; }
+  #flowi-form {
+    display: flex; gap: 8px; padding: 10px 14px 14px; flex-shrink: 0;
+    border-top: 1px solid #EFE3CB; background: #FCF6E8;
+  }
+  #flowi-input {
+    flex: 1; border: 2px solid #EFE3CB; border-radius: 100px; padding: 10px 16px;
+    font-size: 13.5px; background: #fff;
+  }
+  #flowi-form button {
+    width: 42px; height: 42px; border-radius: 50%; border: none; cursor: pointer;
+    background: #8C1D5A; color: #fff; font-size: 15px; flex-shrink: 0;
+  }
+  @media (max-width: 480px) {
+    #flowi-panel { right: 12px; left: 12px; width: auto; bottom: 90px; }
+  }
+</style>
+
+<script>
+  import { SIZES, LIMITS, DATA, WHATSAPP } from '../data/bowl-data';
+
+  type Row = [string, string, number, number, number, number];
+
+  const fab = document.getElementById('flowi-fab')!;
+  const panel = document.getElementById('flowi-panel')!;
+  const closeBtn = document.getElementById('flowi-close')!;
+  const msgs = document.getElementById('flowi-msgs')!;
+  const chipsBox = document.getElementById('flowi-chips')!;
+  const form = document.getElementById('flowi-form') as HTMLFormElement;
+  const input = document.getElementById('flowi-input') as HTMLInputElement;
+
+  // Gemini calls go through the Vercel proxy (flowi-api/) — the API key
+  // lives only in that function's env, never in this bundle.
+  const ENDPOINT = (window as any).FLOWI_ENDPOINT || 'https://flowi-api.vercel.app/api/chat';
+  const HOME_CHIPS = ['Build my bowl 🥗', 'Menu', 'Locations & hours', 'Catering', 'How to order'];
+
+  // ---------- chat plumbing ----------
+  function escapeHtml(s: string): string {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function addUser(text: string) {
+    const m = document.createElement('div');
+    m.className = 'fw-msg user';
+    const b = document.createElement('div');
+    b.className = 'fw-bubble';
+    b.textContent = text;
+    m.appendChild(b);
+    msgs.appendChild(m);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function addBot(html: string, chips: string[] = []) {
+    const m = document.createElement('div');
+    m.className = 'fw-msg bot';
+    const b = document.createElement('div');
+    b.className = 'fw-bubble';
+    b.innerHTML = html; // authored / escaped content only
+    m.appendChild(b);
+    msgs.appendChild(m);
+    setChips(chips);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  let typingEl: HTMLElement | null = null;
+  function showTyping() {
+    typingEl = document.createElement('div');
+    typingEl.className = 'fw-msg bot';
+    typingEl.innerHTML = '<div class="fw-bubble fw-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(typingEl);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  function hideTyping() {
+    typingEl?.remove();
+    typingEl = null;
+  }
+
+  function setChips(chips: string[]) {
+    chipsBox.innerHTML = '';
+    for (const c of chips) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = c;
+      btn.addEventListener('click', () => handleInput(c));
+      chipsBox.appendChild(btn);
+    }
+  }
+
+  // ---------- bowl rendering (limits enforced locally) ----------
+  const CATS = ['bases', 'proteins', 'supplements', 'toppings', 'dressings'];
+  const rowById = new Map<string, { cat: string; row: Row }>();
+  for (const cat of CATS) for (const row of DATA[cat]) rowById.set(row[0], { cat, row });
+
+  function renderBowl(sizeIn: string, ids: string[], intro: string) {
+    const size = LIMITS[sizeIn] ? sizeIn : 'medium';
+    const picks: Record<string, Row[]> = {};
+    for (const cat of CATS) picks[cat] = [];
+    for (const id of ids) {
+      const hit = rowById.get(String(id));
+      if (hit && picks[hit.cat].length < LIMITS[size][hit.cat] && !picks[hit.cat].includes(hit.row)) {
+        picks[hit.cat].push(hit.row);
+      }
+    }
+    const all = CATS.flatMap((c) => picks[c]);
+    if (!all.length) {
+      addBot(intro || 'Hmm, I could not settle on ingredients — try telling me your goal again?', HOME_CHIPS);
+      return;
+    }
+    const t = all.reduce(
+      (a, r) => ({ kcal: a.kcal + r[2], p: a.p + r[3], c: a.c + r[4], f: a.f + r[5] }),
+      { kcal: 0, p: 0, c: 0, f: 0 }
+    );
+    const calcLink = `/calculator?size=${size}&sel=${all.map((r) => r[0]).join(',')}`;
+    const waText = encodeURIComponent(
+      'Hi AcaiFlow! Flowi built me a ' + SIZES[size].label + ' bowl:\n' +
+      all.map((r) => '• ' + r[1]).join('\n') + '\nApprox: ' + t.kcal + ' kcal'
+    );
+    const label: Record<string, string> = { bases: 'Bases', proteins: 'Protein', supplements: 'Supplements', toppings: 'Topping', dressings: 'Dressing' };
+    const lines = CATS.filter((c) => picks[c].length)
+      .map((c) => `<b>${label[c]}:</b> ${picks[c].map((r) => r[1]).join(', ')}`)
+      .join('<br>');
+    addBot(
+      (intro ? escapeHtml(intro) + '<br><br>' : '') +
+      `<b>${SIZES[size].label} bowl</b><br>` + lines +
+      `<br><br>≈ <b>${t.kcal} kcal</b> · ${t.p}g protein · ${t.c}g carbs · ${t.f}g fat` +
+      `<div class="fw-actions"><a href="${calcLink}">Open in calculator</a><a class="alt" href="${WHATSAPP}?text=${waText}" target="_blank">Order on WhatsApp</a></div>`,
+      ['Another combo 🔄', 'Make it bigger', 'Start over']
+    );
+  }
+
+  // ---------- Gemini brain (via proxy) ----------
+  const history: { role: string; parts: { text: string }[] }[] = [];
+
+  async function llmAnswer(text: string) {
+    showTyping();
+    history.push({ role: 'user', parts: [{ text }] });
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: history.slice(-16) }),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const raw: string = data?.text ?? '';
+      history.push({ role: 'model', parts: [{ text: raw }] });
+      let reply = raw, bowl = null;
+      try {
+        const parsed = JSON.parse(raw.replace(/^```(json)?|```$/g, '').trim());
+        reply = parsed.reply ?? '';
+        bowl = parsed.bowl ?? null;
+      } catch { /* treat raw as plain reply */ }
+      hideTyping();
+      if (bowl && Array.isArray(bowl.ids)) {
+        renderBowl(bowl.size, bowl.ids, reply);
+      } else {
+        addBot(escapeHtml(reply || 'Sorry, I lost my train of thought — could you say that again?').replace(/\n/g, '<br>'), HOME_CHIPS);
+      }
+    } catch {
+      hideTyping();
+      history.pop();
+      scriptedAnswer(text); // offline fallback still answers the basics
+    }
+  }
+
+  // ---------- scripted fallback (no API key) ----------
+  function scriptedAnswer(text: string) {
+    const t = text.toLowerCase();
+    const has = (...words: string[]) => words.some((w) => t.includes(w));
+    if (has('hour', 'open', 'location', 'where', 'address')) {
+      addBot('<b>Green Heights Mall</b> — Lot LG09, Ground Floor · daily 10 AM – 7 PM · +60 13-816 0023<br><b>Kuching Int\'l Airport</b> — L2A19, Level 2 (airside) · follows flight schedule ✈️<div class="fw-actions"><a href="/location">Location page</a></div>', HOME_CHIPS);
+    } else if (has('menu', 'food', 'acai', 'smoothie', 'sandwich', 'bowl')) {
+      addBot('Wholefood bowls (HCL-certified ✅), sourdough focaccia sandwiches, açaí bowls and longevity smoothies.<div class="fw-actions"><a href="/menu">See the menu</a></div>', HOME_CHIPS);
+    } else if (has('cater', 'event')) {
+      addBot(`Corporate meals, events and platters — fresh and balanced.<div class="fw-actions"><a href="/catering">Catering page</a><a class="alt" href="${WHATSAPP}" target="_blank">Get a quote</a></div>`, HOME_CHIPS);
+    } else if (has('order', 'delivery', 'grab')) {
+      addBot(`Order on <a href="${WHATSAPP}" target="_blank">WhatsApp</a> or GrabFood and collect in-store.`, HOME_CHIPS);
+    } else {
+      addBot(`Our team on <a href="${WHATSAPP}" target="_blank">WhatsApp</a> can help with that! I can also point you to the <a href="/menu">menu</a> or the <a href="/calculator">bowl calculator</a>.`, HOME_CHIPS);
+    }
+  }
+
+  function handleInput(text: string) {
+    if (!text.trim()) return;
+    addUser(text);
+    setChips([]);
+    llmAnswer(text);
+  }
+
+  // ---------- wiring ----------
+  let greeted = false;
+  function openPanel() {
+    panel.hidden = false;
+    fab.setAttribute('aria-expanded', 'true');
+    if (!greeted) {
+      greeted = true;
+      addBot(
+        "Hey, I'm <b>Flowi</b>! 🌱 Ask me anything about AcaiFlow — or tell me your nutrition goals and I'll build you a wholesome bowl.",
+        HOME_CHIPS
+      );
+    }
+    input.focus();
+  }
+  fab.addEventListener('click', () => {
+    if (panel.hidden) openPanel();
+    else {
+      panel.hidden = true;
+      fab.setAttribute('aria-expanded', 'false');
+    }
+  });
+  closeBtn.addEventListener('click', () => {
+    panel.hidden = true;
+    fab.setAttribute('aria-expanded', 'false');
+  });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const v = input.value;
+    input.value = '';
+    handleInput(v);
+  });
+</script>

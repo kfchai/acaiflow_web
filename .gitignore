@@ -26,3 +26,6 @@ desktop.ini
 .vscode/
 .idea/
 *.swp
+
+# Secrets
+secrets.txt

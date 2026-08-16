@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Flowi from '../components/Flowi.astro';
 
 interface Props {
   title?: string;
@@ -32,5 +33,6 @@ const {
   </head>
   <body>
     <slot />
+    <Flowi />
   </body>
 </html>
