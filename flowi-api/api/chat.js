@@ -1,11 +1,12 @@
-// Flowi chat proxy — holds the Gemini key server-side (GOOGLE_AI_API_KEY env
-// var) and relays conversations from the AcaiFlow site. The system prompt and
-// model config live here so the endpoint can't be repurposed as an open relay.
+// Flowi chat proxy — holds the OpenRouter key server-side (OPENROUTER_API_KEY
+// env var) and relays conversations from the AcaiFlow site. The system prompt
+// and model config live here so the endpoint can't be repurposed as an open
+// relay.
 //
 // Ingredient data mirrors site/src/data/bowl-data.ts (macros documented in
 // menu/calculator-nutrition.md) — keep the two in sync when the menu changes.
 
-const MODEL = 'gemini-2.5-flash';
+const MODEL = 'deepseek/deepseek-v4-flash-0731';
 
 const ALLOWED_ORIGINS = [
   'https://acaiflow.my',
@@ -145,30 +146,38 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'bad request' });
   }
 
-  const key = process.env.GOOGLE_AI_API_KEY;
+  const key = process.env.OPENROUTER_API_KEY;
   if (!key) return res.status(500).json({ error: 'server not configured' });
 
+  // the widget sends Gemini-style contents; convert to chat-completions messages
+  const messages = [
+    { role: 'system', content: SYSTEM },
+    ...contents.map((c) => ({
+      role: c.role === 'model' ? 'assistant' : 'user',
+      content: c.parts[0].text,
+    })),
+  ];
+
   try {
-    const r = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${key}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: SYSTEM }] },
-          contents,
-          generationConfig: {
-            temperature: 0.6,
-            maxOutputTokens: 512,
-            responseMimeType: 'application/json',
-            thinkingConfig: { thinkingBudget: 0 },
-          },
-        }),
-      }
-    );
+    const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${key}`,
+        'HTTP-Referer': 'https://acaiflow-web.vercel.app',
+        'X-Title': 'AcaiFlow Flowi',
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages,
+        temperature: 0.6,
+        max_tokens: 512,
+        response_format: { type: 'json_object' },
+      }),
+    });
     if (!r.ok) return res.status(502).json({ error: 'upstream ' + r.status });
     const data = await r.json();
-    const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text).join('') ?? '';
+    const text = data?.choices?.[0]?.message?.content ?? '';
     return res.status(200).json({ text });
   } catch {
     return res.status(502).json({ error: 'upstream failure' });
