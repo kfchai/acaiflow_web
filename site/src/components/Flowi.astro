@@ -96,7 +96,15 @@
     background: #8C1D5A; color: #fff; font-size: 15px; flex-shrink: 0;
   }
   @media (max-width: 480px) {
-    #flowi-panel { right: 12px; left: 12px; width: auto; bottom: 90px; }
+    #flowi-panel {
+      inset: 0;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      max-width: none;
+      max-height: none;
+      border-radius: 0;
+    }
   }
 </style>
 
