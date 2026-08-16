@@ -10,12 +10,15 @@ const MODEL = 'gemini-2.5-flash';
 const ALLOWED_ORIGINS = [
   'https://acaiflow.my',
   'https://www.acaiflow.my',
+  'https://acaiflow-web.vercel.app',
 ];
+// site preview deployments (acaiflow-web-*.vercel.app)
+const PREVIEW_RE = /^https:\/\/acaiflow-web[a-z0-9-]*\.vercel\.app$/;
 // any localhost port, for local development
 const LOCAL_RE = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 
 function originAllowed(origin) {
-  return ALLOWED_ORIGINS.includes(origin) || LOCAL_RE.test(origin);
+  return ALLOWED_ORIGINS.includes(origin) || PREVIEW_RE.test(origin) || LOCAL_RE.test(origin);
 }
 
 const DATA = {
