@@ -224,6 +224,12 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: history.slice(-16) }),
       });
+      if (res.status === 429) {
+        hideTyping();
+        history.pop();
+        addBot("Whoa, that's a lot of messages! 😅 Give me a minute to catch my breath, then ask again.", HOME_CHIPS);
+        return;
+      }
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       const raw: string = data?.text ?? '';

@@ -88,10 +88,41 @@ function cors(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
+// In-memory rate limiting (per warm instance). Not airtight across parallel
+// instances, but bounds abuse and Gemini spend without extra infrastructure.
+const WINDOW_MS = 60_000;
+const IP_MAX = 10;      // requests per IP per minute
+const GLOBAL_MAX = 120; // requests per instance per minute
+const buckets = new Map();
+let globalCount = 0;
+let globalReset = Date.now() + WINDOW_MS;
+
+function rateLimited(ip) {
+  const now = Date.now();
+  if (now > globalReset) {
+    globalCount = 0;
+    globalReset = now + WINDOW_MS;
+  }
+  if (++globalCount > GLOBAL_MAX) return true;
+  if (buckets.size > 5000) buckets.clear(); // memory guard
+  const b = buckets.get(ip);
+  if (!b || now > b.reset) {
+    buckets.set(ip, { count: 1, reset: now + WINDOW_MS });
+    return false;
+  }
+  return ++b.count > IP_MAX;
+}
+
 export default async function handler(req, res) {
   cors(req, res);
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
+
+  const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+  if (rateLimited(ip)) {
+    res.setHeader('Retry-After', '60');
+    return res.status(429).json({ error: 'rate limited' });
+  }
 
   const contents = req.body?.contents;
   if (
