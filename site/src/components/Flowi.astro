@@ -128,8 +128,10 @@
 
   // ---------- session persistence (survives page navigation) ----------
   const STORE_KEY = 'flowi-session';
+  const SESSION_MAX = 20; // LLM messages per tab session, to bound cost
   let currentChips: string[] = [];
   let greeted = false;
+  let msgCount = 0;
 
   function saveSession() {
     try {
@@ -139,6 +141,7 @@
         history,
         open: !panel.hidden,
         greeted,
+        msgCount,
       }));
     } catch { /* storage full/unavailable — chat still works, just not persisted */ }
   }
@@ -260,6 +263,14 @@
   const history: { role: string; parts: { text: string }[] }[] = [];
 
   async function llmAnswer(text: string) {
+    if (msgCount >= SESSION_MAX) {
+      addBot(
+        `We've had quite the chat! 💜 I need to save my energy for other bowls — for anything more, our team on <a href="${WHATSAPP}" target="_blank">WhatsApp</a> would love to help. Or head straight to the <a href="/calculator">calculator</a> to keep building.`,
+        []
+      );
+      return;
+    }
+    msgCount++;
     showTyping();
     history.push({ role: 'user', parts: [{ text }] });
     try {
@@ -350,6 +361,7 @@
       msgs.innerHTML = saved.html; // our own previously-rendered markup
       if (Array.isArray(saved.history)) history.push(...saved.history);
       greeted = !!saved.greeted;
+      msgCount = Number(saved.msgCount) || 0;
       setChips(Array.isArray(saved.chips) ? saved.chips : HOME_CHIPS);
       if (saved.open) {
         panel.hidden = false;
