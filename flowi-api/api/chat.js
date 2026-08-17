@@ -171,13 +171,17 @@ export default async function handler(req, res) {
         model: MODEL,
         messages,
         temperature: 0.6,
-        max_tokens: 512,
+        max_tokens: 768,
         response_format: { type: 'json_object' },
+        // hybrid reasoning model: without this, long hidden reasoning can
+        // exhaust max_tokens and return empty content
+        reasoning: { enabled: false },
       }),
     });
     if (!r.ok) return res.status(502).json({ error: 'upstream ' + r.status });
     const data = await r.json();
     const text = data?.choices?.[0]?.message?.content ?? '';
+    if (!text.trim()) return res.status(502).json({ error: 'empty completion' });
     return res.status(200).json({ text });
   } catch {
     return res.status(502).json({ error: 'upstream failure' });

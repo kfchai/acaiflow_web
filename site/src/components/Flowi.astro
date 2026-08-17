@@ -267,16 +267,30 @@
   // ---------- Gemini brain (via proxy) ----------
   const history: { role: string; parts: { text: string }[] }[] = [];
 
+  async function fetchReply(): Promise<Response> {
+    const res = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: history.slice(-HISTORY_MAX) }),
+    });
+    if (res.status >= 500 || res.status === 502) {
+      // transient upstream hiccup — one silent retry
+      await new Promise((r) => setTimeout(r, 900));
+      return fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: history.slice(-HISTORY_MAX) }),
+      });
+    }
+    return res;
+  }
+
   async function llmAnswer(text: string) {
     showTyping();
     history.push({ role: 'user', parts: [{ text }] });
     trim();
     try {
-      const res = await fetch(ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: history.slice(-HISTORY_MAX) }),
-      });
+      const res = await fetchReply();
       if (res.status === 429) {
         hideTyping();
         history.pop();
