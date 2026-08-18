@@ -138,3 +138,17 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #8C1D5A
   .byo-h2 { font-size: 36px !important; }
   .story-bg { object-position: 80% center; }
 }
+
+/* never allow stray horizontal scroll (also keeps the fixed Flowi button anchored) */
+html, body { overflow-x: clip; }
+
+/* Signature wholefood bowl cards stack on phones */
+@media (max-width: 560px) {
+  .wf-card { flex-direction: column !important; }
+  .wf-media {
+    flex-direction: row !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+  }
+}
