@@ -12,9 +12,10 @@ const ALLOWED_ORIGINS = [
   'https://acaiflow.my',
   'https://www.acaiflow.my',
   'https://acaiflow-web.vercel.app',
+  'https://acaiflow.pages.dev',
 ];
-// site preview deployments (acaiflow-web-*.vercel.app)
-const PREVIEW_RE = /^https:\/\/acaiflow-web[a-z0-9-]*\.vercel\.app$/;
+// site preview deployments (acaiflow-web-*.vercel.app, <hash>.acaiflow.pages.dev)
+const PREVIEW_RE = /^https:\/\/(acaiflow-web[a-z0-9-]*\.vercel\.app|[a-z0-9-]+\.acaiflow\.pages\.dev)$/;
 // any localhost port, for local development
 const LOCAL_RE = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 
