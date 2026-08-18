@@ -244,12 +244,22 @@
 
   function renderBowl(sizeIn: string, ids: string[], intro: string) {
     const size = LIMITS[sizeIn] ? sizeIn : 'medium';
-    const picks: Record<string, Row[]> = {};
-    for (const cat of CATS) picks[cat] = [];
+    // repeated ids = double portions; extras beyond the allowance are allowed
+    // (per the order form) but capped at allowance + 2 per category
+    const picks: Record<string, { row: Row; qty: number }[]> = {};
+    const unitsIn: Record<string, number> = {};
+    for (const cat of CATS) { picks[cat] = []; unitsIn[cat] = 0; }
     for (const id of ids) {
       const hit = rowById.get(String(id));
-      if (hit && picks[hit.cat].length < LIMITS[size][hit.cat] && !picks[hit.cat].includes(hit.row)) {
-        picks[hit.cat].push(hit.row);
+      if (!hit) continue;
+      const cap = LIMITS[size][hit.cat] + 2;
+      if (unitsIn[hit.cat] >= cap) continue;
+      const existing = picks[hit.cat].find((x) => x.row === hit.row);
+      if (existing) {
+        if (existing.qty < 2) { existing.qty++; unitsIn[hit.cat]++; }
+      } else {
+        picks[hit.cat].push({ row: hit.row, qty: 1 });
+        unitsIn[hit.cat]++;
       }
     }
     const all = CATS.flatMap((c) => picks[c]);
@@ -258,17 +268,19 @@
       return;
     }
     const t = all.reduce(
-      (a, r) => ({ kcal: a.kcal + r[2], p: a.p + r[3], c: a.c + r[4], f: a.f + r[5] }),
+      (a, x) => ({ kcal: a.kcal + x.row[2] * x.qty, p: a.p + x.row[3] * x.qty, c: a.c + x.row[4] * x.qty, f: a.f + x.row[5] * x.qty }),
       { kcal: 0, p: 0, c: 0, f: 0 }
     );
-    const calcLink = `/calculator?size=${size}&sel=${all.map((r) => r[0]).join(',')}`;
+    const selIds = all.flatMap((x) => Array(x.qty).fill(x.row[0]));
+    const calcLink = `/calculator?size=${size}&sel=${selIds.join(',')}`;
+    const nameOf = (x: { row: Row; qty: number }) => x.row[1] + (x.qty === 2 ? ' ×2' : '');
     const waText = encodeURIComponent(
       'Hi AcaiFlow! Flowi built me a ' + SIZES[size].label + ' bowl:\n' +
-      all.map((r) => '• ' + r[1]).join('\n') + '\nApprox: ' + t.kcal + ' kcal'
+      all.map((x) => '• ' + nameOf(x)).join('\n') + '\nApprox: ' + t.kcal + ' kcal'
     );
     const label: Record<string, string> = { bases: 'Bases', proteins: 'Protein', supplements: 'Supplements', toppings: 'Topping', dressings: 'Dressing' };
     const lines = CATS.filter((c) => picks[c].length)
-      .map((c) => `<b>${label[c]}:</b> ${picks[c].map((r) => r[1]).join(', ')}`)
+      .map((c) => `<b>${label[c]}:</b> ${picks[c].map(nameOf).join(', ')}`)
       .join('<br>');
     addBot(
       (intro ? escapeHtml(intro) + '<br><br>' : '') +
@@ -279,7 +291,7 @@
     );
     // hand the bowl to the calculator so the user can see and tweak it live
     if (document.querySelector('.size-card')) {
-      applyToCalculator(size, all.map((r) => r[0]));
+      applyToCalculator(size, selIds);
       addBot(`Done — I've selected everything in the calculator for you ✨ Your bowl is sitting at <b>${t.kcal} kcal</b> (${t.p}g protein · ${t.c}g carbs · ${t.f}g fat). Tap any ingredient to tweak it and watch the macros update live!`, ['Another combo 🔄', 'Make it bigger', 'Start over']);
     } else {
       addBot('Taking you to the calculator so you can see it selected and tweak it live… 🧮', ['Another combo 🔄', 'Make it bigger', 'Start over']);
@@ -290,8 +302,9 @@
   function applyToCalculator(size: string, ids: string[]) {
     (document.getElementById('reset') as HTMLButtonElement | null)?.click();
     (document.querySelector(`.size-card[data-size="${size}"]`) as HTMLButtonElement | null)?.click();
+    // clicking cycles qty 0 → 1 → 2, so a repeated id becomes a double portion
     for (const id of ids) {
-      (document.querySelector(`.chip[data-id="${id}"]:not(.on)`) as HTMLButtonElement | null)?.click();
+      (document.querySelector(`.chip[data-id="${id}"]`) as HTMLButtonElement | null)?.click();
     }
   }
 

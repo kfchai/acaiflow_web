@@ -26,11 +26,11 @@ export const LIMITS: Record<string, Record<string, number>> = {
 };
 
 export const GROUP_META: Record<string, { label: string; note: string }> = {
-  bases: { label: 'Bases', note: 'Choose 2' },
-  proteins: { label: 'Proteins', note: 'By size' },
-  supplements: { label: 'Supplements', note: 'By size' },
-  toppings: { label: 'Toppings', note: 'Choose 1' },
-  dressings: { label: 'Dressings', note: 'Choose 1' },
+  bases: { label: 'Bases', note: '2 included · extras welcome' },
+  proteins: { label: 'Proteins', note: 'Included by size · extras welcome' },
+  supplements: { label: 'Supplements', note: 'Included by size · extras welcome' },
+  toppings: { label: 'Toppings', note: '1 included · extras welcome' },
+  dressings: { label: 'Dressings', note: '1 included · extras welcome' },
   drinks: { label: 'Add-On Drinks', note: 'Optional' },
 };
 

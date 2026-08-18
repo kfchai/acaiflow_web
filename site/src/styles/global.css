@@ -62,7 +62,15 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #8C1D5A
 .chip.on .dot { background: #F6C445; border-color: #F6C445; }
 .chip .up { font-weight: 800; color: #8C1D5A; font-size: 12px; }
 .chip.on .up { color: #F6C445; }
-.chip.max { opacity: 0.4; cursor: not-allowed; }
+.chip.x2::after {
+  content: '×2';
+  font-weight: 800;
+  font-size: 11px;
+  background: #F6C445;
+  color: #2A2230;
+  border-radius: 100px;
+  padding: 2px 7px;
+}
 
 /* Mobile nav burger */
 .nav-burger {
