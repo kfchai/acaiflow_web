@@ -398,9 +398,10 @@
   fab.addEventListener('click', () => (panel.hidden ? openPanel() : closePanel()));
   closeBtn.addEventListener('click', closePanel);
 
-  // scroll teaser — once per session, hidden once the chat has been used
+  // scroll teaser — keeps appearing this session until the user closes it
+  // (✕) or opens the chat
   const teaser = document.getElementById('flowi-teaser')!;
-  const TEASER_KEY = 'flowi-teaser-seen';
+  const TEASER_KEY = 'flowi-teaser-dismissed';
   function hideTeaser() {
     teaser.hidden = true;
   }
@@ -408,13 +409,15 @@
     if (window.scrollY < 80) return;
     window.removeEventListener('scroll', maybeShowTeaser);
     if (sessionStorage.getItem(TEASER_KEY) || !panel.hidden || greeted) return;
-    try { sessionStorage.setItem(TEASER_KEY, '1'); } catch {}
     teaser.hidden = false;
-    setTimeout(hideTeaser, 12000);
   }
   teaser.addEventListener('click', (e) => {
     hideTeaser();
-    if ((e.target as HTMLElement).id !== 'flowi-teaser-x') openPanel();
+    if ((e.target as HTMLElement).id === 'flowi-teaser-x') {
+      try { sessionStorage.setItem(TEASER_KEY, '1'); } catch {}
+    } else {
+      openPanel();
+    }
   });
   if (!sessionStorage.getItem(TEASER_KEY)) {
     window.addEventListener('scroll', maybeShowTeaser, { passive: true });
