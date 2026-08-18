@@ -1,3 +1,8 @@
+<button id="flowi-teaser" hidden>
+  <span id="flowi-teaser-x" aria-label="Dismiss">✕</span>
+  Hello! I'm <b>Flowi</b>, AcaiFlow AI Nutritionist 🌱
+</button>
+
 <button id="flowi-fab" aria-label="Chat with Flowi" aria-expanded="false">
   <img src="/images/flowi.webp" alt="Flowi" />
 </button>
@@ -30,6 +35,32 @@
   #flowi-fab:hover { transform: scale(1.06); }
   #flowi-fab img { width: 46px; height: auto; display: block; }
 
+  #flowi-teaser[hidden] { display: none !important; }
+  #flowi-teaser {
+    position: fixed; right: 20px; bottom: 96px; z-index: 89;
+    max-width: 240px; background: #fff; color: #2A2230;
+    border: none; border-radius: 16px; border-bottom-right-radius: 4px;
+    padding: 12px 16px; cursor: pointer; text-align: left;
+    font-family: 'Archivo', sans-serif; font-size: 13.5px; line-height: 1.45; font-weight: 600;
+    box-shadow: 0 12px 30px rgba(42, 34, 48, 0.22);
+    animation: fw-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  #flowi-teaser b { color: #8C1D5A; }
+  #flowi-teaser::after {
+    content: ''; position: absolute; right: 22px; bottom: -6px;
+    width: 12px; height: 12px; background: #fff; transform: rotate(45deg);
+    border-radius: 2px;
+  }
+  #flowi-teaser-x {
+    position: absolute; top: -8px; left: -8px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #2A2230; color: #fff; font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  @keyframes fw-pop {
+    from { opacity: 0; transform: translateY(10px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
   #flowi-panel[hidden] { display: none !important; }
   #flowi-panel {
     position: fixed; right: 20px; bottom: 96px; z-index: 95;
@@ -346,6 +377,7 @@
 
   // ---------- wiring ----------
   function openPanel() {
+    hideTeaser();
     panel.hidden = false;
     fab.setAttribute('aria-expanded', 'true');
     if (!greeted) {
@@ -365,6 +397,28 @@
   }
   fab.addEventListener('click', () => (panel.hidden ? openPanel() : closePanel()));
   closeBtn.addEventListener('click', closePanel);
+
+  // scroll teaser — once per session, hidden once the chat has been used
+  const teaser = document.getElementById('flowi-teaser')!;
+  const TEASER_KEY = 'flowi-teaser-seen';
+  function hideTeaser() {
+    teaser.hidden = true;
+  }
+  function maybeShowTeaser() {
+    if (window.scrollY < 80) return;
+    window.removeEventListener('scroll', maybeShowTeaser);
+    if (sessionStorage.getItem(TEASER_KEY) || !panel.hidden || greeted) return;
+    try { sessionStorage.setItem(TEASER_KEY, '1'); } catch {}
+    teaser.hidden = false;
+    setTimeout(hideTeaser, 12000);
+  }
+  teaser.addEventListener('click', (e) => {
+    hideTeaser();
+    if ((e.target as HTMLElement).id !== 'flowi-teaser-x') openPanel();
+  });
+  if (!sessionStorage.getItem(TEASER_KEY)) {
+    window.addEventListener('scroll', maybeShowTeaser, { passive: true });
+  }
 
   // restore a previous session from this tab
   try {
