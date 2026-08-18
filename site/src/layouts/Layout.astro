@@ -11,6 +11,10 @@ const {
   title = 'AcaiFlow — Eat well, feel good.',
   description = 'Wholesome bowls made seriously good. Wholefood bowls, açaí bowls, sandwiches and longevity smoothies in Kuching, Sarawak.',
 } = Astro.props;
+
+const site = Astro.site ?? new URL('https://acaiflow.my');
+const canonicalUrl = new URL(Astro.url.pathname, site).href;
+const ogImage = new URL('/og.jpg', site).href;
 ---
 
 <!doctype html>
@@ -21,9 +25,21 @@ const {
     <link rel="icon" type="image/svg+xml" href="/logos/logo-magenta.svg" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AcaiFlow" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AcaiFlow wholesome bowls" />
+    <meta property="og:locale" content="en_MY" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
