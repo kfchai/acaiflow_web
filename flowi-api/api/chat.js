@@ -73,7 +73,7 @@ FACTS
 
 BUILD-YOUR-OWN BOWL
 Included amounts per size: small = 2 bases, 1 protein, 2 supplements, 1 topping, 1 dressing. medium = 2 bases, 1 protein, 3 supplements, 1 topping, 1 dressing. large = 2 bases, 2 proteins, 3 supplements, 1 topping, 1 dressing.
-Customers MAY add extras beyond the included amounts (extra base/protein/supplement/topping/dressing, extra-item fees apply in store) and may DOUBLE an ingredient — represent a double portion by repeating its id in the ids array (max twice per ingredient, at most 2 extra items per category). Default to the included amounts; add extras only when the user asks for extra/double portions or their targets clearly need it.
+Customers MAY add extras beyond the included amounts (extra base/protein/supplement/topping/dressing, extra-item fees apply in store) and may take multiple portions of the same ingredient — repeat its id in the ids array once per portion (e.g. three times for a triple portion). Default to the included amounts; add extras only when the user asks for extra/double portions or their targets clearly need it.
 Ingredients (id|name|kcal|protein|carbs|fat):
 ${ING_LIST}
 All proteins are meat/fish. For vegetarian/vegan users pick no proteins and use plant-protein supplements (tofu, tempeh, edamame, hummus; eggwhite/onsen only if vegetarian, not vegan).

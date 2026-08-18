@@ -244,22 +244,18 @@
 
   function renderBowl(sizeIn: string, ids: string[], intro: string) {
     const size = LIMITS[sizeIn] ? sizeIn : 'medium';
-    // repeated ids = double portions; extras beyond the allowance are allowed
-    // (per the order form) but capped at allowance + 2 per category
+    // repeated ids = multiple portions; extras beyond the allowance are
+    // allowed per the order form (sanity cap: 9 portions per ingredient)
     const picks: Record<string, { row: Row; qty: number }[]> = {};
-    const unitsIn: Record<string, number> = {};
-    for (const cat of CATS) { picks[cat] = []; unitsIn[cat] = 0; }
+    for (const cat of CATS) picks[cat] = [];
     for (const id of ids) {
       const hit = rowById.get(String(id));
       if (!hit) continue;
-      const cap = LIMITS[size][hit.cat] + 2;
-      if (unitsIn[hit.cat] >= cap) continue;
       const existing = picks[hit.cat].find((x) => x.row === hit.row);
       if (existing) {
-        if (existing.qty < 2) { existing.qty++; unitsIn[hit.cat]++; }
+        if (existing.qty < 9) existing.qty++;
       } else {
         picks[hit.cat].push({ row: hit.row, qty: 1 });
-        unitsIn[hit.cat]++;
       }
     }
     const all = CATS.flatMap((c) => picks[c]);
@@ -273,7 +269,7 @@
     );
     const selIds = all.flatMap((x) => Array(x.qty).fill(x.row[0]));
     const calcLink = `/calculator?size=${size}&sel=${selIds.join(',')}`;
-    const nameOf = (x: { row: Row; qty: number }) => x.row[1] + (x.qty === 2 ? ' ×2' : '');
+    const nameOf = (x: { row: Row; qty: number }) => x.row[1] + (x.qty > 1 ? ' ×' + x.qty : '');
     const waText = encodeURIComponent(
       'Hi AcaiFlow! Flowi built me a ' + SIZES[size].label + ' bowl:\n' +
       all.map((x) => '• ' + nameOf(x)).join('\n') + '\nApprox: ' + t.kcal + ' kcal'

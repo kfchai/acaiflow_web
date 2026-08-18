@@ -52,7 +52,6 @@ import { SIZES, DATA, GROUP_META } from '../data/bowl-data';
                   <span class="qbtn minus" aria-label="Remove one">−</span>
                   <span class="dot"></span>
                   <span>{name}</span>
-                  <span class="x2b">×2</span>
                   <span class="qbtn plus" aria-label="Add one">+</span>
                 </button>
               ))}
@@ -118,11 +117,14 @@ import { SIZES, DATA, GROUP_META } from '../data/bowl-data';
 
   // Each chip carries a quantity: 0 (off) → 1 (selected) → 2 (double portion).
   // Size allowances are advisory — extras beyond them are welcome per the menu.
+  const QTY_MAX = 9;
   const getQty = (chip: HTMLElement) => Number(chip.dataset.qty || 0);
   function setQty(chip: HTMLElement, q: number) {
     chip.dataset.qty = String(q);
     chip.classList.toggle('on', q > 0);
-    chip.classList.toggle('x2', q === 2);
+    chip.classList.toggle('x2', q >= 2);
+    // the leading dot doubles as the quantity indicator
+    chip.querySelector('.dot')!.textContent = q >= 2 ? '×' + q : '';
   }
 
   function updateCounters() {
@@ -146,7 +148,7 @@ import { SIZES, DATA, GROUP_META } from '../data/bowl-data';
       c += Number(chip.dataset.c) * q;
       f += Number(chip.dataset.f) * q;
       units += q;
-      names.push(chip.dataset.name! + (q === 2 ? ' ×2' : ''));
+      names.push(chip.dataset.name! + (q > 1 ? ' ×' + q : ''));
     });
 
     el('kcal').textContent = String(kcal);
@@ -190,7 +192,7 @@ import { SIZES, DATA, GROUP_META } from '../data/bowl-data';
     });
     chip.querySelector('.plus')!.addEventListener('click', (e) => {
       e.stopPropagation();
-      setQty(chip, Math.min(2, getQty(chip) + 1));
+      setQty(chip, Math.min(QTY_MAX, getQty(chip) + 1));
       refresh();
     });
   });
@@ -215,7 +217,7 @@ import { SIZES, DATA, GROUP_META } from '../data/bowl-data';
   }
   for (const id of (params.get('sel') || '').split(',').filter(Boolean)) {
     const chip = document.querySelector<HTMLButtonElement>(`.chip[data-id="${id}"]`);
-    if (chip) setQty(chip, Math.min(2, getQty(chip) + 1));
+    if (chip) setQty(chip, Math.min(QTY_MAX, getQty(chip) + 1));
   }
 
   updateCounters();
