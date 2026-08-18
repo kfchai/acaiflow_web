@@ -302,9 +302,9 @@
   function applyToCalculator(size: string, ids: string[]) {
     (document.getElementById('reset') as HTMLButtonElement | null)?.click();
     (document.querySelector(`.size-card[data-size="${size}"]`) as HTMLButtonElement | null)?.click();
-    // clicking cycles qty 0 → 1 → 2, so a repeated id becomes a double portion
+    // the "+" segment increments qty, so a repeated id becomes a double portion
     for (const id of ids) {
-      (document.querySelector(`.chip[data-id="${id}"]`) as HTMLButtonElement | null)?.click();
+      (document.querySelector(`.chip[data-id="${id}"] .plus`) as HTMLElement | null)?.click();
     }
   }
 

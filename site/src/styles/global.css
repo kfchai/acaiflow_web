@@ -62,8 +62,8 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #8C1D5A
 .chip.on .dot { background: #F6C445; border-color: #F6C445; }
 .chip .up { font-weight: 800; color: #8C1D5A; font-size: 12px; }
 .chip.on .up { color: #F6C445; }
-.chip.x2::after {
-  content: '×2';
+.chip .x2b {
+  display: none;
   font-weight: 800;
   font-size: 11px;
   background: #F6C445;
@@ -71,6 +71,27 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #8C1D5A
   border-radius: 100px;
   padding: 2px 7px;
 }
+.chip.x2 .x2b { display: inline-flex; }
+.chip .qbtn {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.15s;
+  display: inline-flex;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1;
+  background: rgba(42, 34, 48, 0.08);
+  color: #2A2230;
+  flex-shrink: 0;
+}
+.chip:hover .qbtn, .chip.on .qbtn { visibility: visible; opacity: 1; }
+.chip.on .qbtn { background: rgba(255, 255, 255, 0.22); color: #fff; }
+.chip .qbtn:hover { background: #F6C445; color: #2A2230; }
 
 /* Mobile nav burger */
 .nav-burger {

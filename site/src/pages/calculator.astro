@@ -36,7 +36,7 @@ import { SIZES, DATA, GROUP_META } from '../data/bowl-data';
               </button>
             ))}
           </div>
-          <p style="font-size:12.5px;color:#786A80;margin:14px 2px 0;">Tap an ingredient once to add it, twice for a double portion. Extras beyond your size's included amounts are welcome — extra-item fees apply in store.</p>
+          <p style="font-size:12.5px;color:#786A80;margin:14px 2px 0;">Tap an ingredient to add it, then use the − / + on the pill for a double portion. Extras beyond your size's included amounts are welcome — extra-item fees apply in store.</p>
         </div>
 
         <!-- INGREDIENT GROUPS -->
@@ -49,8 +49,11 @@ import { SIZES, DATA, GROUP_META } from '../data/bowl-data';
             <div style="display:flex;flex-wrap:wrap;gap:10px;">
               {items.map(([id, name, kcal, p, c, f]) => (
                 <button class="chip" data-cat={cat} data-id={id} data-name={name} data-kcal={kcal} data-p={p} data-c={c} data-f={f}>
+                  <span class="qbtn minus" aria-label="Remove one">−</span>
                   <span class="dot"></span>
                   <span>{name}</span>
+                  <span class="x2b">×2</span>
+                  <span class="qbtn plus" aria-label="Add one">+</span>
                 </button>
               ))}
             </div>
@@ -175,10 +178,20 @@ import { SIZES, DATA, GROUP_META } from '../data/bowl-data';
   });
 
   document.querySelectorAll<HTMLButtonElement>('.chip').forEach((chip) => {
+    const refresh = () => { updateCounters(); recompute(); };
     chip.addEventListener('click', () => {
-      setQty(chip, (getQty(chip) + 1) % 3);
-      updateCounters();
-      recompute();
+      setQty(chip, getQty(chip) > 0 ? 0 : 1); // middle tap toggles
+      refresh();
+    });
+    chip.querySelector('.minus')!.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setQty(chip, Math.max(0, getQty(chip) - 1));
+      refresh();
+    });
+    chip.querySelector('.plus')!.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setQty(chip, Math.min(2, getQty(chip) + 1));
+      refresh();
     });
   });
 
