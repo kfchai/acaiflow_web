@@ -41,7 +41,10 @@ const smoothies = [
 ];
 ---
 
-<Layout title="Menu — AcaiFlow">
+<Layout
+  title="Menu — Wholefood Bowls, Açaí & Smoothies | AcaiFlow Kuching"
+  description="AcaiFlow's seasonal menu: 6 HCL-certified signature wholefood bowls with macros, sourdough focaccia sandwiches, 9 açaí bowls and longevity smoothies. Eat well, feel good."
+>
   <div style="min-height:100vh;background:#FCF6E8;">
 
     <Nav active="menu" />
@@ -70,7 +73,7 @@ const smoothies = [
         {wholefood.map((b) => (
           <div style="background:#fff;border-radius:24px;padding:22px;display:flex;gap:20px;box-shadow:0 10px 26px rgba(42,34,48,0.06);">
             <div style="width:120px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:12px;">
-              <div style="width:120px;height:120px;border-radius:18px;overflow:hidden;"><img class="slot" src={b.image} alt={b.name} /></div>
+              <div style="width:120px;height:120px;border-radius:18px;overflow:hidden;"><img class="slot" loading="lazy" decoding="async" src={b.image} alt={b.name} /></div>
               <img src="/images/hcl-badge.png" alt="Healthier Choice — Kementerian Kesihatan Malaysia" title="Healthier Choice certified" style="width:56px;height:56px;display:block;" />
             </div>
             <div style="flex:1;min-width:0;">
@@ -117,7 +120,7 @@ const smoothies = [
         <div class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
           {sandwiches.map((s) => (
             <div style="background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 10px 26px rgba(42,34,48,0.06);">
-              <div style="height:280px;background:#fff;"><img class="slot" style="object-fit:contain;padding:22px 28px;" src={s.image} alt={s.name} /></div>
+              <div style="height:280px;background:#fff;"><img class="slot" loading="lazy" decoding="async" style="object-fit:contain;padding:22px 28px;" src={s.image} alt={s.name} /></div>
               <div style="padding:22px;">
                 <h3 style="font-size:19px;font-weight:800;margin:0;">{s.name}</h3>
                 <p style="font-size:14px;line-height:1.5;color:#786A80;margin:8px 0 0;">{s.desc}</p>
@@ -136,7 +139,7 @@ const smoothies = [
         {acai.map((a) => (
           <div style="background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 10px 26px rgba(42,34,48,0.06);position:relative;">
             {a.bestseller && <span style="position:absolute;top:14px;left:14px;z-index:2;background:#E85C9A;color:#fff;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:11px;padding:6px 11px;border-radius:100px;">BEST SELLER</span>}
-            <div style="height:180px;"><img class="slot" src={a.image} alt={a.name} /></div>
+            <div style="height:180px;"><img class="slot" loading="lazy" decoding="async" src={a.image} alt={a.name} /></div>
             <div style="padding:22px;">
               <h3 style="font-size:18px;font-weight:800;margin:0 0 8px;">{a.name}</h3>
               <p style="font-size:13.5px;line-height:1.5;color:#786A80;margin:0;">{a.desc}</p>
@@ -156,7 +159,7 @@ const smoothies = [
         <div class="g3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
           {smoothies.map((d) => (
             <div style="border:2px solid rgba(255,255,255,0.22);border-radius:24px;padding:22px;display:flex;gap:18px;align-items:center;">
-              <div style="width:74px;height:96px;flex-shrink:0;border-radius:14px;overflow:hidden;"><img class="slot" src={d.image} alt={d.name} /></div>
+              <div style="width:74px;height:96px;flex-shrink:0;border-radius:14px;overflow:hidden;"><img class="slot" loading="lazy" decoding="async" src={d.image} alt={d.name} /></div>
               <div style="flex:1;min-width:0;">
                 <h3 style="font-size:17px;font-weight:800;margin:0 0 6px;color:#fff;">{d.name}</h3>
                 <p style="font-size:12.5px;line-height:1.45;color:rgba(255,255,255,0.62);margin:0;">{d.desc}</p>

@@ -15,6 +15,77 @@ const {
 const site = Astro.site ?? new URL('https://acaiflow.my');
 const canonicalUrl = new URL(Astro.url.pathname, site).href;
 const ogImage = new URL('/og.jpg', site).href;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${site.href}#org`,
+      name: 'AcaiFlow',
+      url: site.href,
+      logo: new URL('/logos/logo-magenta.svg', site).href,
+      slogan: 'Eat well, feel good',
+      sameAs: ['https://instagram.com/acaiflow.my'],
+    },
+    {
+      '@type': 'Restaurant',
+      '@id': `${site.href}#green-heights`,
+      name: 'AcaiFlow — Green Heights Mall',
+      parentOrganization: { '@id': `${site.href}#org` },
+      url: site.href,
+      image: ogImage,
+      servesCuisine: ['Healthy', 'Açaí bowls', 'Salad bowls', 'Smoothies'],
+      telephone: '+60138160023',
+      priceRange: 'RM15-RM30',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Lot LG09, Ground Floor, Green Heights Mall, 129, Lorong Lapangan Terbang 2',
+        addressLocality: 'Kuching',
+        addressRegion: 'Sarawak',
+        postalCode: '93250',
+        addressCountry: 'MY',
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          opens: '10:00',
+          closes: '19:00',
+        },
+      ],
+      hasMenu: new URL('/menu', site).href,
+      acceptsReservations: false,
+    },
+    {
+      '@type': 'Restaurant',
+      '@id': `${site.href}#kch-airport`,
+      name: "AcaiFlow — Kuching Int'l Airport",
+      parentOrganization: { '@id': `${site.href}#org` },
+      url: site.href,
+      image: ogImage,
+      servesCuisine: ['Healthy', 'Açaí bowls', 'Salad bowls', 'Smoothies'],
+      telephone: '+60128853836',
+      priceRange: 'RM15-RM30',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'L2A19, Level 2, Domestic Departure (Airside), Kuching International Airport',
+        addressLocality: 'Kuching',
+        addressRegion: 'Sarawak',
+        postalCode: '93250',
+        addressCountry: 'MY',
+      },
+      hasMenu: new URL('/menu', site).href,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${site.href}#website`,
+      url: site.href,
+      name: 'AcaiFlow',
+      publisher: { '@id': `${site.href}#org` },
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -40,6 +111,9 @@ const ogImage = new URL('/og.jpg', site).href;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="geo.region" content="MY-13" />
+    <meta name="geo.placename" content="Kuching, Sarawak" />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

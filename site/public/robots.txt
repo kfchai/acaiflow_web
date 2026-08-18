@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://acaiflow.my/sitemap-index.xml
