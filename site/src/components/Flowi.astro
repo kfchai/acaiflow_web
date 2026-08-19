@@ -402,13 +402,36 @@
       );
     }
     saveSession();
-    input.focus();
+    syncViewport();
+    // don't steal focus on touch devices — it pops the keyboard immediately
+    if (window.matchMedia('(hover: hover)').matches) input.focus();
   }
   function closePanel() {
     panel.hidden = true;
     fab.setAttribute('aria-expanded', 'false');
     saveSession();
   }
+
+  // Keep the full-screen panel sized to the VISIBLE viewport on phones —
+  // when the keyboard opens, the layout viewport stays tall and the input
+  // row would otherwise sink behind the keyboard.
+  const vv = window.visualViewport;
+  function syncViewport() {
+    if (!vv) return;
+    const mobile = window.matchMedia('(max-width: 480px)').matches;
+    if (panel.hidden || !mobile) {
+      panel.style.height = '';
+      panel.style.top = '';
+      panel.style.bottom = '';
+      return;
+    }
+    panel.style.top = vv.offsetTop + 'px';
+    panel.style.height = vv.height + 'px';
+    panel.style.bottom = 'auto';
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  vv?.addEventListener('resize', syncViewport);
+  vv?.addEventListener('scroll', syncViewport);
   fab.addEventListener('click', () => (panel.hidden ? openPanel() : closePanel()));
   closeBtn.addEventListener('click', closePanel);
 
@@ -448,6 +471,7 @@
       if (saved.open) {
         panel.hidden = false;
         fab.setAttribute('aria-expanded', 'true');
+        syncViewport();
       }
       msgs.scrollTop = msgs.scrollHeight;
     }
