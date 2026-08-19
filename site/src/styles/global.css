@@ -48,6 +48,7 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #8C1D5A
   background: #FCF6E8;
   color: #2A2230;
   border: 2px solid #EFE3CB;
+  text-align: left;
 }
 .chip.on { background: #8C1D5A; color: #fff; border-color: #8C1D5A; }
 .chip .dot {
@@ -89,6 +90,12 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: #8C1D5A
 .chip:hover .qbtn, .chip.on .qbtn { visibility: visible; opacity: 1; }
 .chip.on .qbtn { background: rgba(255, 255, 255, 0.22); color: #fff; }
 .chip .qbtn:hover { background: #F6C445; color: #2A2230; }
+/* touch devices have no hover: don't reserve stepper space on unselected
+   pills (it made the label float centered); steppers appear when selected */
+@media (hover: none) {
+  .chip .qbtn { display: none; }
+  .chip.on .qbtn { display: inline-flex; }
+}
 
 /* Mobile nav burger */
 .nav-burger {
