@@ -122,6 +122,12 @@
     flex: 1; border: 2px solid #EFE3CB; border-radius: 100px; padding: 10px 16px;
     font-size: 13.5px; background: #fff;
   }
+  /* iOS Safari force-zooms a focused input whose font-size is < 16px, which
+     breaks the full-screen chat layout. Bump to 16px only on touch devices;
+     desktop keeps the 13.5px design (no auto-zoom there). */
+  @media (pointer: coarse) {
+    #flowi-input { font-size: 16px; }
+  }
   #flowi-form button {
     width: 42px; height: 42px; border-radius: 50%; border: none; cursor: pointer;
     background: #8C1D5A; color: #fff; font-size: 15px; flex-shrink: 0;
