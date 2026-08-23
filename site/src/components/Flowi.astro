@@ -198,6 +198,38 @@
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
+  // Turn URLs / known site paths inside an ALREADY-ESCAPED string into links.
+  // (escaped text contains no raw < or >, so URLs are safe to match on.)
+  function linkify(safe: string): string {
+    return safe
+      // absolute URLs and our own domain / whatsapp links
+      .replace(/\b((?:https?:\/\/|www\.)[^\s<]+|(?:acaiflow\.my|wa\.me)\/[^\s<]+)/gi, (m) => {
+        let url = m, trail = '';
+        const tm = url.match(/[.,!?);:]+$/); // don't swallow trailing punctuation
+        if (tm) { trail = tm[0]; url = url.slice(0, -trail.length); }
+        const href = /^https?:\/\//i.test(url) ? url : 'https://' + url;
+        return `<a href="${href}" target="_blank" rel="noopener">${url}</a>${trail}`;
+      })
+      // bare internal paths to known pages: /menu, /calculator, ...
+      .replace(/(^|[\s(])(\/(?:menu|calculator|catering|location|contact)\b)/gi,
+        (_m, pre, path) => `${pre}<a href="${path}">${path}</a>`);
+  }
+
+  // Render the model's structured page link as a clickable action pill.
+  // Allowlist the URL so the model can't surface arbitrary/phishing links.
+  function renderLink(link: any): string {
+    if (!link || typeof link.url !== 'string') return '';
+    const url = link.url.trim();
+    const ok = /^\/(menu|calculator|catering|location|contact)(\/|$|\?)/.test(url)
+      || /^https:\/\/(www\.)?acaiflow\.my\//.test(url)
+      || /^https:\/\/wa\.me\//.test(url)
+      || url === WHATSAPP || url.startsWith(WHATSAPP + '?');
+    if (!ok) return '';
+    const label = escapeHtml(String(link.label || 'Open page').slice(0, 40));
+    const attr = url.startsWith('http') ? ' target="_blank" rel="noopener"' : '';
+    return `<div class="fw-actions"><a href="${escapeHtml(url)}"${attr}>${label}</a></div>`;
+  }
+
   function addUser(text: string) {
     const m = document.createElement('div');
     m.className = 'fw-msg user';
@@ -352,17 +384,19 @@
       const data = await res.json();
       const raw: string = data?.text ?? '';
       history.push({ role: 'model', parts: [{ text: raw }] });
-      let reply = raw, bowl = null;
+      let reply = raw, bowl = null, link = null;
       try {
         const parsed = JSON.parse(raw.replace(/^```(json)?|```$/g, '').trim());
         reply = parsed.reply ?? '';
         bowl = parsed.bowl ?? null;
+        link = parsed.link ?? null;
       } catch { /* treat raw as plain reply */ }
       hideTyping();
       if (bowl && Array.isArray(bowl.ids)) {
         renderBowl(bowl.size, bowl.ids, reply);
       } else {
-        addBot(escapeHtml(reply || 'Sorry, I lost my train of thought — could you say that again?').replace(/\n/g, '<br>'), HOME_CHIPS);
+        const body = linkify(escapeHtml(reply || 'Sorry, I lost my train of thought — could you say that again?')).replace(/\n/g, '<br>');
+        addBot(body + renderLink(link), HOME_CHIPS);
       }
     } catch {
       hideTyping();
